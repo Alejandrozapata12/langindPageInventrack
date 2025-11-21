@@ -3,429 +3,310 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Inventrack: Sistema de gestión de inventario inteligente para equipos pequeños y medianos. Controla entradas, salidas, solicitudes y reportes en tiempo real." />
-  <title>Inventrack - Gestión Inteligente de Inventario</title>
+  <meta name="description" content="Inventrack - Sistema de Gestión de Inventario Inteligente para equipos pequeños y medianos. Control en tiempo real.">
+  <meta name="keywords" content="inventario, gestión, stock, alertas, reportes, ERP">
+  <title>Inventrack - Sistema de Gestión de Inventario Inteligente</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --primary: #1e293b;
-      --secondary: #60a5fa;
-      --accent: #8b5cf6;
-      --light: #f8fafc;
-      --dark: #0f172a;
-      --text: #e2e8f0;
-      --text-dark: #1e293b;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --transition: all 0.3s ease;
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      --radius: 12px;
+      --primary: #0f0c29;
+      --secondary: #24243e;
+      --accent: #6a5acd;
+      --light: #ffffff;
+      --green: #2ecc71;
+      --red: #e74c3c;
+      --yellow: #f39c12;
+      --blue: #3498db;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
     }
 
     body {
-      background-color: var(--light);
-      color: var(--text-dark);
-      line-height: 1.6;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--light);
       overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
     }
 
-    /* HEADER */
-    header {
+    body.light-mode {
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      color: #333;
+    }
+
+    body.light-mode .card-bg,
+    body.light-mode .role-card,
+    body.light-mode .feature-card,
+    body.light-mode .testimonial-card,
+    body.light-mode .stat-card {
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+    }
+
+    body.light-mode nav {
+      background: rgba(255, 255, 255, 0.95);
+      color: #333;
+    }
+
+    body.light-mode .nav-links a,
+    body.light-mode .logo {
+      color: #333;
+    }
+
+    /* Preloader */
+    .preloader {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      z-index: 1000;
-      padding: 1rem 5%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    .preloader.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loader {
+      width: 60px;
+      height: 60px;
+      border: 5px solid rgba(106, 90, 205, 0.3);
+      border-top: 5px solid var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Partículas flotantes */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(106, 90, 205, 0.3);
+      border-radius: 50%;
+      animation: float 15s infinite ease-in-out;
+    }
+
+    .particle:nth-child(1) { width: 120px; height: 120px; top: -50px; left: 10%; animation-delay: 0s; }
+    .particle:nth-child(2) { width: 80px; height: 80px; bottom: 20%; right: 5%; animation-delay: 5s; }
+    .particle:nth-child(3) { width: 60px; height: 60px; top: 50%; left: 5%; animation-delay: 10s; }
+    .particle:nth-child(4) { width: 100px; height: 100px; bottom: -30px; right: 20%; animation-delay: 3s; }
+
+    @keyframes float {
+      0% { transform: translate(0px, 0px) rotate(0deg); }
+      50% { transform: translate(10px, -10px) rotate(180deg); }
+      100% { transform: translate(0px, 0px) rotate(360deg); }
+    }
+
+    /* Navbar */
+    nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: var(--transition);
+      padding: 1.5rem 5%;
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    nav.scrolled {
+      padding: 1rem 5%;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     }
 
     .logo {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      font-weight: 700;
       font-size: 1.5rem;
-      color: var(--primary);
+      font-weight: 700;
+      color: var(--accent);
+      transition: transform 0.3s ease;
     }
 
-    .logo img {
-      width: 40px;
-      height: 40px;
+    .logo:hover {
+      transform: scale(1.05);
     }
 
-    nav ul {
+    .logo i {
+      font-size: 2rem;
+    }
+
+    .nav-links {
       display: flex;
-      list-style: none;
       gap: 2rem;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: var(--text-dark);
       font-weight: 500;
-      transition: var(--transition);
     }
 
-    nav a:hover {
+    .nav-links a {
+      color: var(--light);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a:hover {
       color: var(--accent);
     }
 
-    .cta-button {
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: var(--light);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      margin-left: 1rem;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(20deg) scale(1.1);
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      border: none;
+    }
+
+    .btn-primary {
       background: var(--accent);
       color: white;
-      padding: 0.75rem 1.5rem;
-      border-radius: var(--radius);
-      font-weight: 600;
-      text-decoration: none;
-      transition: var(--transition);
-      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
     }
 
-    .cta-button:hover {
-      background: #7c4dff;
+    .btn-primary:hover {
+      background: #5d4bb7;
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+      box-shadow: 0 5px 15px rgba(106, 90, 205, 0.4);
     }
 
-    /* HERO SECTION */
+    .btn-secondary {
+      background: transparent;
+      color: var(--light);
+      border: 2px solid var(--accent);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(106, 90, 205, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
     .hero {
-      padding: 8rem 5% 5rem;
-      background: linear-gradient(135deg, var(--primary), var(--dark));
-      color: white;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5rem 5%;
+      min-height: 80vh;
       position: relative;
       overflow: hidden;
     }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjEwIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC4wNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==') repeat;
-      opacity: 0.1;
+    .hero-content {
+      max-width: 50%;
+      z-index: 2;
     }
 
-    .hero h1 {
+    .hero-title {
       font-size: 3.5rem;
       margin-bottom: 1rem;
-      background: linear-gradient(to right, #ffffff, #e2e8f0);
+      line-height: 1.2;
+      color: var(--light);
+      background: linear-gradient(135deg, var(--accent), #8a7aff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: fadeInUp 1s ease-out;
+      animation: fadeInUp 1s ease;
     }
 
-    .hero p {
-      font-size: 1.25rem;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-      opacity: 0.9;
-      animation: fadeInUp 1s ease-out 0.3s both;
+    .hero-subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #ccc;
+      line-height: 1.6;
+      animation: fadeInUp 1.2s ease;
     }
 
     .hero-buttons {
       display: flex;
       gap: 1rem;
-      justify-content: center;
-      animation: fadeInUp 1s ease-out 0.6s both;
-    }
-
-    .btn-primary {
-      background: var(--secondary);
-      color: white;
-      padding: 0.75rem 1.5rem;
-      border-radius: var(--radius);
-      font-weight: 600;
-      text-decoration: none;
-      transition: var(--transition);
-      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
-    }
-
-    .btn-primary:hover {
-      background: #3ea8ff;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(96, 165, 250, 0.4);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: white;
-      border: 2px solid white;
-      padding: 0.75rem 1.5rem;
-      border-radius: var(--radius);
-      font-weight: 600;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-2px);
-    }
-
-    /* FEATURES SECTION */
-    .features {
-      padding: 5rem 5%;
-      background: white;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-      color: var(--primary);
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-
-    .feature-card {
-      background: var(--light);
-      padding: 2rem;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      transition: var(--transition);
-      cursor: pointer;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    .feature-icon {
-      font-size: 2.5rem;
-      color: var(--accent);
-      margin-bottom: 1rem;
-    }
-
-    .feature-card h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--primary);
-    }
-
-    .feature-card p {
-      color: #64748b;
-    }
-
-    /* SCREENSHOTS SECTION */
-    .screenshots {
-      padding: 5rem 5%;
-      background: #f1f5f9;
-      text-align: center;
-    }
-
-    .screenshots h2 {
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      color: var(--primary);
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
       margin-top: 2rem;
+      animation: fadeInUp 1.4s ease;
     }
 
-    .screenshot-item {
-      position: relative;
-      overflow: hidden;
-      border-radius: var(--radius);
+    .hero-image {
+      max-width: 45%;
+      border-radius: 15px;
       box-shadow: var(--shadow);
-      cursor: pointer;
-      transition: var(--transition);
+      overflow: hidden;
+      transition: transform 0.5s ease;
+      animation: fadeInRight 1s ease;
+      position: relative;
     }
 
-    .screenshot-item img {
+    .hero-image:hover {
+      transform: scale(1.02) translateY(-10px);
+    }
+
+    .hero-image img {
       width: 100%;
       height: auto;
       display: block;
-      transition: transform 0.5s ease;
     }
 
-    .screenshot-item:hover img {
-      transform: scale(1.05);
-    }
-
-    .screenshot-caption {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 0.75rem;
-      text-align: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .screenshot-item:hover .screenshot-caption {
-      opacity: 1;
-    }
-
-    /* TESTIMONIALS */
-    .testimonials {
-      padding: 5rem 5%;
-      background: white;
-      text-align: center;
-    }
-
-    .testimonials h2 {
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      color: var(--primary);
-    }
-
-    .testimonial-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .testimonial-card {
-      background: var(--light);
-      padding: 2rem;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      text-align: left;
-      transition: var(--transition);
-    }
-
-    .testimonial-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .testimonial-avatar {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-right: 1rem;
-      float: left;
-    }
-
-    .testimonial-content {
-      overflow: hidden;
-    }
-
-    .testimonial-quote {
-      font-size: 1.1rem;
-      font-style: italic;
-      margin-bottom: 1rem;
-      color: var(--text-dark);
-    }
-
-    .testimonial-author {
-      font-weight: 600;
-      color: var(--primary);
-    }
-
-    .testimonial-role {
-      font-size: 0.875rem;
-      color: #64748b;
-    }
-
-    /* CTA FINAL */
-    .cta-final {
-      padding: 5rem 5%;
-      background: linear-gradient(135deg, var(--accent), var(--secondary));
-      color: white;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-final::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjEwIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC4wNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==') repeat;
-      opacity: 0.1;
-    }
-
-    .cta-final h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .cta-final p {
-      font-size: 1.25rem;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-      opacity: 0.9;
-    }
-
-    .btn-large {
-      background: white;
-      color: var(--accent);
-      padding: 1rem 2rem;
-      border-radius: var(--radius);
-      font-weight: 700;
-      text-decoration: none;
-      transition: var(--transition);
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
-      font-size: 1.1rem;
-    }
-
-    .btn-large:hover {
-      background: #f8fafc;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(255, 255, 255, 0.4);
-    }
-
-    /* FOOTER */
-    footer {
-      padding: 2rem 5%;
-      background: var(--dark);
-      color: var(--text);
-      text-align: center;
-      font-size: 0.875rem;
-    }
-
-    .footer-links {
-      margin: 1rem 0;
-    }
-
-    .footer-links a {
-      color: var(--secondary);
-      margin: 0 1rem;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .footer-links a:hover {
-      color: var(--accent);
-    }
-
-    /* ANIMATIONS */
+    /* Animaciones */
     @keyframes fadeInUp {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
       }
       to {
         opacity: 1;
@@ -433,10 +314,21 @@
       }
     }
 
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
     .fade-in {
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
 
     .fade-in.visible {
@@ -444,217 +336,1204 @@
       transform: translateY(0);
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .hero h1 {
+    /* Stats Section */
+    .stats {
+      padding: 3rem 5%;
+      background: rgba(0, 0, 0, 0.2);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 2rem;
+      background: var(--card-bg);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: #ccc;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Comparison Section */
+    .comparison {
+      padding: 5rem 5%;
+      text-align: center;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: var(--light);
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .comparison-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .comparison-card.before {
+      border: 2px solid var(--red);
+    }
+
+    .comparison-card.after {
+      border: 2px solid var(--green);
+    }
+
+    .comparison-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .comparison-card.before h3 {
+      color: var(--red);
+    }
+
+    .comparison-card.after h3 {
+      color: var(--green);
+    }
+
+    .comparison-list {
+      list-style: none;
+      text-align: left;
+      padding: 0;
+    }
+
+    .comparison-list li {
+      padding: 0.8rem 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .comparison-list li i {
+      font-size: 1.5rem;
+    }
+
+    .comparison-card.before li i {
+      color: var(--red);
+    }
+
+    .comparison-card.after li i {
+      color: var(--green);
+    }
+
+    /* Screenshots Section */
+    .screenshots {
+      padding: 5rem 5%;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .carousel {
+      position: relative;
+      max-width: 900px;
+      margin: 3rem auto;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+    }
+
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .carousel-item {
+      min-width: 100%;
+      height: 500px;
+      background: var(--card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #ccc;
+    }
+
+    .carousel-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0 1rem;
+    }
+
+    .carousel-btn {
+      background: rgba(106, 90, 205, 0.8);
+      border: none;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .carousel-btn:hover {
+      background: var(--accent);
+      transform: scale(1.1);
+    }
+
+    /* Roles Section */
+    .roles {
+      padding: 5rem 5%;
+    }
+
+    .roles-container {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .role-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      width: 300px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .role-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(106, 90, 205, 0.3);
+    }
+
+    .role-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .role-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .role-permissions {
+      list-style: none;
+      padding-left: 0;
+      margin: 1rem 0;
+    }
+
+    .role-permissions li {
+      margin: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .role-permissions li::before {
+      content: "✓";
+      color: var(--green);
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 5rem 5%;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(106, 90, 205, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .feature-card:hover::before {
+      left: 100%;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(106, 90, 205, 0.3);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .feature-title {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: var(--light);
+    }
+
+    .feature-desc {
+      color: #ccc;
+      font-size: 0.9rem;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      padding: 5rem 5%;
+      text-align: center;
+    }
+
+    .testimonial-carousel {
+      max-width: 800px;
+      margin: 3rem auto;
+    }
+
+    .testimonial-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 3rem;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .testimonial-quote {
+      font-size: 1.3rem;
+      font-style: italic;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      color: #ddd;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .testimonial-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .testimonial-info h4 {
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+
+    .testimonial-info p {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+    .testimonial-rating {
+      color: var(--yellow);
+      font-size: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    /* Demo Section */
+    .demo {
+      padding: 5rem 5%;
+      background: rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .demo-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .demo-subtitle {
+      font-size: 1.2rem;
+      color: #ccc;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .demo-credentials {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 2rem auto;
+      max-width: 500px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* Contact Form */
+    .contact {
+      padding: 5rem 5%;
+    }
+
+    .contact-form {
+      max-width: 600px;
+      margin: 3rem auto;
+      background: var(--card-bg);
+      padding: 3rem;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--light);
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid rgba(106, 90, 205, 0.3);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--light);
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 15px rgba(106, 90, 205, 0.3);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    /* CTA Section */
+    .cta {
+      padding: 5rem 5%;
+      text-align: center;
+      background: linear-gradient(135deg, var(--accent), #5d4bb7);
+      color: white;
+    }
+
+    .cta-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta-subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 3rem 5%;
+      text-align: center;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h3 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-links li {
+      margin: 0.5rem 0;
+    }
+
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+      background: #5d4bb7;
+      transform: translateY(-5px);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 2rem;
+      margin-top: 2rem;
+      color: #aaa;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-content {
+        max-width: 100%;
+        margin-bottom: 3rem;
+      }
+
+      .hero-image {
+        max-width: 100%;
+      }
+
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-title {
         font-size: 2.5rem;
-      }
-      .hero p {
-        font-size: 1rem;
-      }
-      .section-title {
-        font-size: 2rem;
-      }
-      .feature-card {
-        padding: 1.5rem;
-      }
-      .cta-final h2 {
-        font-size: 2rem;
-      }
-      nav ul {
-        display: none;
       }
     }
 
-    @media (max-width: 480px) {
-      .hero {
-        padding: 6rem 5% 3rem;
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
       }
-      .hero-buttons {
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-buttons,
+      .cta-buttons {
         flex-direction: column;
         align-items: center;
       }
-      .btn-primary,
-      .btn-secondary {
-        width: 100%;
-        max-width: 300px;
+
+      .stats {
+        grid-template-columns: 1fr;
       }
-      .section-title {
-        font-size: 1.75rem;
-      }
+    }
+
+    /* Scroll to top button */
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+    }
+
+    .scroll-top:hover {
+      background: #5d4bb7;
+      transform: translateY(-5px);
     }
   </style>
 </head>
 <body>
+  <!-- Preloader -->
+  <div class="preloader">
+    <div class="loader"></div>
+  </div>
 
-  <!-- HEADER -->
-  <header>
+  <!-- Partículas flotantes -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav id="navbar">
     <div class="logo">
-      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjAgMjBoLTE2di0xNiBMNyA3bDE0IDE0eiIgZmlsbD0iIzFFMjkzQiIvPjxwYXRoIGQ9Ik0xOCAxOGwtNi02IDItMiA2IDZ6IiBmaWxsPSIjNjBBNUZBIi8+PC9zdmc+" alt="Inventrack Logo">
+      <i class="fas fa-boxes"></i>
       Inventrack
     </div>
-    <nav>
-      <ul>
-        <li><a href="#features">Características</a></li>
-        <li><a href="#screenshots">Capturas</a></li>
-        <li><a href="#testimonials">Testimonios</a></li>
-      </ul>
-    </nav>
-    <a href="https://github.com/tuusuario/inventrack" class="cta-button" target="_blank">Ver Código en GitHub</a>
-  </header>
+    <div class="nav-links">
+      <a href="#stats">Estadísticas</a>
+      <a href="#comparison">Comparación</a>
+      <a href="#roles">Roles</a>
+      <a href="#features">Características</a>
+      <a href="#demo">Demo</a>
+      <a href="#contact">Contacto</a>
+    </div>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <a href="#demo" class="btn btn-primary">Ver Demo</a>
+      <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+  </nav>
 
-  <!-- HERO -->
+  <!-- Hero Section -->
   <section class="hero">
-    <h1>🚀 Inventrack: Gestión Inteligente de Inventario</h1>
-    <p>Controla entradas, salidas, solicitudes y reportes en tiempo real. Diseñado para equipos pequeños y medianos.</p>
-    <div class="hero-buttons">
-      <a href="https://tu-proyecto.github.io/inventrack" class="btn-primary" target="_blank">Ver Demo</a>
-      <a href="#features" class="btn-secondary">Explorar Características</a>
+    <div class="hero-content">
+      <h1 class="hero-title">Inventrack</h1>
+      <p class="hero-subtitle">Sistema de Gestión de Inventario Inteligente diseñado para equipos pequeños y medianos. Controla entradas, salidas, alertas y reportes en tiempo real.</p>
+      <div class="hero-buttons">
+        <a href="#demo" class="btn btn-primary">
+          <i class="fas fa-play"></i> Ver Demo
+        </a>
+        <a href="#contact" class="btn btn-secondary">
+          <i class="fas fa-calendar"></i> Agendar Demo
+        </a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&auto=format&fit=crop" alt="Dashboard de Inventrack">
     </div>
   </section>
 
-  <!-- FEATURES -->
-  <section class="features">
-    <h2 class="section-title">✨ Características Clave</h2>
+  <!-- Stats Section -->
+  <section class="stats fade-in" id="stats">
+    <div class="stat-card">
+      <div class="stat-number" data-target="1500">0</div>
+      <div class="stat-label">Productos Gestionados</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" data-target="250">0</div>
+      <div class="stat-label">Usuarios Activos</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" data-target="5000">0</div>
+      <div class="stat-label">Alertas Enviadas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" data-target="99">0</div>
+      <div class="stat-label">% Disponibilidad</div>
+    </div>
+  </section>
+
+  <!-- Comparison Section -->
+  <section class="comparison fade-in" id="comparison">
+    <h2 class="section-title">Antes vs Después de Inventrack</h2>
+    <div class="comparison-grid">
+      <div class="comparison-card before">
+        <h3><i class="fas fa-times-circle"></i> Antes</h3>
+        <ul class="comparison-list">
+          <li>
+            <i class="fas fa-times"></i>
+            <span>Control manual en hojas de cálculo</span>
+          </li>
+          <li>
+            <i class="fas fa-times"></i>
+            <span>Pérdidas por falta de stock</span>
+          </li>
+          <li>
+            <i class="fas fa-times"></i>
+            <span>Sin alertas automáticas</span>
+          </li>
+          <li>
+            <i class="fas fa-times"></i>
+            <span>Reportes tardíos y manuales</span>
+          </li>
+          <li>
+            <i class="fas fa-times"></i>
+            <span>Errores humanos frecuentes</span>
+          </li>
+        </ul>
+      </div>
+      <div class="comparison-card after">
+        <h3><i class="fas fa-check-circle"></i> Después</h3>
+        <ul class="comparison-list">
+          <li>
+            <i class="fas fa-check"></i>
+            <span>Automatización completa</span>
+          </li>
+          <li>
+            <i class="fas fa-check"></i>
+            <span>Stock óptimo en todo momento</span>
+          </li>
+          <li>
+            <i class="fas fa-check"></i>
+            <span>Alertas inteligentes en tiempo real</span>
+          </li>
+          <li>
+            <i class="fas fa-check"></i>
+            <span>Reportes instantáneos</span>
+          </li>
+          <li>
+            <i class="fas fa-check"></i>
+            <span>Precisión del 99.9%</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots Section -->
+  <section class="screenshots fade-in">
+    <h2 class="section-title">Capturas de Pantalla</h2>
+    <div class="carousel">
+      <div class="carousel-inner" id="carouselInner">
+        <div class="carousel-item">
+          <i class="fas fa-chart-line" style="font-size: 4rem; color: var(--accent);"></i>
+          <div style="text-align: center; padding: 2rem;">
+            <h3>Dashboard Principal</h3>
+            <p>Vista general de tu inventario</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <i class="fas fa-box-open" style="font-size: 4rem; color: var(--green);"></i>
+          <div style="text-align: center; padding: 2rem;">
+            <h3>Gestión de Productos</h3>
+            <p>Control total de entradas y salidas</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <i class="fas fa-bell" style="font-size: 4rem; color: var(--yellow);"></i>
+          <div style="text-align: center; padding: 2rem;">
+            <h3>Alertas Inteligentes</h3>
+            <p>Notificaciones automáticas</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <i class="fas fa-file-invoice" style="font-size: 4rem; color: var(--blue);"></i>
+          <div style="text-align: center; padding: 2rem;">
+            <h3>Reportes Avanzados</h3>
+            <p>Análisis detallado de tu negocio</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn" id="prevBtn">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="carousel-btn" id="nextBtn">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roles Section -->
+  <section class="roles fade-in" id="roles">
+    <h2 class="section-title">Roles y Permisos</h2>
+    <div class="roles-container">
+      <div class="role-card">
+        <div class="role-icon">
+          <i class="fas fa-user-shield"></i>
+        </div>
+        <h3 class="role-title">Administrador</h3>
+        <p>Control total del sistema</p>
+        <ul class="role-permissions">
+          <li>Gestión completa de usuarios</li>
+          <li>Configuración del sistema</li>
+          <li>Acceso a todos los módulos</li>
+          <li>Reportes avanzados</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <div class="role-icon">
+          <i class="fas fa-user-tie"></i>
+        </div>
+        <h3 class="role-title">Gerente</h3>
+        <p>Supervisión y análisis</p>
+        <ul class="role-permissions">
+          <li>Ver inventario completo</li>
+          <li>Generar reportes</li>
+          <li>Aprobar movimientos</li>
+          <li>Gestionar alertas</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <div class="role-icon">
+          <i class="fas fa-user"></i>
+        </div>
+        <h3 class="role-title">Operador</h3>
+        <p>Gestión diaria</p>
+        <ul class="role-permissions">
+          <li>Registrar entradas/salidas</li>
+          <li>Consultar stock</li>
+          <li>Ver alertas básicas</li>
+          <li>Reportes limitados</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features fade-in" id="features">
+    <h2 class="section-title">Características Principales</h2>
     <div class="features-grid">
-      <div class="feature-card fade-in">
-        <div class="feature-icon">📊</div>
-        <h3>Dashboard en Tiempo Real</h3>
-        <p>Monitorea tu inventario con métricas clave y movimientos recientes. Perfecto para tomar decisiones rápidas.</p>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-chart-bar"></i>
+        </div>
+        <h3 class="feature-title">Dashboard en Tiempo Real</h3>
+        <p class="feature-desc">Visualiza el estado de tu inventario al instante con gráficos interactivos</p>
       </div>
-      <div class="feature-card fade-in">
-        <div class="feature-icon">👥</div>
-        <h3>Roles y Permisos</h3>
-        <p>Define accesos por rol: Empleado (operativo) y Administrador (gestión completa). Seguridad y control garantizados.</p>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-bell-slash"></i>
+        </div>
+        <h3 class="feature-title">Alertas Automáticas</h3>
+        <p class="feature-desc">Recibe notificaciones cuando el stock llegue a niveles críticos</p>
       </div>
-      <div class="feature-card fade-in">
-        <div class="feature-icon">📈</div>
-        <h3>Reportes Gráficos</h3>
-        <p>Visualiza tendencias, valor del inventario y movimientos con gráficos intuitivos y exportables.</p>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-file-export"></i>
+        </div>
+        <h3 class="feature-title">Reportes Personalizados</h3>
+        <p class="feature-desc">Genera reportes detallados en PDF o Excel según tus necesidades</p>
       </div>
-      <div class="feature-card fade-in">
-        <div class="feature-icon">🔔</div>
-        <h3>Alertas Inteligentes</h3>
-        <p>Recibe notificaciones cuando el stock esté bajo, haya devoluciones o solicitudes pendientes.</p>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-barcode"></i>
+        </div>
+        <h3 class="feature-title">Código de Barras</h3>
+        <p class="feature-desc">Escanea productos para registro rápido y sin errores</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-history"></i>
+        </div>
+        <h3 class="feature-title">Historial Completo</h3>
+        <p class="feature-desc">Auditoría de todos los movimientos con fecha y usuario</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-mobile-alt"></i>
+        </div>
+        <h3 class="feature-title">Multi-Dispositivo</h3>
+        <p class="feature-desc">Accede desde cualquier lugar: PC, tablet o móvil</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 class="feature-title">Seguridad Avanzada</h3>
+        <p class="feature-desc">Encriptación de datos y backups automáticos</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-plug"></i>
+        </div>
+        <h3 class="feature-title">Integraciones</h3>
+        <p class="feature-desc">Conecta con tu sistema contable y plataformas de venta</p>
       </div>
     </div>
   </section>
 
-  <!-- SCREENSHOTS -->
-  <section class="screenshots">
-    <h2 class="section-title">📸 Así se ve en acción</h2>
-    <div class="gallery">
-      <div class="screenshot-item">
-        <img src="https://via.placeholder.com/600x400/1e293b/ffffff?text=Dashboard+Admin" alt="Dashboard Administrador">
-        <div class="screenshot-caption">Dashboard Administrador</div>
-      </div>
-      <div class="screenshot-item">
-        <img src="https://via.placeholder.com/600x400/1e293b/ffffff?text=Dashboard+Empleado" alt="Dashboard Empleado">
-        <div class="screenshot-caption">Dashboard Empleado</div>
-      </div>
-      <div class="screenshot-item">
-        <img src="https://via.placeholder.com/600x400/1e293b/ffffff?text=Login+Inventrack" alt="Pantalla de Login">
-        <div class="screenshot-caption">Pantalla de Login</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="testimonials">
-    <h2 class="section-title">💬 Lo que dicen nuestros usuarios</h2>
-    <div class="testimonial-cards">
-      <div class="testimonial-card fade-in">
-        <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Ana García">
-        <div class="testimonial-content">
-          <p class="testimonial-quote">“Inventrack nos ayudó a reducir errores en inventario en un 70%. La interfaz es intuitiva y el soporte muy atento.”</p>
-          <p class="testimonial-author">Ana García</p>
-          <p class="testimonial-role">Gerente de Operaciones, TechStore</p>
+  <!-- Testimonials Section -->
+  <section class="testimonials fade-in">
+    <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+    <div class="testimonial-carousel">
+      <div class="testimonial-card">
+        <div class="testimonial-rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
         </div>
-      </div>
-      <div class="testimonial-card fade-in">
-        <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos Méndez">
-        <div class="testimonial-content">
-          <p class="testimonial-quote">“Como administrador, amo la flexibilidad de roles y la capacidad de generar reportes personalizados. ¡Recomendado!”</p>
-          <p class="testimonial-author">Carlos Méndez</p>
-          <p class="testimonial-role">CEO, InventoryPro</p>
-        </div>
-      </div>
-      <div class="testimonial-card fade-in">
-        <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/65.jpg" alt="Lucía Fernández">
-        <div class="testimonial-content">
-          <p class="testimonial-quote">“El dashboard de empleado es simple y rápido. Registramos entradas y salidas sin complicaciones.”</p>
-          <p class="testimonial-author">Lucía Fernández</p>
-          <p class="testimonial-role">Supervisora de Almacén, LogiTech</p>
+        <p class="testimonial-quote">"Inventrack transformó completamente nuestra gestión de inventario. Ahora tenemos control total y hemos reducido pérdidas en un 40%"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MR</div>
+          <div class="testimonial-info">
+            <h4>María Rodríguez</h4>
+            <p>Gerente de Operaciones - TechStore</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA FINAL -->
-  <section class="cta-final">
-    <h2>¿Listo para transformar tu gestión de inventario?</h2>
-    <p>Únete a cientos de empresas que ya confían en Inventrack para optimizar sus operaciones.</p>
-    <a href="https://tu-proyecto.github.io/inventrack" class="btn-large" target="_blank">Acceder a la Demo</a>
+  <!-- Demo Section -->
+  <section class="demo fade-in" id="demo">
+    <h2 class="demo-title">Prueba la Demo</h2>
+    <p class="demo-subtitle">Explora todas las funcionalidades sin compromiso. Usa estas credenciales de prueba:</p>
+    <div class="demo-credentials">
+      <strong>👤 Usuario:</strong> admin@inventrack.com<br>
+      <strong>🔑 Contraseña:</strong> admin123<br>
+      <strong>🔐 Rol:</strong> Administrador
+      <strong>👤 Usuario:</strong> empleado@inventrack.com<br>
+      <strong>🔑 Contraseña:</strong> emp123<br>
+      <strong>🔐 Rol:</strong> Empleado
+    </div>
+    <a href="https://alejandrozapata12.github.io/langindPageInventrack/" class="btn btn-primary demo-button">
+      <i class="fas fa-rocket"></i> Acceder a la Demo
+    </a>
   </section>
 
-  <!-- FOOTER -->
+  <!-- Contact Form -->
+  <section class="contact fade-in" id="contact">
+    <h2 class="section-title">Contáctanos</h2>
+    <form class="contact-form" id="contactForm">
+      <div class="form-group">
+        <label for="name">
+          <i class="fas fa-user"></i> Nombre completo
+        </label>
+        <input type="text" id="name" name="name" required placeholder="Tu nombre">
+      </div>
+      <div class="form-group">
+        <label for="email">
+          <i class="fas fa-envelope"></i> Email
+        </label>
+        <input type="email" id="email" name="email" required placeholder="tu@email.com">
+      </div>
+      <div class="form-group">
+        <label for="company">
+          <i class="fas fa-building"></i> Empresa
+        </label>
+        <input type="text" id="company" name="company" placeholder="Nombre de tu empresa">
+      </div>
+      <div class="form-group">
+        <label for="message">
+          <i class="fas fa-comment"></i> Mensaje
+        </label>
+        <textarea id="message" name="message" required placeholder="Cuéntanos sobre tus necesidades"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width: 100%;">
+        <i class="fas fa-paper-plane"></i> Enviar Mensaje
+      </button>
+    </form>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <h2 class="cta-title">¿Listo para optimizar tu inventario?</h2>
+    <p class="cta-subtitle">Únete a cientos de empresas que ya confían en Inventrack para gestionar su inventario de forma inteligente.</p>
+    <div class="cta-buttons">
+      <a href="https://alejandrozapata12.github.io/langindPageInventrack/" target="_blank" class="btn btn-primary" style="background: white; color: var(--accent);">
+        <i class="fas fa-play"></i> Ver Demo Ahora
+      </a>
+      <a href="#contact" class="btn btn-secondary" style="border-color: white; color: white;">
+        <i class="fas fa-calendar-check"></i> Agendar Presentación
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer>
-    <p>© 2025 Inventrack — Hecho con ❤️ para equipos que buscan eficiencia.</p>
-    <div class="footer-links">
-      <a href="https://github.com/tuusuario/inventrack" target="_blank">GitHub</a>
-      <a href="mailto:contacto@inventrack.dev">Contacto</a>
-      <a href="#top">Ir arriba</a>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3><i class="fas fa-boxes"></i> Inventrack</h3>
+        <p>Sistema de gestión de inventario inteligente para empresas modernas.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3>Producto</h3>
+        <ul class="footer-links">
+          <li><a href="#features">Características</a></li>
+          <li><a href="https://alejandrozapata12.github.io/langindPageInventrack/" target="_blank">Demo</a></li>
+          <li><a href="#">Precios</a></li>
+          <li><a href="#">Integraciones</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Empresa</h3>
+        <ul class="footer-links">
+          <li><a href="#">Sobre nosotros</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Carreras</a></li>
+          <li><a href="#contact">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Soporte</h3>
+        <ul class="footer-links">
+          <li><a href="#">Centro de ayuda</a></li>
+          <li><a href="#">Documentación</a></li>
+          <li><a href="#">API</a></li>
+          <li><a href="#">Estado del servicio</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Inventrack. Todos los derechos reservados.</p>
+      <p style="margin-top: 0.5rem;">
+        <a href="#" style="color: #aaa; text-decoration: none;">Términos de servicio</a> | 
+        <a href="#" style="color: #aaa; text-decoration: none;">Política de privacidad</a>
+      </p>
     </div>
   </footer>
 
+  <!-- Scroll to top button -->
+  <button class="scroll-top" id="scrollTop">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
   <script>
-    // Animación de aparición al hacer scroll
-    document.addEventListener('DOMContentLoaded', function() {
-      const fadeElements = document.querySelectorAll('.fade-in');
+    // Preloader
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.querySelector('.preloader').classList.add('hidden');
+      }, 1000);
+    });
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      }, {
-        threshold: 0.1
-      });
+    // Scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
 
-      fadeElements.forEach(el => observer.observe(el));
-
-      // Smooth scroll para anclas
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href');
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-            window.scrollTo({
-              top: targetElement.offsetTop - 80,
-              behavior: 'smooth'
-            });
-          }
-        });
-      });
-
-      // Cambiar header al hacer scroll
-      let lastScrollTop = 0;
-      window.addEventListener('scroll', function() {
-        const header = document.querySelector('header');
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-        if (scrollTop > lastScrollTop && scrollTop > 100) {
-          header.style.transform = 'translateY(-100%)';
-        } else if (scrollTop < lastScrollTop) {
-          header.style.transform = 'translateY(0)';
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
         }
+      });
+    }, observerOptions);
 
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    document.querySelectorAll('.fade-in').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Counter animation
+    const counters = document.querySelectorAll('.stat-number');
+    let counterAnimated = false;
+
+    const animateCounters = () => {
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        const increment = target / 100;
+        let current = 0;
+
+        const updateCounter = () => {
+          if (current < target) {
+            current += increment;
+            counter.textContent = Math.ceil(current);
+            setTimeout(updateCounter, 20);
+          } else {
+            counter.textContent = target;
+          }
+        };
+
+        updateCounter();
+      });
+    };
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !counterAnimated) {
+          animateCounters();
+          counterAnimated = true;
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const statsSection = document.querySelector('.stats');
+    if (statsSection) {
+      statsObserver.observe(statsSection);
+    }
+
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle.querySelector('i');
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+      
+      if (document.body.classList.contains('light-mode')) {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      } else {
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      }
+    });
+
+    // Carousel
+    let currentSlide = 0;
+    const carouselInner = document.getElementById('carouselInner');
+    const slides = document.querySelectorAll('.carousel-item');
+    const totalSlides = slides.length;
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateCarousel();
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateCarousel();
+    });
+
+    function updateCarousel() {
+      carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+
+    // Auto-play carousel
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateCarousel();
+    }, 5000);
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
       });
     });
-  </script>
 
+    // Scroll to top button
+    const scrollTopBtn = document.getElementById('scrollTop');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Contact form
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.');
+      contactForm.reset();
+    });
+  </script>
 </body>
 </html>
