@@ -532,16 +532,64 @@ body.light-mode .footer-links a {
       transition: transform 0.5s ease;
     }
 
-    .carousel-item {
-      min-width: 100%;
-      height: 500px;
-      background: var(--card-bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      color: #ccc;
-    }
+    .carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #1a1a2e;
+}
+
+.carousel-caption {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 12, 41, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  text-align: center;
+  width: 80%;
+  max-width: 600px;
+}
+
+.carousel-caption h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--light);
+}
+
+.carousel-caption p {
+  font-size: 1rem;
+  color: #ccc;
+  margin: 0;
+}
+
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.carousel-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(106, 90, 205, 0.3);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.carousel-indicator.active {
+  background: var(--accent);
+  transform: scale(1.3);
+}
+
+.carousel-indicator:hover {
+  background: rgba(106, 90, 205, 0.6);
+}
 
     .carousel-controls {
       position: absolute;
@@ -1147,50 +1195,55 @@ body.light-mode .footer-links a {
     </div>
   </section>
 
+
   <!-- Screenshots Section -->
-  <section class="screenshots fade-in">
-    <h2 class="section-title">Capturas de Pantalla</h2>
-    <div class="carousel">
-      <div class="carousel-inner" id="carouselInner">
-        <div class="carousel-item">
-          <i class="fas fa-chart-line" style="font-size: 4rem; color: var(--accent);"></i>
-          <div style="text-align: center; padding: 2rem;">
-            <h3>Dashboard Principal</h3>
-            <p>Vista general de tu inventario</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <i class="fas fa-box-open" style="font-size: 4rem; color: var(--green);"></i>
-          <div style="text-align: center; padding: 2rem;">
-            <h3>Gestión de Productos</h3>
-            <p>Control total de entradas y salidas</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <i class="fas fa-bell" style="font-size: 4rem; color: var(--yellow);"></i>
-          <div style="text-align: center; padding: 2rem;">
-            <h3>Alertas Inteligentes</h3>
-            <p>Notificaciones automáticas</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <i class="fas fa-file-invoice" style="font-size: 4rem; color: var(--blue);"></i>
-          <div style="text-align: center; padding: 2rem;">
-            <h3>Reportes Avanzados</h3>
-            <p>Análisis detallado de tu negocio</p>
-          </div>
+<section class="screenshots fade-in">
+  <h2 class="section-title">Capturas de Pantalla</h2>
+  <p style="text-align: center; color: #ccc; margin-bottom: 2rem; font-size: 1.1rem;">
+    Explora la interfaz real de Inventrack
+  </p>
+  <div class="carousel">
+    <div class="carousel-inner" id="carouselInner">
+      <div class="carousel-item">
+        <img src="images/login.png" alt="Pantalla de Login de Inventrack" style="width: 100%; height: 100%; object-fit: cover;">
+        <div class="carousel-caption">
+          <h3>🔐 Login Seguro</h3>
+          <p>Acceso protegido con autenticación de usuarios</p>
         </div>
       </div>
-      <div class="carousel-controls">
-        <button class="carousel-btn" id="prevBtn">
-          <i class="fas fa-chevron-left"></i>
-        </button>
-        <button class="carousel-btn" id="nextBtn">
-          <i class="fas fa-chevron-right"></i>
-        </button>
+      <div class="carousel-item">
+        <img src="images/dashboard-admin.png" alt="Dashboard Administrador" style="width: 100%; height: 100%; object-fit: cover;">
+        <div class="carousel-caption">
+          <h3>📊 Dashboard Administrador</h3>
+          <p>Vista completa del inventario y movimientos</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="images/dashboard-empleado.png" alt="Dashboard Empleado" style="width: 100%; height: 100%; object-fit: cover;">
+        <div class="carousel-caption">
+          <h3>👤 Dashboard Empleado</h3>
+          <p>Gestión diaria de entradas y salidas</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 2rem; background: var(--card-bg);">
+          <i class="fas fa-chart-line" style="font-size: 4rem; color: var(--accent); margin-bottom: 1rem;"></i>
+          <h3>📈 Reportes en Tiempo Real</h3>
+          <p>Análisis detallado de tu inventario</p>
+        </div>
       </div>
     </div>
-  </section>
+    <div class="carousel-controls">
+      <button class="carousel-btn" id="prevBtn">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="carousel-btn" id="nextBtn">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+    <div class="carousel-indicators" id="carouselIndicators"></div>
+  </div>
+</section>
 
   <!-- Roles Section -->
   <section class="roles fade-in" id="roles">
@@ -1536,45 +1589,76 @@ body.light-mode .footer-links a {
     });
 
     // Carousel
-    let currentSlide = 0;
-    const carouselInner = document.getElementById('carouselInner');
-    const slides = document.querySelectorAll('.carousel-item');
-    const totalSlides = slides.length;
+let currentSlide = 0;
+const carouselInner = document.getElementById('carouselInner');
+const slides = document.querySelectorAll('.carousel-item');
+const totalSlides = slides.length;
+const indicatorsContainer = document.getElementById('carouselIndicators');
 
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      currentSlide = (currentSlide + 1) % totalSlides;
-      updateCarousel();
-    });
+// Crear indicadores
+for (let i = 0; i < totalSlides; i++) {
+  const indicator = document.createElement('button');
+  indicator.classList.add('carousel-indicator');
+  if (i === 0) indicator.classList.add('active');
+  indicator.addEventListener('click', () => {
+    currentSlide = i;
+    updateCarousel();
+  });
+  indicatorsContainer.appendChild(indicator);
+}
 
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-      updateCarousel();
-    });
+const indicators = document.querySelectorAll('.carousel-indicator');
 
-    function updateCarousel() {
-      carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
+function updateCarousel() {
+  carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
+  
+  // Actualizar indicadores
+  indicators.forEach((indicator, index) => {
+    if (index === currentSlide) {
+      indicator.classList.add('active');
+    } else {
+      indicator.classList.remove('active');
     }
+  });
+}
 
-    // Auto-play carousel
-    setInterval(() => {
-      currentSlide = (currentSlide + 1) % totalSlides;
-      updateCarousel();
-    }, 5000);
+document.getElementById('nextBtn').addEventListener('click', () => {
+  currentSlide = (currentSlide + 1) % totalSlides;
+  updateCarousel();
+});
 
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
+document.getElementById('prevBtn').addEventListener('click', () => {
+  currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+  updateCarousel();
+});
 
+// Auto-play carousel
+let autoplayInterval = setInterval(() => {
+  currentSlide = (currentSlide + 1) % totalSlides;
+  updateCarousel();
+}, 5000);
+
+// Pausar autoplay al hover
+const carousel = document.querySelector('.carousel');
+carousel.addEventListener('mouseenter', () => {
+  clearInterval(autoplayInterval);
+});
+
+carousel.addEventListener('mouseleave', () => {
+  autoplayInterval = setInterval(() => {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateCarousel();
+  }, 5000);
+});
+
+
+
+
+
+
+
+
+    
     // Scroll to top button
     const scrollTopBtn = document.getElementById('scrollTop');
 
