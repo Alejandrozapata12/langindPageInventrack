@@ -255,21 +255,7 @@
     .theme-toggle:hover {
       transform: rotate(20deg) scale(1.1);
     }
-    .lang-selector {
-      display: flex;
-      gap: 0.5rem;
-      margin-left: 1rem;
-    }
-    .lang-selector img {
-      width: 24px;
-      height: 24px;
-      cursor: pointer;
-      border-radius: 2px;
-      transition: transform var(--transition-speed) var(--transition-ease);
-    }
-    .lang-selector img:hover {
-      transform: scale(1.1);
-    }
+    /* Eliminado: .lang-selector */
     .btn {
       padding: 0.75rem 1.5rem;
       border-radius: 30px;
@@ -1111,13 +1097,67 @@
     #aiRobot:hover {
         transform: scale(1.1);
     }
-    #aiRobot.greeting {
-        animation: wave 0.5s ease-in-out 3;
+
+    /* Modal del bot de AI */
+    .ai-modal {
+        display: none; /* Oculto por defecto */
+        position: fixed;
+        z-index: 1001; /* Asegura que esté por encima de otros elementos */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+        backdrop-filter: blur(5px);
     }
-    @keyframes wave {
-        0%, 100% { transform: rotate(0deg); }
-        25% { transform: rotate(15deg); }
-        75% { transform: rotate(-15deg); }
+    .ai-modal-content {
+        background-color: var(--card-bg);
+        margin: 15% auto;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        width: 80%;
+        max-width: 500px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
+        position: relative;
+    }
+    .ai-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    .ai-modal-title {
+        font-size: 1.5rem;
+        color: var(--accent);
+        margin: 0;
+    }
+    .ai-modal-close {
+        color: var(--light);
+        font-size: 1.5rem;
+        font-weight: bold;
+        cursor: pointer;
+        background: none;
+        border: none;
+        transition: color var(--transition-speed) var(--transition-ease);
+    }
+    .ai-modal-close:hover {
+        color: var(--red);
+    }
+    .ai-modal-body {
+        color: var(--light);
+        line-height: 1.6;
+    }
+    .ai-modal-body p {
+        margin-bottom: 1rem;
+    }
+    .ai-modal-body a {
+        color: var(--accent);
+        text-decoration: none;
+    }
+    .ai-modal-body a:hover {
+        text-decoration: underline;
     }
 
   </style>
@@ -1136,12 +1176,33 @@
   </div>
 
   <!-- Robot AI Animado -->
-  <div id="aiRobot" title="¡Hola! Soy tu asistente AI">
-    <!-- SVG de ejemplo, reemplaza con tu imagen -->
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--accent)" width="50px" height="50px">
-      <path d="M0 0h24v24H0z" fill="none"/>
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13.5v5.25l4.5 2.67l-.75 1.23L9 13V6.5z"/>
-    </svg>
+  <div id="aiRobot" title="Asistente AI">
+    <i class="fas fa-robot" style="font-size: 50px; color: var(--accent);"></i>
+  </div>
+
+  <!-- Modal del Bot de AI -->
+  <div id="aiModal" class="ai-modal">
+    <div class="ai-modal-content">
+      <div class="ai-modal-header">
+        <h2 class="ai-modal-title">¿Cómo puedo ayudarte hoy?</h2>
+        <button class="ai-modal-close">&times;</button>
+      </div>
+      <div class="ai-modal-body">
+        <p>Hola, soy tu asistente virtual. Puedo ayudarte con información sobre Inventrack y cómo contactarnos.</p>
+        <p><strong>Funcionamiento del Software:</strong></p>
+        <ul>
+          <li>Para ver las funcionalidades, puedes acceder a la <a href="#demo">sección de demo</a> y probarla con las credenciales proporcionadas.</li>
+          <li>Consulta la <a href="#features">sección de características</a> para ver una lista detallada de lo que puede hacer Inventrack.</li>
+          <li>Explora las <a href="#roles">diferentes funciones</a> disponibles para Administrador, Gerente y Operador.</li>
+        </ul>
+        <p><strong>Contacto:</strong></p>
+        <ul>
+          <li>Puedes contactarnos directamente usando el <a href="#contact">formulario de contacto</a> en esta página.</li>
+          <li>También puedes agendar una demo personalizada desde la sección <a href="#demo">demo</a>.</li>
+        </ul>
+        <p>¿Necesitas más información? No dudes en escribirnos.</p>
+      </div>
+    </div>
   </div>
 
   <!-- Navbar -->
@@ -1184,18 +1245,10 @@
       <a href="#demo" class="btn btn-primary">
         <i class="fas fa-play"></i> <span class="btn-text">Ver Demo</span>
       </a>
-      <div class="lang-selector">
-        <img src="https://flagcdn.com/w40/es.png" alt="Español" data-lang="es" title="Español">
-        <img src="https://flagcdn.com/w40/us.png" alt="English" data-lang="en" title="English">
-        <img src="https://flagcdn.com/w40/de.png" alt="Deutsch" data-lang="de" title="Deutsch">
-        <img src="https://flagcdn.com/w40/it.png" alt="Italiano" data-lang="it" title="Italiano">
-        <img src="https://flagcdn.com/w40/fr.png" alt="Français" data-lang="fr" title="Français">
-        <img src="https://flagcdn.com/w40/cn.png" alt="中文" data-lang="zh" title="中文">
-        <img src="https://flagcdn.com/w40/ru.png" alt="Русский" data-lang="ru" title="Русский">
-      </div>
       <button class="theme-toggle" id="themeToggle">
         <i class="fas fa-moon"></i>
       </button>
+      <!-- Eliminado: .lang-selector -->
     </div>
   </nav>
 
@@ -1221,7 +1274,7 @@
 
   <!-- Sección de Tecnologías -->
   <section class="tech fade-in" id="tech">
-    <h2 class="section-title"><span class="section-title-text">Tecnologías</span></h2>
+    <h2 class="section-title">Tecnologías</h2>
     <div class="tech-grid">
       <div class="tech-card">
         <i class="fab fa-html5 tech-icon"></i>
@@ -1252,16 +1305,16 @@
 
   <!-- Sección de Experiencia -->
   <section class="experience fade-in" id="experience">
-    <h2 class="section-title"><span class="section-title-text">Experiencia</span></h2>
+    <h2 class="section-title">Experiencia</h2>
     <div class="experience-container">
       <div class="experience-card">
         <div class="experience-icon">
           <i class="fas fa-laptop-code"></i>
         </div>
         <div class="experience-content">
-          <h3><span class="job-title">Desarrollador Full Stack</span></h3>
-          <div class="date"><span class="job-date">Ene 2023 - Presente</span></div>
-          <p><span class="job-desc">Desarrollo y mantenimiento de aplicaciones web complejas utilizando tecnologías modernas.</span></p>
+          <h3>Desarrollador Full Stack</h3>
+          <div class="date">Ene 2023 - Presente</div>
+          <p>Desarrollo y mantenimiento de aplicaciones web complejas utilizando tecnologías modernas.</p>
         </div>
       </div>
       <div class="experience-card">
@@ -1269,9 +1322,9 @@
           <i class="fas fa-cogs"></i>
         </div>
         <div class="experience-content">
-          <h3><span class="job-title">Ingeniero de Software</span></h3>
-          <div class="date"><span class="job-date">Jun 2021 - Dic 2022</span></div>
-          <p><span class="job-desc">Participación en proyectos de integración de sistemas y automatización de procesos.</span></p>
+          <h3>Ingeniero de Software</h3>
+          <div class="date">Jun 2021 - Dic 2022</div>
+          <p>Participación en proyectos de integración de sistemas y automatización de procesos.</p>
         </div>
       </div>
     </div>
@@ -1279,55 +1332,55 @@
 
   <!-- Comparison Section -->
   <section class="comparison fade-in" id="comparison">
-    <h2 class="section-title"><span class="section-title-text">Antes vs Después de Inventrack</span></h2>
+    <h2 class="section-title">Antes vs Después de Inventrack</h2>
     <div class="comparison-grid">
       <div class="comparison-card before">
-        <h3><i class="fas fa-times-circle"></i> <span class="comparison-title">Antes</span></h3>
+        <h3><i class="fas fa-times-circle"></i> Antes</h3>
         <ul class="comparison-list">
           <li>
             <i class="fas fa-times"></i>
-            <span class="comparison-text">Control manual en hojas de cálculo</span>
+            <span>Control manual en hojas de cálculo</span>
           </li>
           <li>
             <i class="fas fa-times"></i>
-            <span class="comparison-text">Pérdidas por falta de stock</span>
+            <span>Pérdidas por falta de stock</span>
           </li>
           <li>
             <i class="fas fa-times"></i>
-            <span class="comparison-text">Sin alertas automáticas</span>
+            <span>Sin alertas automáticas</span>
           </li>
           <li>
             <i class="fas fa-times"></i>
-            <span class="comparison-text">Reportes tardíos y manuales</span>
+            <span>Reportes tardíos y manuales</span>
           </li>
           <li>
             <i class="fas fa-times"></i>
-            <span class="comparison-text">Errores humanos frecuentes</span>
+            <span>Errores humanos frecuentes</span>
           </li>
         </ul>
       </div>
       <div class="comparison-card after">
-        <h3><i class="fas fa-check-circle"></i> <span class="comparison-title">Después</span></h3>
+        <h3><i class="fas fa-check-circle"></i> Después</h3>
         <ul class="comparison-list">
           <li>
             <i class="fas fa-check"></i>
-            <span class="comparison-text">Automatización completa</span>
+            <span>Automatización completa</span>
           </li>
           <li>
             <i class="fas fa-check"></i>
-            <span class="comparison-text">Stock óptimo en todo momento</span>
+            <span>Stock óptimo en todo momento</span>
           </li>
           <li>
             <i class="fas fa-check"></i>
-            <span class="comparison-text">Alertas inteligentes en tiempo real</span>
+            <span>Alertas inteligentes en tiempo real</span>
           </li>
           <li>
             <i class="fas fa-check"></i>
-            <span class="comparison-text">Reportes instantáneos</span>
+            <span>Reportes instantáneos</span>
           </li>
           <li>
             <i class="fas fa-check"></i>
-            <span class="comparison-text">Precisión del 99.9%</span>
+            <span>Precisión del 99.9%</span>
           </li>
         </ul>
       </div>
@@ -1336,38 +1389,31 @@
 
   <!-- Screenshots Section -->
   <section class="screenshots fade-in">
-    <h2 class="section-title"><span class="section-title-text">Capturas de Pantalla</span></h2>
+    <h2 class="section-title">Capturas de Pantalla</h2>
     <p style="text-align: center; color: #ccc; margin-bottom: 2rem; font-size: 1.1rem;">
-      <span class="screenshots-desc">Explora la interfaz real de Inventrack</span>
+      Explora la interfaz real de Inventrack
     </p>
     <div class="carousel">
       <div class="carousel-inner" id="carouselInner">
         <div class="carousel-item">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop" alt="Pantalla de Login de Inventrack">
+          <img src="images/login.png" alt="Pantalla de Login de Inventrack">
           <div class="carousel-caption">
-            <h3><span class="carousel-caption-title">🔐 Login Seguro</span></h3>
-            <p><span class="carousel-caption-desc">Acceso protegido con autenticación de usuarios</span></p>
+            <h3>🔐 Login Seguro</h3>
+            <p>Acceso protegido con autenticación de usuarios</p>
           </div>
         </div>
         <div class="carousel-item">
-          <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&auto=format&fit=crop" alt="Dashboard Administrador">
+          <img src="images/dashboard-empleado.png" alt="Dashboard Empleado">
           <div class="carousel-caption">
-            <h3><span class="carousel-caption-title">📊 Dashboard Administrador</span></h3>
-            <p><span class="carousel-caption-desc">Vista completa del inventario y movimientos</span></p>
+            <h3>👤 Dashboard Empleado</h3>
+            <p>Gestión diaria de entradas y salidas</p>
           </div>
         </div>
         <div class="carousel-item">
-          <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=600&auto=format&fit=crop" alt="Dashboard Empleado">
+          <img src="images/dashboard-admin.png" alt="Dashboard Administrador">
           <div class="carousel-caption">
-            <h3><span class="carousel-caption-title">👤 Dashboard Empleado</span></h3>
-            <p><span class="carousel-caption-desc">Gestión diaria de entradas y salidas</span></p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 2rem; background: var(--card-bg);">
-            <i class="fas fa-chart-line" style="font-size: 4rem; color: var(--accent); margin-bottom: 1rem;"></i>
-            <h3><span class="carousel-caption-title">📈 Reportes en Tiempo Real</span></h3>
-            <p><span class="carousel-caption-desc">Análisis detallado de tu inventario</span></p>
+            <h3>📊 Dashboard Administrador</h3>
+            <p>Vista completa del inventario y movimientos</p>
           </div>
         </div>
       </div>
@@ -1385,45 +1431,45 @@
 
   <!-- Roles Section -->
   <section class="roles fade-in" id="roles">
-    <h2 class="section-title"><span class="section-title-text">Roles y Permisos</span></h2>
+    <h2 class="section-title">Roles y Permisos</h2>
     <div class="roles-container">
       <div class="role-card">
         <div class="role-icon">
           <i class="fas fa-user-shield"></i>
         </div>
-        <h3 class="role-title"><span class="role-name">Administrador</span></h3>
-        <p><span class="role-desc">Control total del sistema</span></p>
+        <h3 class="role-title">Administrador</h3>
+        <p>Control total del sistema</p>
         <ul class="role-permissions">
-          <li><span class="permission-text">Gestión completa de usuarios</span></li>
-          <li><span class="permission-text">Configuración del sistema</span></li>
-          <li><span class="permission-text">Acceso a todos los módulos</span></li>
-          <li><span class="permission-text">Reportes avanzados</span></li>
+          <li>Gestión completa de usuarios</li>
+          <li>Configuración del sistema</li>
+          <li>Acceso a todos los módulos</li>
+          <li>Reportes avanzados</li>
         </ul>
       </div>
       <div class="role-card">
         <div class="role-icon">
           <i class="fas fa-user-tie"></i>
         </div>
-        <h3 class="role-title"><span class="role-name">Gerente</span></h3>
-        <p><span class="role-desc">Supervisión y análisis</span></p>
+        <h3 class="role-title">Gerente</h3>
+        <p>Supervisión y análisis</p>
         <ul class="role-permissions">
-          <li><span class="permission-text">Ver inventario completo</span></li>
-          <li><span class="permission-text">Generar reportes</span></li>
-          <li><span class="permission-text">Aprobar movimientos</span></li>
-          <li><span class="permission-text">Gestionar alertas</span></li>
+          <li>Ver inventario completo</li>
+          <li>Generar reportes</li>
+          <li>Aprobar movimientos</li>
+          <li>Gestionar alertas</li>
         </ul>
       </div>
       <div class="role-card">
         <div class="role-icon">
           <i class="fas fa-user"></i>
         </div>
-        <h3 class="role-title"><span class="role-name">Operador</span></h3>
-        <p><span class="role-desc">Gestión diaria</span></p>
+        <h3 class="role-title">Operador</h3>
+        <p>Gestión diaria</p>
         <ul class="role-permissions">
-          <li><span class="permission-text">Registrar entradas/salidas</span></li>
-          <li><span class="permission-text">Consultar stock</span></li>
-          <li><span class="permission-text">Ver alertas básicas</span></li>
-          <li><span class="permission-text">Reportes limitados</span></li>
+          <li>Registrar entradas/salidas</li>
+          <li>Consultar stock</li>
+          <li>Ver alertas básicas</li>
+          <li>Reportes limitados</li>
         </ul>
       </div>
     </div>
@@ -1431,70 +1477,70 @@
 
   <!-- Features Section -->
   <section class="features fade-in" id="features">
-    <h2 class="section-title"><span class="section-title-text">Características Principales</span></h2>
+    <h2 class="section-title">Características Principales</h2>
     <div class="features-grid">
       <div class="feature-card">
         <div class="feature-icon">
           <i class="fas fa-chart-bar"></i>
         </div>
-        <h3 class="feature-title"><span class="feature-name">Dashboard en Tiempo Real</span></h3>
-        <p class="feature-desc"><span class="feature-desc-text">Visualiza el estado de tu inventario al instante con gráficos interactivos</span></p>
+        <h3 class="feature-title">Dashboard en Tiempo Real</h3>
+        <p class="feature-desc">Visualiza el estado de tu inventario al instante con gráficos interactivos</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <i class="fas fa-bell-slash"></i>
         </div>
-        <h3 class="feature-title"><span class="feature-name">Alertas Automáticas</span></h3>
-        <p class="feature-desc"><span class="feature-desc-text">Recibe notificaciones cuando el stock llegue a niveles críticos</span></p>
+        <h3 class="feature-title">Alertas Automáticas</h3>
+        <p class="feature-desc">Recibe notificaciones cuando el stock llegue a niveles críticos</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <i class="fas fa-file-export"></i>
         </div>
-        <h3 class="feature-title"><span class="feature-name">Reportes Personalizados</span></h3>
-        <p class="feature-desc"><span class="feature-desc-text">Genera reportes detallados en PDF o Excel según tus necesidades</span></p>
+        <h3 class="feature-title">Reportes Personalizados</h3>
+        <p class="feature-desc">Genera reportes detallados en PDF o Excel según tus necesidades</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <i class="fas fa-barcode"></i>
         </div>
-        <h3 class="feature-title"><span class="feature-name">Código de Barras</span></h3>
-        <p class="feature-desc"><span class="feature-desc-text">Escanea productos para registro rápido y sin errores</span></p>
+        <h3 class="feature-title">Código de Barras</h3>
+        <p class="feature-desc">Escanea productos para registro rápido y sin errores</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <i class="fas fa-history"></i>
         </div>
-        <h3 class="feature-title"><span class="feature-name">Historial Completo</span></h3>
-        <p class="feature-desc"><span class="feature-desc-text">Auditoría de todos los movimientos con fecha y usuario</span></p>
+        <h3 class="feature-title">Historial Completo</h3>
+        <p class="feature-desc">Auditoría de todos los movimientos con fecha y usuario</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <i class="fas fa-mobile-alt"></i>
         </div>
-        <h3 class="feature-title"><span class="feature-name">Multi-Dispositivo</span></h3>
-        <p class="feature-desc"><span class="feature-desc-text">Accede desde cualquier lugar: PC, tablet o móvil</span></p>
+        <h3 class="feature-title">Multi-Dispositivo</h3>
+        <p class="feature-desc">Accede desde cualquier lugar: PC, tablet o móvil</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <i class="fas fa-shield-alt"></i>
         </div>
-        <h3 class="feature-title"><span class="feature-name">Seguridad Avanzada</span></h3>
-        <p class="feature-desc"><span class="feature-desc-text">Encriptación de datos y backups automáticos</span></p>
+        <h3 class="feature-title">Seguridad Avanzada</h3>
+        <p class="feature-desc">Encriptación de datos y backups automáticos</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <i class="fas fa-plug"></i>
         </div>
-        <h3 class="feature-title"><span class="feature-name">Integraciones</span></h3>
-        <p class="feature-desc"><span class="feature-desc-text">Conecta con tu sistema contable y plataformas de venta</span></p>
+        <h3 class="feature-title">Integraciones</h3>
+        <p class="feature-desc">Conecta con tu sistema contable y plataformas de venta</p>
       </div>
     </div>
   </section>
 
   <!-- Testimonials Section -->
   <section class="testimonials fade-in">
-    <h2 class="section-title"><span class="section-title-text">Lo que dicen nuestros clientes</span></h2>
+    <h2 class="section-title">Lo que dicen nuestros clientes</h2>
     <div class="testimonial-carousel">
       <div class="testimonial-card">
         <div class="testimonial-rating">
@@ -1504,12 +1550,12 @@
           <i class="fas fa-star"></i>
           <i class="fas fa-star"></i>
         </div>
-        <p class="testimonial-quote"><span class="testimonial-text">"Inventrack transformó completamente nuestra gestión de inventario. Ahora tenemos control total y hemos reducido pérdidas en un 40%"</span></p>
+        <p class="testimonial-quote">"Inventrack transformó completamente nuestra gestión de inventario. Ahora tenemos control total y hemos reducido pérdidas en un 40%"</p>
         <div class="testimonial-author">
           <div class="testimonial-avatar">MR</div>
           <div class="testimonial-info">
-            <h4><span class="testimonial-author-name">María Rodríguez</span></h4>
-            <p><span class="testimonial-author-role">Gerente de Operaciones - TechStore</span></p>
+            <h4>María Rodríguez</h4>
+            <p>Gerente de Operaciones - TechStore</p>
           </div>
         </div>
       </div>
@@ -1518,15 +1564,15 @@
 
   <!-- Demo Section -->
   <section class="demo fade-in" id="demo">
-    <h2 class="demo-title"><span class="demo-section-title">Prueba la Demo</span></h2>
-    <p class="demo-subtitle"><span class="demo-section-subtitle">Explora todas las funcionalidades sin compromiso. Usa estas credenciales de prueba:</span></p>
+    <h2 class="demo-title">Prueba la Demo</h2>
+    <p class="demo-subtitle">Explora todas las funcionalidades sin compromiso. Usa estas credenciales de prueba:</p>
     <div class="demo-credentials">
-      <strong><span class="demo-credentials-label">👤 Usuario:</span></strong> admin@inventrack.com<br>
-      <strong><span class="demo-credentials-label">🔑 Contraseña:</span></strong> admin123<br>
-      <strong><span class="demo-credentials-label">🔐 Rol:</span></strong> <span class="demo-credentials-role">Administrador</span><br>
-      <strong><span class="demo-credentials-label">👤 Usuario:</span></strong> empleado@inventrack.com<br>
-      <strong><span class="demo-credentials-label">🔑 Contraseña:</span></strong> emp123<br>
-      <strong><span class="demo-credentials-label">🔐 Rol:</span></strong> <span class="demo-credentials-role">Empleado</span>
+      <strong>👤 Usuario:</strong> admin@inventrack.com<br>
+      <strong>🔑 Contraseña:</strong> admin123<br>
+      <strong>🔐 Rol:</strong> Administrador<br>
+      <strong>👤 Usuario:</strong> empleado@inventrack.com<br>
+      <strong>🔑 Contraseña:</strong> emp123<br>
+      <strong>🔐 Rol:</strong> Empleado
     </div>
     <a href="https://alejandrozapata12.github.io/inventrack_system/" target="_blank" class="btn btn-primary demo-button">
       <i class="fas fa-rocket"></i> <span class="btn-text">Acceder a la Demo</span>
@@ -1535,7 +1581,7 @@
 
   <!-- Contact Form -->
   <section class="contact fade-in" id="contact">
-    <h2 class="section-title"><span class="section-title-text">Contáctanos</span></h2>
+    <h2 class="section-title">Contáctanos</h2>
     <div class="contact-form">
       <div class="contact-form-header">
         <span></span>
@@ -1547,25 +1593,25 @@
         <form id="contactForm">
           <div class="form-group">
             <label for="name">
-              <i class="fas fa-user"></i> <span class="form-label">Nombre completo</span>
+              <i class="fas fa-user"></i> Nombre completo
             </label>
             <input type="text" id="name" name="name" required placeholder="// Ingresa tu nombre">
           </div>
           <div class="form-group">
             <label for="email">
-              <i class="fas fa-envelope"></i> <span class="form-label">Email</span>
+              <i class="fas fa-envelope"></i> Email
             </label>
             <input type="email" id="email" name="email" required placeholder="// Ingresa tu email">
           </div>
           <div class="form-group">
             <label for="company">
-              <i class="fas fa-building"></i> <span class="form-label">Empresa</span>
+              <i class="fas fa-building"></i> Empresa
             </label>
             <input type="text" id="company" name="company" placeholder="// Nombre de tu empresa (opcional)">
           </div>
           <div class="form-group">
             <label for="message">
-              <i class="fas fa-comment"></i> <span class="form-label">Mensaje</span>
+              <i class="fas fa-comment"></i> Mensaje
             </label>
             <textarea id="message" name="message" required placeholder="// Cuéntanos sobre tus necesidades"></textarea>
           </div>
@@ -1579,8 +1625,8 @@
 
   <!-- CTA Section -->
   <section class="cta">
-    <h2 class="cta-title"><span class="cta-section-title">¿Listo para optimizar tu inventario?</span></h2>
-    <p class="cta-subtitle"><span class="cta-section-subtitle">Únete a cientos de empresas que ya confían en Inventrack para gestionar su inventario de forma inteligente.</span></p>
+    <h2 class="cta-title">¿Listo para optimizar tu inventario?</h2>
+    <p class="cta-subtitle">Únete a cientos de empresas que ya confían en Inventrack para gestionar su inventario de forma inteligente.</p>
     <div class="cta-buttons">
       <a href="https://alejandrozapata12.github.io/inventrack_system/" target="_blank" class="btn btn-primary" style="background: white; color: var(--accent);">
         <i class="fas fa-play"></i> <span class="btn-text">Ver Demo Ahora</span>
@@ -1596,7 +1642,7 @@
     <div class="footer-content">
       <div class="footer-section">
         <h3><i class="fas fa-boxes"></i> Inventrack</h3>
-        <p><span class="footer-desc">Sistema de gestión de inventario inteligente para empresas modernas.</span></p>
+        <p>Sistema de gestión de inventario inteligente para empresas modernas.</p>
         <div class="social-links">
           <a href="#"><i class="fab fa-facebook"></i></a>
           <a href="#"><i class="fab fa-twitter"></i></a>
@@ -1605,38 +1651,38 @@
         </div>
       </div>
       <div class="footer-section">
-        <h3><span class="footer-section-title">Producto</span></h3>
+        <h3>Producto</h3>
         <ul class="footer-links">
-          <li><a href="#features"><span class="footer-link-text">Características</span></a></li>
-          <li><a href="#demo"><span class="footer-link-text">Demo</span></a></li>
-          <li><a href="#"><span class="footer-link-text">Precios</span></a></li>
-          <li><a href="#"><span class="footer-link-text">Integraciones</span></a></li>
+          <li><a href="#features">Características</a></li>
+          <li><a href="#demo">Demo</a></li>
+          <li><a href="#">Precios</a></li>
+          <li><a href="#">Integraciones</a></li>
         </ul>
       </div>
       <div class="footer-section">
-        <h3><span class="footer-section-title">Empresa</span></h3>
+        <h3>Empresa</h3>
         <ul class="footer-links">
-          <li><a href="#"><span class="footer-link-text">Sobre nosotros</span></a></li>
-          <li><a href="#"><span class="footer-link-text">Blog</span></a></li>
-          <li><a href="#"><span class="footer-link-text">Carreras</span></a></li>
-          <li><a href="#contact"><span class="footer-link-text">Contacto</span></a></li>
+          <li><a href="#">Sobre nosotros</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Carreras</a></li>
+          <li><a href="#contact">Contacto</a></li>
         </ul>
       </div>
       <div class="footer-section">
-        <h3><span class="footer-section-title">Soporte</span></h3>
+        <h3>Soporte</h3>
         <ul class="footer-links">
-          <li><a href="#"><span class="footer-link-text">Centro de ayuda</span></a></li>
-          <li><a href="#"><span class="footer-link-text">Documentación</span></a></li>
-          <li><a href="#"><span class="footer-link-text">API</span></a></li>
-          <li><a href="#"><span class="footer-link-text">Estado del servicio</span></a></li>
+          <li><a href="#">Centro de ayuda</a></li>
+          <li><a href="#">Documentación</a></li>
+          <li><a href="#">API</a></li>
+          <li><a href="#">Estado del servicio</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p><span class="footer-copyright">&copy; 2024 Inventrack. Todos los derechos reservados.</span></p>
+      <p>&copy; 2024 Inventrack. Todos los derechos reservados.</p>
       <p style="margin-top: 0.5rem;">
-        <a href="#" style="color: #aaa; text-decoration: none;"><span class="footer-legal">Términos de servicio</span></a> |
-        <a href="#" style="color: #aaa; text-decoration: none;"><span class="footer-legal">Política de privacidad</span></a>
+        <a href="#" style="color: #aaa; text-decoration: none;">Términos de servicio</a> |
+        <a href="#" style="color: #aaa; text-decoration: none;">Política de privacidad</a>
       </p>
     </div>
   </footer>
@@ -1647,247 +1693,6 @@
   </button>
 
   <script>
-    // --- Variables y Constantes ---
-    const translations = {
-      es: {
-        nav: { tech: "Tecnologías", experience: "Experiencia", comparison: "Comparación", roles: "Roles", features: "Características", demo: "Demo", contact: "Contacto" },
-        btn: { seeDemo: "Ver Demo", bookDemo: "Agendar Demo", accessDemo: "Acceder a la Demo", schedulePresentation: "Agendar Presentación", viewDemoNow: "Ver Demo Ahora", sendMessage: "Enviar Mensaje" },
-        section: { title: { tech: "Tecnologías", experience: "Experiencia", comparison: "Antes vs Después de Inventrack", screenshots: "Capturas de Pantalla", roles: "Roles y Permisos", features: "Características Principales", testimonials: "Lo que dicen nuestros clientes", demo: "Prueba la Demo", contact: "Contáctanos", cta: "¿Listo para optimizar tu inventario?" } },
-        comparison: { before: "Antes", after: "Después", text: { before: ["Control manual en hojas de cálculo", "Pérdidas por falta de stock", "Sin alertas automáticas", "Reportes tardíos y manuales", "Errores humanos frecuentes"], after: ["Automatización completa", "Stock óptimo en todo momento", "Alertas inteligentes en tiempo real", "Reportes instantáneos", "Precisión del 99.9%"] } },
-        screenshots: { desc: "Explora la interfaz real de Inventrack", caption: { title: ["🔐 Login Seguro", "📊 Dashboard Administrador", "👤 Dashboard Empleado", "📈 Reportes en Tiempo Real"], desc: ["Acceso protegido con autenticación de usuarios", "Vista completa del inventario y movimientos", "Gestión diaria de entradas y salidas", "Análisis detallado de tu inventario"] } },
-        role: { name: ["Administrador", "Gerente", "Operador"], desc: ["Control total del sistema", "Supervisión y análisis", "Gestión diaria"], permissions: ["Gestión completa de usuarios", "Configuración del sistema", "Acceso a todos los módulos", "Reportes avanzados", "Ver inventario completo", "Generar reportes", "Aprobar movimientos", "Gestionar alertas", "Registrar entradas/salidas", "Consultar stock", "Ver alertas básicas", "Reportes limitados"] },
-        feature: { name: ["Dashboard en Tiempo Real", "Alertas Automáticas", "Reportes Personalizados", "Código de Barras", "Historial Completo", "Multi-Dispositivo", "Seguridad Avanzada", "Integraciones"], desc: ["Visualiza el estado de tu inventario al instante con gráficos interactivos", "Recibe notificaciones cuando el stock llegue a niveles críticos", "Genera reportes detallados en PDF o Excel según tus necesidades", "Escanea productos para registro rápido y sin errores", "Auditoría de todos los movimientos con fecha y usuario", "Accede desde cualquier lugar: PC, tablet o móvil", "Encriptación de datos y backups automáticos", "Conecta con tu sistema contable y plataformas de venta"] },
-        testimonial: { text: '"Inventrack transformó completamente nuestra gestión de inventario. Ahora tenemos control total y hemos reducido pérdidas en un 40%"', author: { name: "María Rodríguez", role: "Gerente de Operaciones - TechStore" } },
-        demo: { subtitle: "Explora todas las funcionalidades sin compromiso. Usa estas credenciales de prueba:", credentials: { label: ["👤 Usuario:", "🔑 Contraseña:", "🔐 Rol:", "👤 Usuario:", "🔑 Contraseña:", "🔐 Rol:"], role: ["Administrador", "Empleado"] } },
-        contact: { form: { label: ["Nombre completo", "Email", "Empresa", "Mensaje"], placeholder: ["// Ingresa tu nombre", "// Ingresa tu email", "// Nombre de tu empresa (opcional)", "// Cuéntanos sobre tus necesidades"] } },
-        cta: { subtitle: "Únete a cientos de empresas que ya confían en Inventrack para gestionar su inventario de forma inteligente." },
-        footer: { desc: "Sistema de gestión de inventario inteligente para empresas modernas.", section: { title: ["Producto", "Empresa", "Soporte"], link: { text: ["Características", "Demo", "Precios", "Integraciones", "Sobre nosotros", "Blog", "Carreras", "Contacto", "Centro de ayuda", "Documentación", "API", "Estado del servicio"] } }, copyright: "&copy; 2024 Inventrack. Todos los derechos reservados.", legal: ["Términos de servicio", "Política de privacidad"] }
-      },
-      en: {
-        nav: { tech: "Technologies", experience: "Experience", comparison: "Comparison", roles: "Roles", features: "Features", demo: "Demo", contact: "Contact" },
-        btn: { seeDemo: "See Demo", bookDemo: "Book Demo", accessDemo: "Access Demo", schedulePresentation: "Schedule Presentation", viewDemoNow: "View Demo Now", sendMessage: "Send Message" },
-        section: { title: { tech: "Technologies", experience: "Experience", comparison: "Before vs After Inventrack", screenshots: "Screenshots", roles: "Roles and Permissions", features: "Key Features", testimonials: "What our clients say", demo: "Try the Demo", contact: "Contact Us", cta: "Ready to optimize your inventory?" } },
-        comparison: { before: "Before", after: "After", text: { before: ["Manual control in spreadsheets", "Losses due to stockouts", "No automatic alerts", "Late and manual reports", "Frequent human errors"], after: ["Complete automation", "Optimal stock at all times", "Smart real-time alerts", "Instant reports", "99.9% accuracy"] } },
-        screenshots: { desc: "Explore the real Inventrack interface", caption: { title: ["🔐 Secure Login", "📊 Admin Dashboard", "👤 Employee Dashboard", "📈 Real-Time Reports"], desc: ["Protected access with user authentication", "Complete view of inventory and movements", "Daily management of inputs and outputs", "Detailed analysis of your inventory"] } },
-        role: { name: ["Administrator", "Manager", "Operator"], desc: ["Full system control", "Supervision and analysis", "Daily management"], permissions: ["Full user management", "System configuration", "Access to all modules", "Advanced reports", "View full inventory", "Generate reports", "Approve movements", "Manage alerts", "Record inputs/outputs", "Check stock", "View basic alerts", "Limited reports"] },
-        feature: { name: ["Real-Time Dashboard", "Automatic Alerts", "Custom Reports", "Barcode", "Complete History", "Multi-Device", "Advanced Security", "Integrations"], desc: ["View your inventory status instantly with interactive charts", "Receive notifications when stock reaches critical levels", "Generate detailed reports in PDF or Excel according to your needs", "Scan products for quick and error-free registration", "Audit of all movements with date and user", "Access from anywhere: PC, tablet, or mobile", "Data encryption and automatic backups", "Connect with your accounting system and sales platforms"] },
-        testimonial: { text: '"Inventrack completely transformed our inventory management. We now have full control and have reduced losses by 40%"', author: { name: "Maria Rodriguez", role: "Operations Manager - TechStore" } },
-        demo: { subtitle: "Explore all features with no commitment. Use these test credentials:", credentials: { label: ["👤 User:", "🔑 Password:", "🔐 Role:", "👤 User:", "🔑 Password:", "🔐 Role:"], role: ["Administrator", "Employee"] } },
-        contact: { form: { label: ["Full Name", "Email", "Company", "Message"], placeholder: ["// Enter your name", "// Enter your email", "// Company name (optional)", "// Tell us about your needs"] } },
-        cta: { subtitle: "Join hundreds of companies that already trust Inventrack to manage their inventory intelligently." },
-        footer: { desc: "Intelligent inventory management system for modern businesses.", section: { title: ["Product", "Company", "Support"], link: { text: ["Features", "Demo", "Pricing", "Integrations", "About Us", "Blog", "Careers", "Contact", "Help Center", "Documentation", "API", "Service Status"] } }, copyright: "&copy; 2024 Inventrack. All rights reserved.", legal: ["Terms of Service", "Privacy Policy"] }
-      },
-      de: {
-        nav: { tech: "Technologien", experience: "Erfahrung", comparison: "Vergleich", roles: "Rollen", features: "Funktionen", demo: "Demo", contact: "Kontakt" },
-        btn: { seeDemo: "Demo ansehen", bookDemo: "Demo buchen", accessDemo: "Auf Demo zugreifen", schedulePresentation: "Präsentation planen", viewDemoNow: "Demo jetzt ansehen", sendMessage: "Nachricht senden" },
-        section: { title: { tech: "Technologien", experience: "Erfahrung", comparison: "Vorher vs. Nachher Inventrack", screenshots: "Screenshots", roles: "Rollen und Berechtigungen", features: "Hauptfunktionen", testimonials: "Was unsere Kunden sagen", demo: "Testen Sie die Demo", contact: "Kontaktieren Sie uns", cta: "Bereit, Ihr Inventar zu optimieren?" } },
-        comparison: { before: "Vorher", after: "Nachher", text: { before: ["Manuelle Kontrolle in Tabellenkalkulationen", "Verluste durch Fehlbestände", "Keine automatischen Warnungen", "Späte und manuelle Berichte", "Häufige menschliche Fehler"], after: ["Vollständige Automatisierung", "Optimaler Bestand zu jeder Zeit", "Intelligente Echtzeit-Warnungen", "Sofortige Berichte", "99,9 % Genauigkeit"] } },
-        screenshots: { desc: "Entdecken Sie die echte Inventrack-Oberfläche", caption: { title: ["🔐 Sicheres Login", "📊 Admin-Dashboard", "👤 Mitarbeiter-Dashboard", "📈 Echtzeit-Berichte"], desc: ["Geschützter Zugriff mit Benutzerauthentifizierung", "Vollständige Übersicht über Bestand und Bewegungen", "Tägliche Verwaltung von Eingängen und Ausgängen", "Detaillierte Analyse Ihres Bestands"] } },
-        role: { name: ["Administrator", "Manager", "Operator"], desc: ["Vollständige Systemkontrolle", "Aufsicht und Analyse", "Tägliche Verwaltung"], permissions: ["Vollständige Benutzerverwaltung", "Systemkonfiguration", "Zugriff auf alle Module", "Erweiterte Berichte", "Vollständigen Bestand anzeigen", "Berichte generieren", "Bewegungen genehmigen", "Warnungen verwalten", "Eingänge/Ausgänge erfassen", "Bestand prüfen", "Grundlegende Warnungen anzeigen", "Eingeschränkte Berichte"] },
-        feature: { name: ["Echtzeit-Dashboard", "Automatische Warnungen", "Benutzerdefinierte Berichte", "Barcode", "Vollständiger Verlauf", "Multi-Device", "Erweiterte Sicherheit", "Integrationen"], desc: ["Sehen Sie sich Ihren Bestandsstatus sofort mit interaktiven Diagrammen an", "Erhalten Sie Benachrichtigungen, wenn der Bestand kritische Werte erreicht", "Generieren Sie detaillierte Berichte im PDF- oder Excel-Format nach Ihren Anforderungen", "Scannen Sie Produkte für eine schnelle und fehlerfreie Registrierung", "Audit aller Bewegungen mit Datum und Benutzer", "Zugriff von überall: PC, Tablet oder Mobilgerät", "Datenverschlüsselung und automatische Backups", "Anbindung an Ihr Buchhaltungssystem und Verkaufsplattformen"] },
-        testimonial: { text: '"Inventrack hat unser Bestandsmanagement komplett verändert. Wir haben jetzt die vollständige Kontrolle und die Verluste um 40 % reduziert"', author: { name: "Maria Rodriguez", role: "Operations Manager - TechStore" } },
-        demo: { subtitle: "Entdecken Sie alle Funktionen ohne Verpflichtung. Nutzen Sie diese Testzugangsdaten:", credentials: { label: ["👤 Benutzer:", "🔑 Passwort:", "🔐 Rolle:", "👤 Benutzer:", "🔑 Passwort:", "🔐 Rolle:"], role: ["Administrator", "Mitarbeiter"] } },
-        contact: { form: { label: ["Vollständiger Name", "E-Mail", "Firma", "Nachricht"], placeholder: ["// Geben Sie Ihren Namen ein", "// Geben Sie Ihre E-Mail-Adresse ein", "// Firmenname (optional)", "// Sagen Sie uns etwas über Ihre Anforderungen"] } },
-        cta: { subtitle: "Schließen Sie sich Hunderten von Unternehmen an, die bereits Inventrack vertrauen, um ihr Inventar intelligent zu verwalten." },
-        footer: { desc: "Intelligentes Bestandsverwaltungssystem für moderne Unternehmen.", section: { title: ["Produkt", "Unternehmen", "Support"], link: { text: ["Funktionen", "Demo", "Preise", "Integrationen", "Über uns", "Blog", "Karriere", "Kontakt", "Hilfezentrum", "Dokumentation", "API", "Service-Status"] } }, copyright: "&copy; 2024 Inventrack. Alle Rechte vorbehalten.", legal: ["Nutzungsbedingungen", "Datenschutzbestimmungen"] }
-      },
-      it: {
-        nav: { tech: "Tecnologie", experience: "Esperienza", comparison: "Confronto", roles: "Ruoli", features: "Funzionalità", demo: "Demo", contact: "Contatto" },
-        btn: { seeDemo: "Vedi Demo", bookDemo: "Prenota Demo", accessDemo: "Accedi alla Demo", schedulePresentation: "Pianifica Presentazione", viewDemoNow: "Guarda Demo Ora", sendMessage: "Invia Messaggio" },
-        section: { title: { tech: "Tecnologie", experience: "Esperienza", comparison: "Prima e Dopo Inventrack", screenshots: "Screenshot", roles: "Ruoli e Permessi", features: "Funzionalità Principali", testimonials: "Cosa dicono i nostri clienti", demo: "Prova la Demo", contact: "Contattaci", cta: "Pronto a ottimizzare il tuo inventario?" } },
-        comparison: { before: "Prima", after: "Dopo", text: { before: ["Controllo manuale sui fogli di calcolo", "Perdite per mancanza di stock", "Nessun avviso automatico", "Rapporti tardivi e manuali", "Errori umani frequenti"], after: ["Automazione completa", "Stock ottimale in ogni momento", "Avvisi intelligenti in tempo reale", "Rapporti istantanei", "Precisione del 99,9%"] } },
-        screenshots: { desc: "Esplora l'interfaccia reale di Inventrack", caption: { title: ["🔐 Login Sicuro", "📊 Dashboard Admin", "👤 Dashboard Dipendente", "📈 Report in Tempo Reale"], desc: ["Accesso protetto con autenticazione utente", "Vista completa dell'inventario e dei movimenti", "Gestione quotidiana di entrate e uscite", "Analisi dettagliata del tuo inventario"] } },
-        role: { name: ["Amministratore", "Manager", "Operatore"], desc: ["Controllo completo del sistema", "Supervisione e analisi", "Gestione quotidiana"], permissions: ["Gestione completa degli utenti", "Configurazione del sistema", "Accesso a tutti i moduli", "Report avanzati", "Visualizza inventario completo", "Genera report", "Approva movimenti", "Gestisci avvisi", "Registra entrate/uscite", "Controlla stock", "Visualizza avvisi di base", "Report limitati"] },
-        feature: { name: ["Dashboard in Tempo Reale", "Avvisi Automatici", "Report Personalizzati", "Codice a Barre", "Storico Completo", "Multi-Dispositivo", "Sicurezza Avanzata", "Integrazioni"], desc: ["Visualizza immediatamente lo stato del tuo inventario con grafici interattivi", "Ricevi notifiche quando lo stock raggiunge livelli critici", "Genera report dettagliati in PDF o Excel secondo le tue esigenze", "Scansiona prodotti per una registrazione rapida e senza errori", "Audit di tutti i movimenti con data e utente", "Accesso da qualsiasi luogo: PC, tablet o cellulare", "Crittografia dei dati e backup automatici", "Connettiti al tuo sistema contabile e piattaforme di vendita"] },
-        testimonial: { text: '"Inventrack ha completamente trasformato la nostra gestione dell\'inventario. Ora abbiamo il controllo totale e abbiamo ridotto le perdite del 40%"', author: { name: "Maria Rodriguez", role: "Responsabile Operazioni - TechStore" } },
-        demo: { subtitle: "Scopri tutte le funzionalità senza impegno. Usa queste credenziali di prova:", credentials: { label: ["👤 Utente:", "🔑 Password:", "🔐 Ruolo:", "👤 Utente:", "🔑 Password:", "🔐 Ruolo:"], role: ["Amministratore", "Dipendente"] } },
-        contact: { form: { label: ["Nome Completo", "Email", "Azienda", "Messaggio"], placeholder: ["// Inserisci il tuo nome", "// Inserisci la tua email", "// Nome azienda (opzionale)", "// Raccontaci delle tue esigenze"] } },
-        cta: { subtitle: "Unisciti a centinaia di aziende che già si affidano a Inventrack per gestire intelligentemente il loro inventario." },
-        footer: { desc: "Sistema di gestione inventario intelligente per aziende moderne.", section: { title: ["Prodotto", "Azienda", "Supporto"], link: { text: ["Funzionalità", "Demo", "Prezzi", "Integrazioni", "Chi siamo", "Blog", "Lavora con noi", "Contatto", "Centro assistenza", "Documentazione", "API", "Stato del servizio"] } }, copyright: "&copy; 2024 Inventrack. Tutti i diritti riservati.", legal: ["Termini di Servizio", "Informativa sulla Privacy"] }
-      },
-      fr: {
-        nav: { tech: "Technologies", experience: "Expérience", comparison: "Comparaison", roles: "Rôles", features: "Fonctionnalités", demo: "Démo", contact: "Contact" },
-        btn: { seeDemo: "Voir la Démo", bookDemo: "Réserver une Démo", accessDemo: "Accéder à la Démo", schedulePresentation: "Planifier une Présentation", viewDemoNow: "Voir la Démo Maintenant", sendMessage: "Envoyer le Message" },
-        section: { title: { tech: "Technologies", experience: "Expérience", comparison: "Avant / Après Inventrack", screenshots: "Captures d'écran", roles: "Rôles et Permissions", features: "Fonctionnalités Clés", testimonials: "Ce que disent nos clients", demo: "Essayez la Démo", contact: "Contactez-nous", cta: "Prêt à optimiser votre inventaire ?" } },
-        comparison: { before: "Avant", after: "Après", text: { before: ["Contrôle manuel sur feuilles de calcul", "Pertes dues aux ruptures de stock", "Aucune alerte automatique", "Rapports tardifs et manuels", "Erreurs humaines fréquentes"], after: ["Automatisation complète", "Stock optimal en permanence", "Alertes intelligentes en temps réel", "Rapports instantanés", "Précision à 99,9 %"] } },
-        screenshots: { desc: "Explorez l'interface réelle d'Inventrack", caption: { title: ["🔐 Connexion Sécurisée", "📊 Tableau de Bord Admin", "👤 Tableau de Bord Employé", "📈 Rapports en Temps Réel"], desc: ["Accès protégé avec authentification des utilisateurs", "Vue complète de l'inventaire et des mouvements", "Gestion quotidienne des entrées et sorties", "Analyse détaillée de votre inventaire"] } },
-        role: { name: ["Administrateur", "Gestionnaire", "Opérateur"], desc: ["Contrôle total du système", "Supervision et analyse", "Gestion quotidienne"], permissions: ["Gestion complète des utilisateurs", "Configuration du système", "Accès à tous les modules", "Rapports avancés", "Voir l'inventaire complet", "Générer des rapports", "Approuver les mouvements", "Gérer les alertes", "Enregistrer les entrées/sorties", "Consulter le stock", "Voir les alertes de base", "Rapports limités"] },
-        feature: { name: ["Tableau de Bord en Temps Réel", "Alertes Automatiques", "Rapports Personnalisés", "Code-barres", "Historique Complet", "Multi-appareil", "Sécurité Avancée", "Intégrations"], desc: ["Visualisez instantanément l'état de votre inventaire avec des graphiques interactifs", "Recevez des notifications lorsque le stock atteint des niveaux critiques", "Générez des rapports détaillés en PDF ou Excel selon vos besoins", "Scannez des produits pour un enregistrement rapide et sans erreur", "Audit de tous les mouvements avec date et utilisateur", "Accédez depuis n'importe où : PC, tablette ou mobile", "Chiffrement des données et sauvegardes automatiques", "Connectez-vous à votre système comptable et plateformes de vente"] },
-        testimonial: { text: '"Inventrack a complètement transformé notre gestion des stocks. Nous avons maintenant un contrôle total et avons réduit les pertes de 40 %"', author: { name: "Maria Rodriguez", role: "Responsable des Opérations - TechStore" } },
-        demo: { subtitle: "Explorez toutes les fonctionnalités sans engagement. Utilisez ces identifiants de test :", credentials: { label: ["👤 Utilisateur :", "🔑 Mot de passe :", "🔐 Rôle :", "👤 Utilisateur :", "🔑 Mot de passe :", "🔐 Rôle :"], role: ["Administrateur", "Employé"] } },
-        contact: { form: { label: ["Nom Complet", "Email", "Entreprise", "Message"], placeholder: ["// Entrez votre nom", "// Entrez votre email", "// Nom de l'entreprise (facultatif)", "// Parlez-nous de vos besoins"] } },
-        cta: { subtitle: "Rejoignez des centaines d'entreprises qui font déjà confiance à Inventrack pour gérer intelligemment leur inventaire." },
-        footer: { desc: "Système de gestion d'inventaire intelligent pour les entreprises modernes.", section: { title: ["Produit", "Entreprise", "Support"], link: { text: ["Fonctionnalités", "Démo", "Tarifs", "Intégrations", "À propos de nous", "Blog", "Carrières", "Contact", "Centre d'aide", "Documentation", "API", "État du service"] } }, copyright: "&copy; 2024 Inventrack. Tous droits réservés.", legal: ["Conditions d'utilisation", "Politique de confidentialité"] }
-      },
-      zh: {
-        nav: { tech: "技术", experience: "经验", comparison: "比较", roles: "角色", features: "功能", demo: "演示", contact: "联系" },
-        btn: { seeDemo: "查看演示", bookDemo: "预约演示", accessDemo: "访问演示", schedulePresentation: "安排演示", viewDemoNow: "立即查看演示", sendMessage: "发送消息" },
-        section: { title: { tech: "技术", experience: "经验", comparison: "Inventrack 前后对比", screenshots: "截图", roles: "角色和权限", features: "主要功能", testimonials: "客户评价", demo: "试用演示", contact: "联系我们", cta: "准备好优化您的库存了吗？" } },
-        comparison: { before: "之前", after: "之后", text: { before: ["在电子表格中手动控制", "因缺货造成的损失", "没有自动警报", "延迟且手动的报告", "频繁的人为错误"], after: ["完全自动化", "始终维持最佳库存", "智能实时警报", "即时报告", "99.9% 的准确率"] } },
-        screenshots: { desc: "探索真实的 Inventrack 界面", caption: { title: ["🔐 安全登录", "📊 管理员仪表板", "👤 员工仪表板", "📈 实时报告"], desc: ["使用用户身份验证的受保护访问", "库存和移动的完整视图", "日常出入库管理", "您库存的详细分析"] } },
-        role: { name: ["管理员", "经理", "操作员"], desc: ["完全系统控制", "监督和分析", "日常管理"], permissions: ["完整用户管理", "系统配置", "访问所有模块", "高级报告", "查看完整库存", "生成报告", "批准移动", "管理警报", "记录出入库", "检查库存", "查看基本警报", "有限报告"] },
-        feature: { name: ["实时仪表板", "自动警报", "自定义报告", "条形码", "完整历史记录", "多设备", "高级安全", "集成"], desc: ["使用交互式图表即时查看您的库存状态", "当库存达到临界水平时接收通知", "根据您的需要生成 PDF 或 Excel 详细报告", "扫描产品以快速无误地注册", "所有移动的审计，带有日期和用户", "随时随地访问：PC、平板电脑或手机", "数据加密和自动备份", "连接到您的会计系统和销售平台"] },
-        testimonial: { text: '"Inventrack 完全改变了我们的库存管理。我们现在有了完全的控制权，并将损失减少了 40%"', author: { name: "Maria Rodriguez", role: "运营经理 - TechStore" } },
-        demo: { subtitle: "免费探索所有功能。使用这些测试凭据：", credentials: { label: ["👤 用户：", "🔑 密码：", "🔐 角色：", "👤 用户：", "🔑 密码：", "🔐 角色："], role: ["管理员", "员工"] } },
-        contact: { form: { label: ["全名", "邮箱", "公司", "消息"], placeholder: ["// 输入您的姓名", "// 输入您的邮箱", "// 公司名称（可选）", "// 告诉我们您的需求"] } },
-        cta: { subtitle: "加入数百家已经信任 Inventrack 来智能管理其库存的公司。" },
-        footer: { desc: "面向现代企业的智能库存管理系统。", section: { title: ["产品", "公司", "支持"], link: { text: ["功能", "演示", "价格", "集成", "关于我们", "博客", "招聘", "联系", "帮助中心", "文档", "API", "服务状态"] } }, copyright: "&copy; 2024 Inventrack. 保留所有权利。", legal: ["服务条款", "隐私政策"] }
-      },
-      ru: {
-        nav: { tech: "Технологии", experience: "Опыт", comparison: "Сравнение", roles: "Роли", features: "Функции", demo: "Демо", contact: "Контакт" },
-        btn: { seeDemo: "Посмотреть демо", bookDemo: "Забронировать демо", accessDemo: "Доступ к демо", schedulePresentation: "Запланировать презентацию", viewDemoNow: "Посмотреть демо сейчас", sendMessage: "Отправить сообщение" },
-        section: { title: { tech: "Технологии", experience: "Опыт", comparison: "До и после Inventrack", screenshots: "Скриншоты", roles: "Роли и разрешения", features: "Ключевые функции", testimonials: "Отзывы наших клиентов", demo: "Попробуйте демо", contact: "Свяжитесь с нами", cta: "Готовы оптимизировать свой инвентарь?" } },
-        comparison: { before: "До", after: "После", text: { before: ["Ручной контроль в электронных таблицах", "Потери из-за отсутствия на складе", "Нет автоматических оповещений", "Поздние и ручные отчеты", "Частые человеческие ошибки"], after: ["Полная автоматизация", "Оптимальный запас всегда", "Умные оповещения в реальном времени", "Мгновенные отчеты", "Точность 99,9%"] } },
-        screenshots: { desc: "Исследуйте реальный интерфейс Inventrack", caption: { title: ["🔐 Безопасный вход", "📊 Панель администратора", "👤 Панель сотрудника", "📈 Отчеты в реальном времени"], desc: ["Защищенный доступ с аутентификацией пользователей", "Полный обзор инвентаря и движений", "Ежедневное управление поступлениями и отгрузками", "Детальный анализ вашего инвентаря"] } },
-        role: { name: ["Администратор", "Менеджер", "Оператор"], desc: ["Полный контроль над системой", "Надзор и анализ", "Ежедневное управление"], permissions: ["Полное управление пользователями", "Конфигурация системы", "Доступ ко всем модулям", "Расширенные отчеты", "Просмотр полного инвентаря", "Создание отчетов", "Утверждение движений", "Управление оповещениями", "Запись поступлений/отгрузок", "Проверка остатков", "Просмотр базовых оповещений", "Ограниченные отчеты"] },
-        feature: { name: ["Панель управления в реальном времени", "Автоматические оповещения", "Пользовательские отчеты", "Штрих-код", "Полная история", "Многоустройственность", "Расширенная безопасность", "Интеграции"], desc: ["Мгновенно просматривайте состояние инвентаря с помощью интерактивных диаграмм", "Получайте уведомления, когда уровень запасов достигает критического уровня", "Создавайте подробные отчеты в формате PDF или Excel в соответствии с вашими потребностями", "Сканируйте продукты для быстрой и безошибочной регистрации", "Аудит всех движений с датой и пользователем", "Доступ из любого места: ПК, планшет или мобильный телефон", "Шифрование данных и автоматические резервные копии", "Подключение к вашей бухгалтерской системе и платформам продаж"] },
-        testimonial: { text: '"Inventrack полностью изменил наше управление инвентарем. Теперь у нас полный контроль, и мы сократили потери на 40%"', author: { name: "Мария Родригес", role: "Менеджер по операциям - TechStore" } },
-        demo: { subtitle: "Изучите все функции без обязательств. Используйте эти тестовые учетные данные:", credentials: { label: ["👤 Пользователь:", "🔑 Пароль:", "🔐 Роль:", "👤 Пользователь:", "🔑 Пароль:", "🔐 Роль:"], role: ["Администратор", "Сотрудник"] } },
-        contact: { form: { label: ["Полное имя", "Электронная почта", "Компания", "Сообщение"], placeholder: ["// Введите ваше имя", "// Введите вашу электронную почту", "// Название компании (необязательно)", "// Расскажите нам о своих потребностях"] } },
-        cta: { subtitle: "Присоединяйтесь к сотням компаний, которые уже доверяют Inventrack для интеллектуального управления инвентарем." },
-        footer: { desc: "Интеллектуальная система управления инвентарем для современных предприятий.", section: { title: ["Продукт", "Компания", "Поддержка"], link: { text: ["Функции", "Демо", "Цены", "Интеграции", "О нас", "Блог", "Вакансии", "Контакт", "Справочный центр", "Документация", "API", "Состояние сервиса"] } }, copyright: "&copy; 2024 Inventrack. Все права защищены.", legal: ["Условия предоставления услуг", "Политика конфиденциальности"] }
-      }
-    };
-
-    let currentLang = 'es'; // Idioma por defecto
-
-    // --- Funciones de Traducción ---
-    function translateText() {
-        const elements = document.querySelectorAll('[data-translate]');
-        elements.forEach(el => {
-            const key = el.getAttribute('data-translate');
-            const keys = key.split('.');
-            let translation = translations[currentLang];
-            for (let k of keys) {
-                translation = translation[k];
-                if (translation === undefined) break;
-            }
-            if (translation !== undefined) {
-                el.textContent = translation;
-            }
-        });
-
-        // Actualizar textos en elementos específicos que no usan data-translate
-        document.querySelectorAll('.nav-text').forEach((el, index) => {
-            const keys = ['tech', 'experience', 'comparison', 'roles', 'features', 'demo', 'contact'];
-            if (translations[currentLang].nav[keys[index]]) {
-                el.textContent = translations[currentLang].nav[keys[index]];
-            }
-        });
-        document.querySelectorAll('.btn-text').forEach((el, index) => {
-            const keys = ['seeDemo', 'bookDemo', 'accessDemo', 'schedulePresentation', 'viewDemoNow', 'sendMessage'];
-            if (translations[currentLang].btn[keys[index]]) {
-                el.textContent = translations[currentLang].btn[keys[index]];
-            }
-        });
-        // Similar para otras secciones...
-        // Sección de Comparación
-        const comparisonTitles = document.querySelectorAll('.comparison-title');
-        comparisonTitles[0].textContent = translations[currentLang].comparison.before;
-        comparisonTitles[1].textContent = translations[currentLang].comparison.after;
-        const comparisonTexts = document.querySelectorAll('.comparison-text');
-        for (let i = 0; i < comparisonTexts.length; i++) {
-            comparisonTexts[i].textContent = translations[currentLang].comparison.text.before[i] || translations[currentLang].comparison.text.after[i - 5];
-        }
-        // Sección de Screenshots
-        document.querySelector('.screenshots-desc').textContent = translations[currentLang].screenshots.desc;
-        const captionTitles = document.querySelectorAll('.carousel-caption-title');
-        for (let i = 0; i < captionTitles.length; i++) {
-            captionTitles[i].textContent = translations[currentLang].screenshots.caption.title[i];
-        }
-        const captionDescs = document.querySelectorAll('.carousel-caption-desc');
-        for (let i = 0; i < captionDescs.length; i++) {
-            captionDescs[i].textContent = translations[currentLang].screenshots.caption.desc[i];
-        }
-        // Sección de Roles
-        const roleNames = document.querySelectorAll('.role-name');
-        for (let i = 0; i < roleNames.length; i++) {
-            roleNames[i].textContent = translations[currentLang].role.name[i];
-        }
-        const roleDescs = document.querySelectorAll('.role-desc');
-        for (let i = 0; i < roleDescs.length; i++) {
-            roleDescs[i].textContent = translations[currentLang].role.desc[i];
-        }
-        const permissions = document.querySelectorAll('.permission-text');
-        for (let i = 0; i < permissions.length; i++) {
-            permissions[i].textContent = translations[currentLang].role.permissions[i];
-        }
-        // Sección de Features
-        const featureNames = document.querySelectorAll('.feature-name');
-        for (let i = 0; i < featureNames.length; i++) {
-            featureNames[i].textContent = translations[currentLang].feature.name[i];
-        }
-        const featureDescTexts = document.querySelectorAll('.feature-desc-text');
-        for (let i = 0; i < featureDescTexts.length; i++) {
-            featureDescTexts[i].textContent = translations[currentLang].feature.desc[i];
-        }
-        // Sección de Testimonials
-        document.querySelector('.testimonial-text').textContent = translations[currentLang].testimonial.text;
-        document.querySelector('.testimonial-author-name').textContent = translations[currentLang].testimonial.author.name;
-        document.querySelector('.testimonial-author-role').textContent = translations[currentLang].testimonial.author.role;
-        // Sección de Demo
-        document.querySelector('.demo-section-subtitle').textContent = translations[currentLang].demo.subtitle;
-        const credLabels = document.querySelectorAll('.demo-credentials-label');
-        for (let i = 0; i < credLabels.length; i++) {
-            credLabels[i].textContent = translations[currentLang].demo.credentials.label[i];
-        }
-        const credRoles = document.querySelectorAll('.demo-credentials-role');
-        for (let i = 0; i < credRoles.length; i++) {
-            credRoles[i].textContent = translations[currentLang].demo.credentials.role[i];
-        }
-        // Sección de Contacto
-        const formLabels = document.querySelectorAll('.form-label');
-        for (let i = 0; i < formLabels.length; i++) {
-            formLabels[i].textContent = translations[currentLang].contact.form.label[i];
-        }
-        const placeholders = document.querySelectorAll('input, textarea');
-        for (let i = 0; i < placeholders.length; i++) {
-             if (placeholders[i].placeholder && placeholders[i].placeholder.startsWith('//')) {
-                 placeholders[i].placeholder = translations[currentLang].contact.form.placeholder[i];
-             }
-        }
-        // Sección CTA
-        document.querySelector('.cta-section-subtitle').textContent = translations[currentLang].cta.subtitle;
-        // Footer
-        document.querySelector('.footer-desc').textContent = translations[currentLang].footer.desc;
-        const footerSectionTitles = document.querySelectorAll('.footer-section-title');
-        for (let i = 0; i < footerSectionTitles.length; i++) {
-            footerSectionTitles[i].textContent = translations[currentLang].footer.section.title[i];
-        }
-        const footerLinkTexts = document.querySelectorAll('.footer-link-text');
-        for (let i = 0; i < footerLinkTexts.length; i++) {
-            footerLinkTexts[i].textContent = translations[currentLang].footer.section.link.text[i];
-        }
-        document.querySelector('.footer-copyright').innerHTML = translations[currentLang].footer.copyright;
-        const footerLegals = document.querySelectorAll('.footer-legal');
-        for (let i = 0; i < footerLegals.length; i++) {
-            footerLegals[i].textContent = translations[currentLang].footer.legal[i];
-        }
-        // Actualizar títulos de secciones
-        document.querySelectorAll('.section-title-text').forEach(el => {
-            const sectionId = el.closest('section').id;
-            if (translations[currentLang].section.title[sectionId]) {
-                el.textContent = translations[currentLang].section.title[sectionId];
-            }
-        });
-        // Actualizar títulos de trabajos en Experiencia
-        const jobTitles = document.querySelectorAll('.job-title');
-        for (let i = 0; i < jobTitles.length; i++) {
-            jobTitles[i].textContent = translations[currentLang].role.name[i]; // Reutiliza nombres de roles como ejemplo, cambia si es necesario
-        }
-        // Actualizar fechas de trabajos en Experiencia
-        const jobDates = document.querySelectorAll('.job-date');
-        for (let i = 0; i < jobDates.length; i++) {
-            jobDates[i].textContent = translations[currentLang].comparison.text.before[i]; // Reutiliza texto de comparación como ejemplo, cambia si es necesario
-        }
-        // Actualizar descripciones de trabajos en Experiencia
-        const jobDescs = document.querySelectorAll('.job-desc');
-        for (let i = 0; i < jobDescs.length; i++) {
-            jobDescs[i].textContent = translations[currentLang].feature.desc[i]; // Reutiliza descripción de funcionalidad como ejemplo, cambia si es necesario
-        }
-    }
-
-
     // --- Preloader ---
     window.addEventListener('load', () => {
       setTimeout(() => {
@@ -1955,19 +1760,6 @@
         themeIcon.classList.remove('fa-sun');
         themeIcon.classList.add('fa-moon');
       }
-    });
-
-    // --- Language Switcher ---
-    document.querySelectorAll('.lang-selector img').forEach(img => {
-      img.addEventListener('click', () => {
-        const newLang = img.getAttribute('data-lang');
-        if (newLang && newLang !== currentLang) {
-          currentLang = newLang;
-          translateText();
-          // Opcional: guardar preferencia en localStorage
-          // localStorage.setItem('preferredLanguage', newLang);
-        }
-      });
     });
 
     // --- Carousel ---
@@ -2097,30 +1889,24 @@
     `;
     document.head.appendChild(style);
 
-    // --- AI Robot ---
+    // --- AI Robot Modal ---
     const aiRobot = document.getElementById('aiRobot');
-    let robotMoving = true;
-    let robotInterval;
-
-    function moveRobot() {
-        if (!robotMoving) return;
-        const x = Math.random() * (window.innerWidth - 50);
-        const y = Math.random() * (window.innerHeight - 50);
-        aiRobot.style.bottom = `${y}px`;
-        aiRobot.style.right = `${x}px`;
-    }
-
-    robotInterval = setInterval(moveRobot, 5000); // Mover cada 5 segundos
+    const aiModal = document.getElementById('aiModal');
+    const aiModalClose = document.querySelector('.ai-modal-close');
 
     aiRobot.addEventListener('click', () => {
-        robotMoving = false;
-        clearInterval(robotInterval);
-        aiRobot.classList.add('greeting');
-        setTimeout(() => {
-            aiRobot.classList.remove('greeting');
-            robotMoving = true;
-            robotInterval = setInterval(moveRobot, 5000);
-        }, 1500); // Duración del saludo
+        aiModal.style.display = 'block';
+    });
+
+    aiModalClose.addEventListener('click', () => {
+        aiModal.style.display = 'none';
+    });
+
+    // Cerrar el modal si se hace clic fuera del contenido
+    window.addEventListener('click', (event) => {
+        if (event.target === aiModal) {
+            aiModal.style.display = 'none';
+        }
     });
 
   </script>
