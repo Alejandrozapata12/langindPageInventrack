@@ -1083,83 +1083,7 @@
       }
     }
 
-    /* Estilo para el robot AI */
-    #aiRobot {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 50px;
-        height: 50px;
-        z-index: 1000;
-        cursor: pointer;
-        transition: transform 0.3s ease;
-    }
-    #aiRobot:hover {
-        transform: scale(1.1);
-    }
-
-    /* Modal del bot de AI */
-    .ai-modal {
-        display: none; /* Oculto por defecto */
-        position: fixed;
-        z-index: 1001; /* Asegura que esté por encima de otros elementos */
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
-        backdrop-filter: blur(5px);
-    }
-    .ai-modal-content {
-        background-color: var(--card-bg);
-        margin: 15% auto;
-        padding: 2rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        width: 80%;
-        max-width: 500px;
-        border-radius: 10px;
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(10px);
-        position: relative;
-    }
-    .ai-modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-    .ai-modal-title {
-        font-size: 1.5rem;
-        color: var(--accent);
-        margin: 0;
-    }
-    .ai-modal-close {
-        color: var(--light);
-        font-size: 1.5rem;
-        font-weight: bold;
-        cursor: pointer;
-        background: none;
-        border: none;
-        transition: color var(--transition-speed) var(--transition-ease);
-    }
-    .ai-modal-close:hover {
-        color: var(--red);
-    }
-    .ai-modal-body {
-        color: var(--light);
-        line-height: 1.6;
-    }
-    .ai-modal-body p {
-        margin-bottom: 1rem;
-    }
-    .ai-modal-body a {
-        color: var(--accent);
-        text-decoration: none;
-    }
-    .ai-modal-body a:hover {
-        text-decoration: underline;
-    }
-
+  
   </style>
 </head>
 <body>
@@ -1173,36 +1097,6 @@
     <div class="particle"></div>
     <div class="particle"></div>
     <div class="particle"></div>
-  </div>
-
-  <!-- Robot AI Animado -->
-  <div id="aiRobot" title="Asistente AI">
-    <i class="fas fa-robot" style="font-size: 50px; color: var(--accent);"></i>
-  </div>
-
-  <!-- Modal del Bot de AI -->
-  <div id="aiModal" class="ai-modal">
-    <div class="ai-modal-content">
-      <div class="ai-modal-header">
-        <h2 class="ai-modal-title">¿Cómo puedo ayudarte hoy?</h2>
-        <button class="ai-modal-close">&times;</button>
-      </div>
-      <div class="ai-modal-body">
-        <p>Hola, soy tu asistente virtual. Puedo ayudarte con información sobre Inventrack y cómo contactarnos.</p>
-        <p><strong>Funcionamiento del Software:</strong></p>
-        <ul>
-          <li>Para ver las funcionalidades, puedes acceder a la <a href="#demo">sección de demo</a> y probarla con las credenciales proporcionadas.</li>
-          <li>Consulta la <a href="#features">sección de características</a> para ver una lista detallada de lo que puede hacer Inventrack.</li>
-          <li>Explora las <a href="#roles">diferentes funciones</a> disponibles para Administrador, Gerente y Operador.</li>
-        </ul>
-        <p><strong>Contacto:</strong></p>
-        <ul>
-          <li>Puedes contactarnos directamente usando el <a href="#contact">formulario de contacto</a> en esta página.</li>
-          <li>También puedes agendar una demo personalizada desde la sección <a href="#demo">demo</a>.</li>
-        </ul>
-        <p>¿Necesitas más información? No dudes en escribirnos.</p>
-      </div>
-    </div>
   </div>
 
   <!-- Navbar -->
@@ -1255,7 +1149,7 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <img src="https://via.placeholder.com/150" alt="Tu Foto Personal" class="profile-photo"> <!-- Reemplaza con tu foto -->
+      <img src="images/Captura de pantalla_12-1-2026_135759_alejandrozapata12.github.io.jpeg" alt="photo" class="profile-photo"> <!-- Reemplaza con tu foto -->
       <h1 class="hero-title">Inventrack</h1>
       <p class="hero-subtitle">Sistema de Gestión de Inventario Inteligente diseñado para equipos pequeños y medianos. Controla entradas, salidas, alertas y reportes en tiempo real.</p>
       <div class="hero-buttons">
@@ -1883,26 +1777,6 @@
       }
     `;
     document.head.appendChild(style);
-
-    // --- AI Robot Modal ---
-    const aiRobot = document.getElementById('aiRobot');
-    const aiModal = document.getElementById('aiModal');
-    const aiModalClose = document.querySelector('.ai-modal-close');
-
-    aiRobot.addEventListener('click', () => {
-        aiModal.style.display = 'block';
-    });
-
-    aiModalClose.addEventListener('click', () => {
-        aiModal.style.display = 'none';
-    });
-
-    // Cerrar el modal si se hace clic fuera del contenido
-    window.addEventListener('click', (event) => {
-        if (event.target === aiModal) {
-            aiModal.style.display = 'none';
-        }
-    });
 
   </script>
 </body>
