@@ -1,307 +1,159 @@
-// --- Preloader ---
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.querySelector('.preloader').classList.add('hidden');
-      }, 1000);
-    });
+// --- 1. Sistema de Toasts (Notificaciones) ---
+        const toastContainer = document.getElementById('toast-container');
+        
+        function showToast(message, type = 'info') {
+            const colors = {
+                success: 'bg-green-600',
+                error: 'bg-red-600',
+                info: 'bg-brand-600'
+            };
+            const icons = {
+                success: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>',
+                error: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>',
+                info: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>'
+            };
 
-    // --- Scroll animations ---
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
-    };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+            const toast = document.createElement('div');
+            toast.className = `${colors[type]} text-white rounded-xl shadow-2xl p-4 pr-6 flex items-center space-x-3 animate-slide-in-right min-w-[280px] max-w-sm`;
+            toast.innerHTML = `
+                <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">${icons[type]}</svg>
+                <p class="font-medium text-sm">${message}</p>
+            `;
+            
+            toastContainer.appendChild(toast);
+
+            // Remover después de 4 segundos
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
         }
-      });
-    }, observerOptions);
-    document.querySelectorAll('.fade-in').forEach(el => {
-      observer.observe(el);
-    });
 
-    // --- Navbar scroll effect ---
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 100) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    });
-
-    // --- Navbar active link ---
-    const navLinks = document.querySelectorAll('.nav-links a');
-    const sections = document.querySelectorAll('section[id]');
-
-    function updateActiveLink() {
-      let index = sections.length;
-
-      while(--index && window.scrollY + 50 < sections[index].offsetTop) {}
-      navLinks.forEach((link) => link.classList.remove('active'));
-      if (index >= 0) {
-        const activeLink = document.querySelector(`.nav-links a[data-section="${sections[index].id}"]`);
-        if (activeLink) activeLink.classList.add('active');
-      }
-    }
-
-    window.addEventListener('scroll', updateActiveLink);
-
-    // --- Theme toggle ---
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = themeToggle.querySelector('i');
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('light-mode');
-      if (document.body.classList.contains('light-mode')) {
-        themeIcon.classList.remove('fa-moon');
-        themeIcon.classList.add('fa-sun');
-      } else {
-        themeIcon.classList.remove('fa-sun');
-        themeIcon.classList.add('fa-moon');
-      }
-    });
-
-    // --- Carousel ---
-    let currentSlide = 0;
-    const carouselInner = document.getElementById('carouselInner');
-    const slides = document.querySelectorAll('.carousel-item');
-    const totalSlides = slides.length;
-    const indicatorsContainer = document.getElementById('carouselIndicators');
-
-    for (let i = 0; i < totalSlides; i++) {
-      const indicator = document.createElement('button');
-      indicator.classList.add('carousel-indicator');
-      if (i === 0) indicator.classList.add('active');
-      indicator.addEventListener('click', () => {
-        currentSlide = i;
-        updateCarousel();
-      });
-      indicatorsContainer.appendChild(indicator);
-    }
-    const indicators = document.querySelectorAll('.carousel-indicator');
-
-    function updateCarousel() {
-      carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
-      indicators.forEach((indicator, index) => {
-        if (index === currentSlide) {
-          indicator.classList.add('active');
-        } else {
-          indicator.classList.remove('active');
-        }
-      });
-    }
-
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      currentSlide = (currentSlide + 1) % totalSlides;
-      updateCarousel();
-    });
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-      updateCarousel();
-    });
-
-    let autoplayInterval = setInterval(() => {
-      currentSlide = (currentSlide + 1) % totalSlides;
-      updateCarousel();
-    }, 5000);
-
-    const carousel = document.querySelector('.carousel');
-    carousel.addEventListener('mouseenter', () => {
-      clearInterval(autoplayInterval);
-    });
-    carousel.addEventListener('mouseleave', () => {
-      autoplayInterval = setInterval(() => {
-        currentSlide = (currentSlide + 1) % totalSlides;
-        updateCarousel();
-      }, 5000);
-    });
-    
-    // --- Touch/Swipe Support for Carousel ---
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    carousel.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-      clearInterval(autoplayInterval);
-    }, { passive: true });
-    
-    carousel.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-      // Restart autoplay after swipe
-      autoplayInterval = setInterval(() => {
-        currentSlide = (currentSlide + 1) % totalSlides;
-        updateCarousel();
-      }, 5000);
-    }, { passive: true });
-    
-    function handleSwipe() {
-      const swipeThreshold = 50;
-      const diff = touchStartX - touchEndX;
-      
-      if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0) {
-          // Swipe left - next slide
-          currentSlide = (currentSlide + 1) % totalSlides;
-        } else {
-          // Swipe right - previous slide
-          currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-        }
-        updateCarousel();
-      }
-    }
-    
-    // --- Keyboard Navigation for Carousel ---
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') {
-        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-        updateCarousel();
-      } else if (e.key === 'ArrowRight') {
-        currentSlide = (currentSlide + 1) % totalSlides;
-        updateCarousel();
-      }
-    });
-
-    // --- Scroll to top button ---
-    const scrollTopBtn = document.getElementById('scrollTop');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) {
-        scrollTopBtn.classList.add('visible');
-      } else {
-        scrollTopBtn.classList.remove('visible');
-      }
-    });
-    scrollTopBtn.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-
-    // --- Contact form ---
-    const contactForm = document.getElementById('contactForm');
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.');
-      contactForm.reset();
-    });
-
-    // --- Mobile Hamburger Menu ---
-    const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('navMenu');
-    const navOverlay = document.getElementById('navOverlay');
-    
-    function toggleMobileMenu() {
-      hamburger.classList.toggle('active');
-      navMenu.classList.toggle('active');
-      navOverlay.classList.toggle('active');
-      document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
-    }
-    
-    hamburger.addEventListener('click', toggleMobileMenu);
-    
-    // Close menu when clicking on overlay
-    if (navOverlay) {
-      navOverlay.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-        navOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-    }
-    
-    // Close menu when clicking on a link
-    document.querySelectorAll('.nav-menu .nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-        if (navOverlay) navOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-    });
-
-    // --- Modal Functions ---
-    window.openModal = function(modalId) {
-      const modal = document.getElementById(modalId);
-      if (modal) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-    };
-    
-    window.closeModal = function(modalId) {
-      const modal = document.getElementById(modalId);
-      if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    };
-    
-    // Close modal when clicking outside
-    document.querySelectorAll('.modal-overlay').forEach(modal => {
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-          modal.classList.remove('active');
-          document.body.style.overflow = '';
-        }
-      });
-    });
-    
-    // Close modal with Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        document.querySelectorAll('.modal-overlay.active').forEach(modal => {
-          modal.classList.remove('active');
-          document.body.style.overflow = '';
+        // --- 2. Enlaces del Footer (Próximamente) ---
+        const footerLinks = document.querySelectorAll('.footer-link');
+        footerLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const message = link.getAttribute('data-toast');
+                showToast(message, 'info');
+            });
         });
-      }
-    });
 
-    // --- Footer links - "Aún no disponible" ---
-    document.querySelectorAll('.footer-links a').forEach(link => {
-      if (!link.getAttribute('href').includes('#')) {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const notification = document.createElement('div');
-          notification.innerHTML = `
-            <div style="
-              position: fixed;
-              top: 20px;
-              right: 20px;
-              background: linear-gradient(135deg, var(--accent), #5d4bb7);
-              color: white;
-              padding: 1rem 1.5rem;
-              border-radius: 10px;
-              box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-              z-index: 10000;
-              animation: slideInRight 0.3s ease;
-              font-family: 'Poppins', sans-serif;
-            ">
-              <i class="fas fa-info-circle"></i> Esta sección estará disponible próximamente
-            </div>
-          `;
-          document.body.appendChild(notification);
-          setTimeout(() => {
-            notification.style.opacity = '0';
-            notification.style.transition = 'opacity 0.3s ease';
-            setTimeout(() => notification.remove(), 300);
-          }, 3000);
+        // --- 3. Menú Hamburguesa ---
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuOpen = document.getElementById('menu-open');
+        const menuClose = document.getElementById('menu-close');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const body = document.body;
+
+        menuBtn.addEventListener('click', () => {
+            const isOpen = body.classList.contains('menu-open');
+            if (isOpen) {
+                body.classList.remove('menu-open');
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                menuOpen.classList.remove('hidden');
+                menuClose.classList.add('hidden');
+                body.style.overflow = 'auto';
+            } else {
+                body.classList.add('menu-open');
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                menuOpen.classList.add('hidden');
+                menuClose.classList.remove('hidden');
+                body.style.overflow = 'hidden';
+            }
         });
-      }
-    });
 
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes slideInRight {
-        from {
-          transform: translateX(400px);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-    `;
-    document.head.appendChild(style);
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                body.classList.remove('menu-open');
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                menuOpen.classList.remove('hidden');
+                menuClose.classList.add('hidden');
+                body.style.overflow = 'auto';
+            });
+        });
+
+        // --- 4. Animaciones al hacer Scroll ---
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(reveal => observer.observe(reveal));
+
+        // --- 5. Demo Interactiva ---
+        const demoBtn = document.getElementById('demo-btn');
+        const totalUnits = document.getElementById('total-units');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const lastUpdate = document.getElementById('last-update');
+        const statusBox = document.getElementById('status-box');
+        const statusLabel = document.getElementById('status-label');
+        const statusValue = document.getElementById('status-value');
+        let currentStock = 120;
+        const maxStock = 200;
+
+        demoBtn.addEventListener('click', () => {
+            if (currentStock > 0) {
+                currentStock -= 5;
+                totalUnits.textContent = currentStock;
+                const percentage = (currentStock / maxStock) * 100;
+                progressBar.style.width = percentage + '%';
+                progressText.textContent = `${currentStock} / ${maxStock}`;
+                lastUpdate.textContent = 'Justo ahora';
+
+                demoBtn.classList.add('scale-95');
+                setTimeout(() => demoBtn.classList.remove('scale-95'), 150);
+
+                if (currentStock <= 20) {
+                    statusBox.classList.remove('bg-green-50', 'border-green-100');
+                    statusBox.classList.add('bg-red-50', 'border-red-100');
+                    statusLabel.classList.remove('text-green-700');
+                    statusLabel.classList.add('text-red-700');
+                    statusValue.classList.remove('text-green-600');
+                    statusValue.classList.add('text-red-600');
+                    statusValue.textContent = 'Crítico';
+                }
+            }
+        });
+
+        // --- 6. Formulario de Contacto con Toasts ---
+        const contactForm = document.getElementById('contact-form');
+        const formSuccess = document.getElementById('form-success');
+        
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            // Validación básica
+            if(name === '' || email === '') {
+                showToast('Por favor completa los campos obligatorios (*)', 'error');
+                return;
+            }
+
+            // Simular envío exitoso
+            showToast('¡Solicitud enviada con éxito! Te contactaremos pronto.', 'success');
+            contactForm.style.display = 'none';
+            formSuccess.classList.remove('hidden');
+        });
+
+        // --- 7. Efecto Navbar al hacer Scroll ---
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (!body.classList.contains('menu-open')) {
+                if (window.scrollY > 30) {
+                    navbar.classList.add('shadow-md', 'border-gray-100');
+                } else {
+                    navbar.classList.remove('shadow-md', 'border-gray-100');
+                }
+            }
+        });
