@@ -1,0 +1,10 @@
+{
+  "name": "inventrack-landing",
+  "version": "1.0.0",
+  "description": "Landing page for InvenTrack inventory management system",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Add build steps here'"
+  }
+}

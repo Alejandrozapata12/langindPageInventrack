@@ -1,30 +1,287 @@
- .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        html { scroll-behavior: smooth; }
-        .gradient-text {
-            background: linear-gradient(to right, #4f46e5, #9333ea);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+/* ==========================================
+   InvenTrack Landing Page - Custom Styles
+   Improvements: dark mode, reduced-motion,
+   focus-visible, WCAG contrast, animations
+   ========================================== */
 
-        /* --- MENÚ HAMBURGUESA --- */
-        body.menu-open #navbar {
-            background-color: transparent !important;
-            border-color: transparent !important;
-            box-shadow: none !important;
-            backdrop-filter: none !important;
-        }
-        body.menu-open .logo-text { color: #ffffff !important; }
-        body.menu-open .gradient-text {
-            background: linear-gradient(to right, #818cf8, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        body.menu-open #menu-btn { color: #ffffff !important; }
+/* --- SCROLL BEHAVIOR --- */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* --- GRADIENT TEXT --- */
+.gradient-text {
+  background: linear-gradient(135deg, #4f46e5, #9333ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .gradient-text {
+  background: linear-gradient(135deg, #818cf8, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* --- SCROLL REVEAL ANIMATIONS --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- FOCUS VISIBLE (A11y) --- */
+*:focus-visible {
+  outline: 3px solid #6366f1;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.dark *:focus-visible {
+  outline-color: #818cf8;
+}
+
+/* --- MOBILE MENU OPEN STATE --- */
+body.menu-open #navbar {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+body.menu-open .logo-text {
+  color: #ffffff !important;
+}
+
+body.menu-open .gradient-text {
+  background: linear-gradient(135deg, #818cf8, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.menu-open #menu-btn {
+  color: #ffffff !important;
+}
+
+/* --- 3D TILT CARD --- */
+.tilt-card {
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+/* --- CAROUSEL --- */
+#testimonial-viewport {
+  overflow: hidden;
+}
+
+#testimonial-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* --- FORM VALIDATION STATES --- */
+input.border-red-500,
+textarea.border-red-500 {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* --- TOAST ANIMATION --- */
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+@keyframes slideInRight {
+  0% { opacity: 0; transform: translateX(100%); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+/* --- FLOATING ANIMATION --- */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+/* --- GLOW PULSE --- */
+.animate-glow-pulse {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
+}
+
+/* --- SUCCESS PULSE --- */
+@keyframes successPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* --- SPIN ANIMATION --- */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* --- SCREEN READER ONLY --- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 1rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* --- WCAG AA CONTRAST FIXES --- */
+/* Ensure text-gray-500 meets 4.5:1 on white */
+@media (prefers-color-scheme: light) {
+  .text-gray-500 {
+    color: #4b5563; /* gray-600 for better contrast */
+  }
+}
+
+/* Ensure brand-400 meets contrast on dark backgrounds */
+.dark .text-brand-400 {
+  color: #a5b4fc; /* brand-300 for better contrast on dark */
+}
+
+/* --- PRINT STYLES --- */
+@media print {
+  .no-print,
+  nav,
+  #sticky-cta,
+  #toast-container,
+  #exit-popup-overlay {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* --- SELECTION COLOR --- */
+::selection {
+  background-color: rgba(99, 102, 241, 0.2);
+  color: #1e1b4b;
+}
+
+.dark ::selection {
+  background-color: rgba(129, 140, 248, 0.3);
+  color: #e0e7ff;
+}
+
+/* --- SCROLLBAR STYLES --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* ==========================================
+   REDUCED MOTION - Disable all animations
+   ========================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .animate-float,
+  .animate-glow-pulse,
+  .animate-slide-in-right,
+  .animate-spin {
+    animation: none !important;
+  }
+
+  .tilt-card:hover {
+    transform: none !important;
+  }
+
+  #testimonial-track {
+    transition: none !important;
+  }
+}

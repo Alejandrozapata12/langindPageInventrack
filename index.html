@@ -1,541 +1,1071 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InvenTrack - La Revolución en Gestión de Inventario</title>
     <meta name="description" content="Olvídate del Excel y el papel. InvenTrack es el sistema definitivo para controlar tu inventario en tiempo real.">
+    <meta name="theme-color" content="#4f46e5">
     <link rel="shortcut icon" href="images/Logo.png" type="image/x-icon">
-    
+    <link rel="canonical" href="https://inventrack.com">
+    <link rel="manifest" href="manifest.json">
+    <link rel="alternate" hreflang="es" href="https://inventrack.com">
+    <link rel="alternate" hreflang="x-default" href="https://inventrack.com">
+
+    <!-- Open Graph tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://inventrack.com">
+    <meta property="og:title" content="InvenTrack - La Revolución en Gestión de Inventario">
+    <meta property="og:description" content="Olvídate del Excel y el papel. InvenTrack es el sistema definitivo para controlar tu inventario en tiempo real.">
+    <meta property="og:image" content="https://inventrack.com/images/og-cover.png">
+    <meta property="og:locale" content="es_ES">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://inventrack.com">
+    <meta name="twitter:title" content="InvenTrack - La Revolución en Gestión de Inventario">
+    <meta name="twitter:description" content="Olvídate del Excel y el papel. InvenTrack es el sistema definitivo para controlar tu inventario en tiempo real.">
+    <meta name="twitter:image" content="https://inventrack.com/images/og-cover.png">
+
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "InvenTrack",
+        "description": "Sistema definitivo para controlar tu inventario en tiempo real.",
+        "url": "https://inventrack.com",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "description": "Plan gratuito disponible"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "2847"
+        }
+    }
+    </script>
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Inter y Poppins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
-    
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Poppins', 'sans-serif'],
-                    },
                     colors: {
-                        brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 900: '#1e1b4b' }
+                        brand: {
+                            50:  '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                            950: '#1e1b4b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
                     },
                     animation: {
-                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
                         'float': 'float 6s ease-in-out infinite',
-                        'slide-in-right': 'slideInRight 0.3s ease-out forwards',
+                        'float-delayed': 'float 6s ease-in-out 2s infinite',
+                        'float-slow': 'float 8s ease-in-out 1s infinite',
+                        'fadeInUp': 'fadeInUp 0.7s ease-out forwards',
+                        'slideInRight': 'slideInRight 0.5s ease-out forwards',
+                        'glowPulse': 'glowPulse 2s ease-in-out infinite',
+                        'spin-slow': 'spin 8s linear infinite',
                     },
                     keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-20px) rotate(3deg)' },
+                        },
                         fadeInUp: {
                             '0%': { opacity: '0', transform: 'translateY(30px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' }
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-15px)' }
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
                         },
                         slideInRight: {
-                            '0%': { opacity: '0', transform: 'translateX(100%)' },
-                            '100%': { opacity: '1', transform: 'translateX(0)' }
-                        }
+                            '0%': { opacity: '0', transform: 'translateX(30px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' },
+                        },
+                        glowPulse: {
+                            '0%, 100%': { boxShadow: '0 0 20px rgba(99, 102, 241, 0.4), 0 0 60px rgba(99, 102, 241, 0.1)' },
+                            '50%': { boxShadow: '0 0 30px rgba(99, 102, 241, 0.6), 0 0 80px rgba(99, 102, 241, 0.2)' },
+                        },
                     }
                 }
             }
         }
     </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body class="font-sans bg-white text-gray-800 antialiased overflow-x-hidden">
+<body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans antialiased transition-colors duration-300">
 
-    <!-- ===== TOAST CONTAINER ===== -->
-    <div id="toast-container" class="fixed top-6 right-6 z-[100] space-y-4"></div>
+    <!-- Skip Navigation Link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-brand-600 focus:text-white focus:px-6 focus:py-3 focus:rounded-xl focus:shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-300">
+        Saltar al contenido principal
+    </a>
 
-    <!-- ===== NAVBAR MEJORADO ===== -->
-    <nav id="navbar" class="fixed w-full bg-white/80 backdrop-blur-md z-50 border-b border-transparent transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="#" class="flex items-center space-x-2 group">
-                    <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+    <!-- SVG Sprite (hidden) -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="hidden" aria-hidden="true">
+        <defs>
+            <symbol id="icon-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </symbol>
+            <symbol id="icon-bar-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="20" x2="12" y2="10"/>
+                <line x1="18" y1="20" x2="18" y2="4"/>
+                <line x1="6" y1="20" x2="6" y2="16"/>
+            </symbol>
+            <symbol id="icon-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </symbol>
+            <symbol id="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </symbol>
+            <symbol id="icon-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </symbol>
+            <symbol id="icon-scan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+                <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+                <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+                <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+                <line x1="7" y1="12" x2="17" y2="12"/>
+            </symbol>
+            <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </symbol>
+            <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </symbol>
+            <symbol id="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </symbol>
+            <symbol id="icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </symbol>
+            <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+            </symbol>
+            <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+            </symbol>
+            <symbol id="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+            </symbol>
+            <symbol id="icon-star" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </symbol>
+        </defs>
+    </svg>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-24 right-6 z-[200] flex flex-col gap-3" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- ========== NAVBAR ========== -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" role="banner">
+        <nav role="navigation" aria-label="Navegación principal" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="navbar-inner" class="relative flex items-center justify-between h-20 transition-all duration-300">
+
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group" aria-label="InvenTrack - Ir al inicio">
+                    <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center shadow-lg shadow-brand-600/20 group-hover:shadow-brand-600/40 transition-shadow">
+                        <svg class="w-6 h-6 text-white" aria-hidden="true"><use href="#icon-box"/></svg>
                     </div>
-                    <span class="logo-text font-heading font-extrabold text-2xl text-gray-900">Inven<span class="gradient-text">Track</span></span>
+                    <span class="font-display font-bold text-xl tracking-tight text-gray-900 dark:text-white">InvenTrack</span>
                 </a>
-                
-                <div class="hidden lg:flex items-center space-x-8">
-                    <a href="#home" class="text-gray-600 hover:text-brand-600 font-medium transition">Inicio</a>
-                    <a href="#features" class="text-gray-600 hover:text-brand-600 font-medium transition">Características</a>
-                    <a href="#demo" class="text-gray-600 hover:text-brand-600 font-medium transition">Demo</a>
-                    <a href="#gallery" class="text-gray-600 hover:text-brand-600 font-medium transition">Galería</a>
-                    <a href="#versus" class="text-gray-600 hover:text-brand-600 font-medium transition">Comparativa</a>
-                    <a href="https://alejandrozapata12.github.io/inventrack_system/" target="_blank" class="text-brand-600 font-semibold hover:text-brand-700 transition">Iniciar Sesión</a>
-                    <a href="#contact" class="bg-brand-600 text-white px-6 py-2.5 rounded-full hover:bg-brand-700 transition font-semibold shadow-lg shadow-brand-600/30 hover:shadow-brand-600/50 hover:-translate-y-0.5">Contacto</a>
+
+                <!-- Desktop Nav -->
+                <div class="hidden lg:flex items-center gap-1">
+                    <a href="#features" class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 dark:hover:text-brand-400 rounded-lg hover:bg-brand-50 dark:hover:bg-brand-950/50 transition-all" data-i18n="nav.features">Características</a>
+                    <a href="#demo" class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 dark:hover:text-brand-400 rounded-lg hover:bg-brand-50 dark:hover:bg-brand-950/50 transition-all" data-i18n="nav.demo">Demo</a>
+                    <a href="#testimonials" class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 dark:hover:text-brand-400 rounded-lg hover:bg-brand-50 dark:hover:bg-brand-950/50 transition-all" data-i18n="nav.testimonials">Opiniones</a>
+                    <a href="#pricing" class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 dark:hover:text-brand-400 rounded-lg hover:bg-brand-50 dark:hover:bg-brand-950/50 transition-all" data-i18n="nav.pricing">Precios</a>
                 </div>
 
-                <button id="menu-btn" class="lg:hidden text-gray-900 focus:outline-none z-50">
-                    <svg id="menu-open" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                    <svg id="menu-close" class="w-7 h-7 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-        </div>
-        
-        <!-- Menú Móvil Dinámico -->
-        <div id="mobile-menu" class="lg:hidden fixed inset-0 bg-brand-900 text-white z-40 flex flex-col items-center justify-center space-y-8 opacity-0 pointer-events-none transition-opacity duration-300">
-            <a href="#home" class="mobile-link text-3xl font-heading font-bold hover:text-brand-300 transition">Inicio</a>
-            <a href="#features" class="mobile-link text-3xl font-heading font-bold hover:text-brand-300 transition">Características</a>
-            <a href="#demo" class="mobile-link text-3xl font-heading font-bold hover:text-brand-300 transition">Demo</a>
-            <a href="#gallery" class="mobile-link text-3xl font-heading font-bold hover:text-brand-300 transition">Galería</a>
-            <a href="#versus" class="mobile-link text-3xl font-heading font-bold hover:text-brand-300 transition">Comparativa</a>
-            <a href="https://alejandrozapata12.github.io/inventrack_system/" target="_blank" class="mobile-link text-3xl font-heading font-bold text-brand-300 hover:text-white transition">Iniciar Sesión</a>
-            <a href="#contact" class="mobile-link bg-white text-brand-700 px-8 py-3 rounded-full text-xl font-bold mt-4">Contacto</a>
-        </div>
-    </nav>
+                <!-- Right Side: Dark Mode Toggle + CTA + Hamburger -->
+                <div class="flex items-center gap-3">
 
-    <!-- ===== HERO SECTION ===== -->
-    <header class="relative bg-white pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden" id="home">
-        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-brand-50 to-transparent -skew-x-12 origin-top-right"></div>
-        <div class="absolute -bottom-20 -left-20 w-96 h-96 bg-brand-100 rounded-full filter blur-3xl opacity-50"></div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
-            <div class="reveal text-center lg:text-left">
-                <span class="inline-block bg-brand-50 text-brand-600 text-sm font-semibold px-4 py-1.5 rounded-full mb-6 border border-brand-100">🚀 La era del inventario inteligente</span>
-                <h1 class="font-heading text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 text-gray-900">
-                    Deja de adivinar. <br><span class="gradient-text">Empieza a controlar.</span>
-                </h1>
-                <p class="text-lg md:text-xl text-gray-500 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                    InvenTrack automatiza tu bodega, elimina el error humano y te da métricas en tiempo real para que tomes las mejores decisiones.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                    <!-- BOTÓN DEMO LLEVA AL LOGIN REAL -->
-                    <a href="https://alejandrozapata12.github.io/inventrack_system/" target="_blank" class="bg-brand-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-brand-700 transition shadow-lg shadow-brand-600/30 hover:-translate-y-1 transform duration-300 flex items-center justify-center space-x-2">
-                        <span>Probar Demo Real</span>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    <!-- Dark Mode Toggle -->
+                    <button id="dark-mode-toggle" type="button" class="relative p-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-brand-600 dark:hover:text-brand-400 transition-all focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900" aria-label="Cambiar a modo oscuro">
+                        <svg class="w-5 h-5 transition-transform duration-300 rotate-0 scale-100 dark:-rotate-90 dark:scale-0" aria-hidden="true"><use href="#icon-sun"/></svg>
+                        <svg class="w-5 h-5 absolute inset-0 m-auto transition-transform duration-300 rotate-90 scale-0 dark:rotate-0 dark:scale-100" aria-hidden="true"><use href="#icon-moon"/></svg>
+                    </button>
+
+                    <!-- Desktop CTA -->
+                    <a href="#demo" class="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-brand-600 rounded-xl hover:bg-brand-700 shadow-lg shadow-brand-600/25 hover:shadow-brand-600/40 transition-all focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950" data-i18n="nav.cta">
+                        Probar Gratis
+                        <svg class="w-4 h-4" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
                     </a>
-                    <a href="#versus" class="bg-white text-gray-900 px-8 py-4 rounded-xl font-bold border-2 border-gray-100 hover:border-brand-200 transition hover:-translate-y-1 transform duration-300">
-                        Ver Comparativa
-                    </a>
+
+                    <!-- Mobile Hamburger -->
+                    <button id="menu-btn" type="button" class="lg:hidden relative p-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all focus:outline-none focus:ring-2 focus:ring-brand-500" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mobile-menu">
+                        <svg id="menu-icon-open" class="w-6 h-6" aria-hidden="true"><use href="#icon-menu"/></svg>
+                        <svg id="menu-icon-close" class="w-6 h-6 hidden" aria-hidden="true"><use href="#icon-x"/></svg>
+                    </button>
                 </div>
             </div>
-            
-            <div class="reveal hidden lg:block relative">
-                <div class="absolute -top-10 -left-10 w-20 h-20 bg-purple-200 rounded-2xl rotate-12 animate-float"></div>
-                <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-brand-200 rounded-full animate-float" style="animation-delay: 1s"></div>
-                
-                <div class="bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 rotate-2 hover:rotate-0 transition-transform duration-500 relative">
-                    <div class="bg-gray-50 rounded-xl p-6">
-                        <div class="flex items-center mb-4">
-                            <div class="w-3 h-3 bg-red-400 rounded-full mr-2"></div>
-                            <div class="w-3 h-3 bg-yellow-400 rounded-full mr-2"></div>
-                            <div class="w-3 h-3 bg-green-400 rounded-full"></div>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
-                                <span class="font-semibold">Stock Total</span>
-                                <span class="text-brand-600 font-bold">1,240 unidades</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
-                                <span class="font-semibold">Alertas</span>
-                                <span class="text-red-500 font-bold">3 críticas</span>
-                            </div>
-                            <div class="h-24 bg-gradient-to-r from-brand-500 to-purple-500 rounded-lg flex items-end p-2 space-x-2">
-                                <div class="w-1/4 bg-white/30 h-12 rounded-t"></div>
-                                <div class="w-1/4 bg-white/40 h-16 rounded-t"></div>
-                                <div class="w-1/4 bg-white/30 h-8 rounded-t"></div>
-                                <div class="w-1/4 bg-white/50 h-20 rounded-t"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="absolute top-1/2 right-0 bg-white px-4 py-2 rounded-lg shadow-xl border border-gray-100 animate-float" style="animation-delay: 0.5s">
-                    <div class="flex items-center text-green-500 font-bold text-sm">
-                        <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-                        +15% Ventas
-                    </div>
+        </nav>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="lg:hidden hidden absolute top-full left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800 shadow-2xl" role="region" aria-label="Menú móvil">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-2">
+                <a href="#features" class="block px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-950/50 rounded-xl transition-all mobile-menu-link" data-i18n="nav.features">Características</a>
+                <a href="#demo" class="block px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-950/50 rounded-xl transition-all mobile-menu-link" data-i18n="nav.demo">Demo</a>
+                <a href="#testimonials" class="block px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-950/50 rounded-xl transition-all mobile-menu-link" data-i18n="nav.testimonials">Opiniones</a>
+                <a href="#pricing" class="block px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-950/50 rounded-xl transition-all mobile-menu-link" data-i18n="nav.pricing">Precios</a>
+                <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
+                    <a href="#demo" class="flex items-center justify-center gap-2 w-full px-5 py-3.5 text-base font-semibold text-white bg-brand-600 rounded-xl hover:bg-brand-700 shadow-lg shadow-brand-600/25 transition-all mobile-menu-link" data-i18n="nav.cta">
+                        Probar Gratis
+                        <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+                    </a>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- ===== PRUEBA SOCIAL ===== -->
-    <section class="py-12 bg-gray-900 text-white overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                <div class="reveal">
-                    <div class="text-4xl md:text-5xl font-heading font-extrabold text-brand-400">98%</div>
-                    <p class="text-gray-400 mt-2">Clientes que renuevan</p>
+    <main id="main-content">
+
+        <!-- ========== HERO SECTION ========== -->
+        <section id="home" class="relative min-h-screen flex items-center overflow-hidden pt-20" aria-label="Presentación principal">
+            <!-- Background Gradient -->
+            <div class="absolute inset-0 bg-gradient-to-br from-brand-50 via-white to-indigo-50 dark:from-gray-950 dark:via-gray-950 dark:to-brand-950/30 transition-colors duration-300" aria-hidden="true"></div>
+
+            <!-- Floating Decorative Shapes -->
+            <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+                <div class="absolute top-20 left-10 w-72 h-72 bg-brand-200/30 dark:bg-brand-800/20 rounded-full blur-3xl animate-float"></div>
+                <div class="absolute bottom-20 right-10 w-96 h-96 bg-indigo-200/30 dark:bg-indigo-800/20 rounded-full blur-3xl animate-float-delayed"></div>
+                <div class="absolute top-1/2 left-1/3 w-64 h-64 bg-purple-200/20 dark:bg-purple-800/10 rounded-full blur-3xl animate-float-slow"></div>
+
+                <!-- Floating geometric shapes -->
+                <div class="absolute top-32 right-20 animate-float">
+                    <div class="w-16 h-16 border-2 border-brand-300 dark:border-brand-700 rounded-2xl rotate-12 opacity-40 dark:opacity-20"></div>
                 </div>
-                <div class="reveal" style="transition-delay: 0.1s">
-                    <div class="text-4xl md:text-5xl font-heading font-extrabold text-brand-400">+500k</div>
-                    <p class="text-gray-400 mt-2">Productos gestionados</p>
+                <div class="absolute bottom-40 left-20 animate-float-delayed">
+                    <div class="w-12 h-12 border-2 border-indigo-300 dark:border-indigo-700 rounded-full opacity-40 dark:opacity-20"></div>
                 </div>
-                <div class="reveal" style="transition-delay: 0.2s">
-                    <div class="text-4xl md:text-5xl font-heading font-extrabold text-brand-400">24/7</div>
-                    <p class="text-gray-400 mt-2">Soporte prioritario</p>
-                </div>
-                <div class="reveal" style="transition-delay: 0.3s">
-                    <div class="text-4xl md:text-5xl font-heading font-extrabold text-brand-400">-40%</div>
-                    <p class="text-gray-400 mt-2">Reducción de mermas</p>
+                <div class="absolute top-1/3 right-1/3 animate-float-slow">
+                    <div class="w-8 h-8 bg-brand-400/20 dark:bg-brand-600/20 rounded-lg rotate-45"></div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- ===== FEATURES ===== -->
-    <section id="features" class="py-20 md:py-32 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
-                <h2 class="font-heading text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">Todo lo que necesitas en un solo lugar</h2>
-                <p class="text-gray-500 text-lg">Olvidate de hojas de Excel desordenadas. InvenTrack automatiza el trabajo pesado para ti.</p>
+            <!-- Content -->
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+                <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+                    <!-- Left: Text -->
+                    <div class="text-center lg:text-left space-y-8">
+                        <!-- Badge -->
+                        <div class="inline-flex items-center gap-2 px-4 py-2 bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 rounded-full text-sm font-medium border border-brand-200 dark:border-brand-800" data-i18n="hero.badge">
+                            <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-500 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-600"></span>
+                            </span>
+                            Nuevo: Control por código de barras
+                        </div>
+
+                        <!-- Heading -->
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold leading-[1.1] tracking-tight">
+                            <span class="text-gray-900 dark:text-white" data-i18n="hero.title.line1">Gestiona tu inventario</span><br>
+                            <span class="bg-gradient-to-r from-brand-600 via-brand-500 to-indigo-600 bg-clip-text text-transparent" data-i18n="hero.title.line2">sin complicaciones</span>
+                        </h1>
+
+                        <!-- Subtitle -->
+                        <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-xl mx-auto lg:mx-0 leading-relaxed" data-i18n="hero.subtitle">
+                            Olvídate del Excel y el papel. InvenTrack es el sistema definitivo para controlar tu inventario en tiempo real, con alertas inteligentes y reportes automáticos.
+                        </p>
+
+                        <!-- CTAs -->
+                        <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+                            <a href="#demo" class="group relative inline-flex items-center gap-3 px-8 py-4 text-lg font-bold text-white bg-brand-600 rounded-2xl hover:bg-brand-700 shadow-xl shadow-brand-600/30 hover:shadow-brand-600/50 transition-all animate-glowPulse focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950" data-i18n="hero.cta.primary">
+                                Probar Gratis
+                                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+                            </a>
+                            <a href="#demo" class="group inline-flex items-center gap-3 px-8 py-4 text-lg font-semibold text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 rounded-2xl border-2 border-gray-200 dark:border-gray-700 hover:border-brand-300 dark:hover:border-brand-600 hover:text-brand-600 dark:hover:text-brand-400 shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950" data-i18n="hero.cta.secondary">
+                                <svg class="w-6 h-6 text-brand-600" aria-hidden="true"><use href="#icon-play"/></svg>
+                                Ver Demo
+                            </a>
+                        </div>
+
+                        <!-- Trust indicators -->
+                        <div class="flex items-center gap-6 justify-center lg:justify-start pt-4">
+                            <div class="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
+                                <div class="flex -space-x-2">
+                                    <div class="w-8 h-8 rounded-full bg-brand-200 dark:bg-brand-800 border-2 border-white dark:border-gray-900 flex items-center justify-center text-xs font-bold text-brand-700 dark:text-brand-300">M</div>
+                                    <div class="w-8 h-8 rounded-full bg-indigo-200 dark:bg-indigo-800 border-2 border-white dark:border-gray-900 flex items-center justify-center text-xs font-bold text-indigo-700 dark:text-indigo-300">A</div>
+                                    <div class="w-8 h-8 rounded-full bg-purple-200 dark:bg-purple-800 border-2 border-white dark:border-gray-900 flex items-center justify-center text-xs font-bold text-purple-700 dark:text-purple-300">L</div>
+                                    <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 border-2 border-white dark:border-gray-900 flex items-center justify-center text-xs font-bold text-gray-600 dark:text-gray-300">+</div>
+                                </div>
+                                <span data-i18n="hero.trust.users">+2,800 negocios</span>
+                            </div>
+                            <div class="h-6 w-px bg-gray-300 dark:bg-gray-700" aria-hidden="true"></div>
+                            <div class="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
+                                <div class="flex text-amber-400" aria-label="4.9 de 5 estrellas">
+                                    <svg class="w-4 h-4" aria-hidden="true"><use href="#icon-star"/></svg>
+                                    <svg class="w-4 h-4" aria-hidden="true"><use href="#icon-star"/></svg>
+                                    <svg class="w-4 h-4" aria-hidden="true"><use href="#icon-star"/></svg>
+                                    <svg class="w-4 h-4" aria-hidden="true"><use href="#icon-star"/></svg>
+                                    <svg class="w-4 h-4" aria-hidden="true"><use href="#icon-star"/></svg>
+                                </div>
+                                <span data-i18n="hero.trust.rating">4.9/5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Hero Visual -->
+                    <div class="relative flex justify-center lg:justify-end">
+                        <div class="relative w-full max-w-lg">
+                            <!-- Main card -->
+                            <div class="relative bg-white dark:bg-gray-900 rounded-3xl shadow-2xl shadow-gray-200/50 dark:shadow-gray-950/50 border border-gray-100 dark:border-gray-800 p-8 space-y-6">
+                                <!-- Header -->
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400" data-i18n="hero.card.label">Inventario Actual</p>
+                                        <p class="text-3xl font-display font-bold text-gray-900 dark:text-white">12,847</p>
+                                    </div>
+                                    <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-green-600 dark:text-green-400" aria-hidden="true"><use href="#icon-bar-chart"/></svg>
+                                    </div>
+                                </div>
+                                <!-- Progress bars -->
+                                <div class="space-y-4">
+                                    <div>
+                                        <div class="flex justify-between text-sm mb-1">
+                                            <span class="text-gray-600 dark:text-gray-400">Electrónicos</span>
+                                            <span class="font-medium text-gray-900 dark:text-white">87%</span>
+                                        </div>
+                                        <div class="w-full h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                                            <div class="h-full bg-brand-500 rounded-full" style="width: 87%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-sm mb-1">
+                                            <span class="text-gray-600 dark:text-gray-400">Ropa</span>
+                                            <span class="font-medium text-gray-900 dark:text-white">64%</span>
+                                        </div>
+                                        <div class="w-full h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                                            <div class="h-full bg-indigo-500 rounded-full" style="width: 64%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-sm mb-1">
+                                            <span class="text-gray-600 dark:text-gray-400">Alimentos</span>
+                                            <span class="font-medium text-gray-900 dark:text-white">92%</span>
+                                        </div>
+                                        <div class="w-full h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                                            <div class="h-full bg-green-500 rounded-full" style="width: 92%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Floating alert card -->
+                            <div class="absolute -bottom-6 -left-6 bg-white dark:bg-gray-900 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-gray-950/50 border border-gray-100 dark:border-gray-800 p-4 flex items-center gap-3 animate-float-delayed">
+                                <div class="w-10 h-10 bg-amber-100 dark:bg-amber-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-amber-600 dark:text-amber-400" aria-hidden="true"><use href="#icon-zap"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">Alerta Bajo Stock</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">3 productos por agotarse</p>
+                                </div>
+                            </div>
+
+                            <!-- Floating success card -->
+                            <div class="absolute -top-4 -right-4 bg-white dark:bg-gray-900 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-gray-950/50 border border-gray-100 dark:border-gray-800 p-4 flex items-center gap-3 animate-float">
+                                <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-green-600 dark:text-green-400" aria-hidden="true"><use href="#icon-check"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">Sincronizado</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">Hace 2 min</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="reveal p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-brand-100 transition bg-white">
-                    <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 014-4h2a4 4 0 014 4v2M9 7h6m0 10v-2m-6 2v-2m12-6a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </section>
+
+        <!-- ========== SOCIAL PROOF / COUNTERS ========== -->
+        <section class="relative py-20 bg-gray-50 dark:bg-gray-900/50 border-y border-gray-100 dark:border-gray-800 transition-colors duration-300" aria-label="Métricas de confianza">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
+
+                    <!-- Counter 1 -->
+                    <div class="text-center space-y-2">
+                        <div class="inline-flex items-center justify-center w-12 h-12 bg-brand-100 dark:bg-brand-900/50 rounded-xl mb-2">
+                            <svg class="w-6 h-6 text-brand-600 dark:text-brand-400" aria-hidden="true"><use href="#icon-users"/></svg>
+                        </div>
+                        <p class="text-3xl sm:text-4xl font-display font-bold text-gray-900 dark:text-white" data-counter="2847">0</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400" data-i18n="social.users">Negocios Activos</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Gestión en Tiempo Real</h3>
-                    <p class="text-gray-500">Visualiza tu stock al segundo. Sincronización instantánea entre bodega, ventas y gerencia.</p>
-                </div>
-                <div class="reveal p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-brand-100 transition bg-white" style="transition-delay: 0.1s">
-                    <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
+
+                    <!-- Counter 2 -->
+                    <div class="text-center space-y-2">
+                        <div class="inline-flex items-center justify-center w-12 h-12 bg-green-100 dark:bg-green-900/50 rounded-xl mb-2">
+                            <svg class="w-6 h-6 text-green-600 dark:text-green-400" aria-hidden="true"><use href="#icon-box"/></svg>
+                        </div>
+                        <p class="text-3xl sm:text-4xl font-display font-bold text-gray-900 dark:text-white"><span data-counter="1500000">0</span>+</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400" data-i18n="social.items">Productos Gestionados</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Escaneo de Códigos</h3>
-                    <p class="text-gray-500">Usa la cámara de tu celular o lectores externos para registrar entradas y salidas en un clic.</p>
-                </div>
-                <div class="reveal p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-brand-100 transition bg-white" style="transition-delay: 0.2s">
-                    <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+
+                    <!-- Counter 3 -->
+                    <div class="text-center space-y-2">
+                        <div class="inline-flex items-center justify-center w-12 h-12 bg-indigo-100 dark:bg-indigo-900/50 rounded-xl mb-2">
+                            <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" aria-hidden="true"><use href="#icon-scan"/></svg>
+                        </div>
+                        <p class="text-3xl sm:text-4xl font-display font-bold text-gray-900 dark:text-white"><span data-counter="99">0</span>.9%</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400" data-i18n="social.uptime">Uptime Garantizado</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Reportes Automáticos</h3>
-                    <p class="text-gray-500">Genera PDFs y Excel con tus productos más vendidos y alertas de stock bajo automáticamente.</p>
+
+                    <!-- Counter 4 -->
+                    <div class="text-center space-y-2">
+                        <div class="inline-flex items-center justify-center w-12 h-12 bg-amber-100 dark:bg-amber-900/50 rounded-xl mb-2">
+                            <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" aria-hidden="true"><use href="#icon-zap"/></svg>
+                        </div>
+                        <p class="text-3xl sm:text-4xl font-display font-bold text-gray-900 dark:text-white">&lt;<span data-counter="2">0</span>s</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400" data-i18n="social.speed">Tiempo de Carga</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ===== DEMO INTERACTIVA ===== -->
-    <section id="demo" class="py-20 md:py-32 bg-gray-50">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <h2 class="font-heading text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">Demostración Rápida</h2>
-                <p class="text-gray-500 text-lg">Interactúa con nuestra interfaz simulada. Haz clic en "Registrar Salida" para ver la magia.</p>
+        <!-- ========== FEATURES SECTION ========== -->
+        <section id="features" class="relative py-24 sm:py-32 overflow-hidden" aria-labelledby="features-heading">
+            <!-- Decorative background -->
+            <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-100/50 dark:bg-brand-900/10 rounded-full blur-3xl"></div>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden reveal">
-                <div class="bg-brand-900 px-6 py-4 flex justify-between items-center">
-                    <div class="flex items-center text-white font-bold space-x-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                        <span>Panel de Control - InvenTrack</span>
-                    </div>
-                    <div class="text-brand-300 text-sm hidden sm:block">En línea</div>
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <!-- Section Header -->
+                <div class="text-center max-w-3xl mx-auto mb-16 sm:mb-20 space-y-4">
+                    <span class="inline-block px-4 py-1.5 bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 rounded-full text-sm font-semibold border border-brand-200 dark:border-brand-800" data-i18n="features.badge">Características</span>
+                    <h2 id="features-heading" class="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-gray-900 dark:text-white leading-tight" data-i18n="features.title">Todo lo que necesitas para <span class="bg-gradient-to-r from-brand-600 to-indigo-600 bg-clip-text text-transparent">dominar tu inventario</span></h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed" data-i18n="features.subtitle">Herramientas poderosas diseñadas para negocios que quieren crecer sin complicaciones.</p>
                 </div>
-                
-                <div class="p-6 md:p-8">
-                    <div class="flex flex-col md:flex-row justify-between mb-6 gap-4">
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-900">Inventario Actual</h3>
-                            <p class="text-gray-500 text-sm">Almacén Principal</p>
+
+                <!-- Features Grid -->
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+
+                    <!-- Feature 1 -->
+                    <div class="group relative p-8 bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:shadow-gray-200/50 dark:hover:shadow-gray-950/50 hover:border-brand-200 dark:hover:border-brand-800 transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-14 h-14 bg-brand-100 dark:bg-brand-900/50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-600 group-hover:scale-110 transition-all duration-300">
+                            <svg class="w-7 h-7 text-brand-600 dark:text-brand-400 group-hover:text-white transition-colors" aria-hidden="true"><use href="#icon-scan"/></svg>
                         </div>
-                        <!-- BOTÓN PARA IR AL LOGIN REAL -->
-                        <a href="https://alejandrozapata12.github.io/inventrack_system/" target="_blank" class="bg-brand-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-700 transition transform hover:scale-105 shadow-md flex items-center justify-center space-x-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
-                            <span>Ir a la App Real</span>
-                        </a>
+                        <h3 class="text-xl font-display font-bold text-gray-900 dark:text-white mb-3" data-i18n="features.f1.title">Escaneo por Código de Barras</h3>
+                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed" data-i18n="features.f1.desc">Registra productos al instante escaneando sus códigos de barras con la cámara de tu celular o un lector USB.</p>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <p class="text-gray-500 text-sm mb-1">Total Unidades</p>
-                            <p id="total-units" class="text-3xl font-bold text-gray-900">120</p>
+                    <!-- Feature 2 -->
+                    <div class="group relative p-8 bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:shadow-gray-200/50 dark:hover:shadow-gray-950/50 hover:border-brand-200 dark:hover:border-brand-800 transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-14 h-14 bg-green-100 dark:bg-green-900/50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-green-600 group-hover:scale-110 transition-all duration-300">
+                            <svg class="w-7 h-7 text-green-600 dark:text-green-400 group-hover:text-white transition-colors" aria-hidden="true"><use href="#icon-bar-chart"/></svg>
                         </div>
-                        <div id="status-box" class="bg-green-50 p-4 rounded-xl border border-green-100">
-                            <p id="status-label" class="text-green-700 text-sm mb-1">Estado</p>
-                            <p id="status-value" class="text-3xl font-bold text-green-600">Óptimo</p>
+                        <h3 class="text-xl font-display font-bold text-gray-900 dark:text-white mb-3" data-i18n="features.f2.title">Reportes en Tiempo Real</h3>
+                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed" data-i18n="features.f2.desc">Dashboards interactivos que muestran el estado exacto de tu inventario, ventas y tendencias al instante.</p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="group relative p-8 bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:shadow-gray-200/50 dark:hover:shadow-gray-950/50 hover:border-brand-200 dark:hover:border-brand-800 transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-14 h-14 bg-amber-100 dark:bg-amber-900/50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-600 group-hover:scale-110 transition-all duration-300">
+                            <svg class="w-7 h-7 text-amber-600 dark:text-amber-400 group-hover:text-white transition-colors" aria-hidden="true"><use href="#icon-zap"/></svg>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
-                            <p class="text-blue-700 text-sm mb-1">Última actualización</p>
-                            <p id="last-update" class="text-xl font-bold text-blue-600 mt-1">Hace 2 min</p>
+                        <h3 class="text-xl font-display font-bold text-gray-900 dark:text-white mb-3" data-i18n="features.f3.title">Alertas Inteligentes</h3>
+                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed" data-i18n="features.f3.desc">Recibe notificaciones automáticas cuando un producto está por agotarse o cuando es momento de reordenar.</p>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div class="group relative p-8 bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:shadow-gray-200/50 dark:hover:shadow-gray-950/50 hover:border-brand-200 dark:hover:border-brand-800 transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-14 h-14 bg-purple-100 dark:bg-purple-900/50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-purple-600 group-hover:scale-110 transition-all duration-300">
+                            <svg class="w-7 h-7 text-purple-600 dark:text-purple-400 group-hover:text-white transition-colors" aria-hidden="true"><use href="#icon-users"/></svg>
+                        </div>
+                        <h3 class="text-xl font-display font-bold text-gray-900 dark:text-white mb-3" data-i18n="features.f4.title">Multi-Usuario</h3>
+                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed" data-i18n="features.f4.desc">Tu equipo puede acceder simultáneamente con permisos granulares para cada rol y sucursal.</p>
+                    </div>
+
+                    <!-- Feature 5 -->
+                    <div class="group relative p-8 bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:shadow-gray-200/50 dark:hover:shadow-gray-950/50 hover:border-brand-200 dark:hover:border-brand-800 transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-14 h-14 bg-indigo-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:scale-110 transition-all duration-300">
+                            <svg class="w-7 h-7 text-indigo-600 dark:text-indigo-400 group-hover:text-white transition-colors" aria-hidden="true"><use href="#icon-shield"/></svg>
+                        </div>
+                        <h3 class="text-xl font-display font-bold text-gray-900 dark:text-white mb-3" data-i18n="features.f5.title">Seguridad Empresarial</h3>
+                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed" data-i18n="features.f5.desc">Cifrado de extremo a extremo, backups automáticos y cumplimiento con RGPD para tu tranquilidad.</p>
+                    </div>
+
+                    <!-- Feature 6 -->
+                    <div class="group relative p-8 bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:shadow-gray-200/50 dark:hover:shadow-gray-950/50 hover:border-brand-200 dark:hover:border-brand-800 transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-14 h-14 bg-red-100 dark:bg-red-900/50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-600 group-hover:scale-110 transition-all duration-300">
+                            <svg class="w-7 h-7 text-red-600 dark:text-red-400 group-hover:text-white transition-colors" aria-hidden="true"><use href="#icon-box"/></svg>
+                        </div>
+                        <h3 class="text-xl font-display font-bold text-gray-900 dark:text-white mb-3" data-i18n="features.f6.title">Multi-Almacén</h3>
+                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed" data-i18n="features.f6.desc">Gestiona inventario en múltiples ubicaciones con transferencias fáciles y visión consolidada de todo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== DEMO / INTERACTIVE SECTION ========== -->
+        <section id="demo" class="relative py-24 sm:py-32 overflow-hidden" aria-labelledby="demo-heading">
+            <!-- Background -->
+            <div class="absolute inset-0 bg-gradient-to-b from-white via-brand-50/30 to-white dark:from-gray-950 dark:via-brand-950/10 dark:to-gray-950 transition-colors duration-300" aria-hidden="true"></div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <!-- Section Header -->
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <span class="inline-block px-4 py-1.5 bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 rounded-full text-sm font-semibold border border-brand-200 dark:border-brand-800" data-i18n="demo.badge">Demo Interactiva</span>
+                    <h2 id="demo-heading" class="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-gray-900 dark:text-white leading-tight" data-i18n="demo.title">Prueba InvenTrack <span class="bg-gradient-to-r from-brand-600 to-indigo-600 bg-clip-text text-transparent">sin registrarte</span></h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed" data-i18n="demo.subtitle">Explora una versión simplificada del sistema directamente en tu navegador. Sin cuenta, sin compromiso.</p>
+                </div>
+
+                <!-- Interactive Demo Container -->
+                <div class="relative bg-white dark:bg-gray-900 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-2xl shadow-gray-200/50 dark:shadow-gray-950/50 overflow-hidden">
+
+                    <!-- Demo Browser Chrome -->
+                    <div class="flex items-center gap-3 px-6 py-4 bg-gray-50 dark:bg-gray-800/80 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex gap-2">
+                            <span class="w-3 h-3 rounded-full bg-red-400" aria-hidden="true"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-400" aria-hidden="true"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-400" aria-hidden="true"></span>
+                        </div>
+                        <div class="flex-1 ml-4">
+                            <div class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 text-sm text-gray-400 dark:text-gray-500">
+                                <svg class="w-4 h-4 text-green-500 flex-shrink-0" aria-hidden="true"><use href="#icon-shield"/></svg>
+                                <span>inventrack.com/demo</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-6">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="font-semibold text-gray-700">Progreso de Stock</span>
-                            <span id="progress-text" class="text-sm font-bold text-brand-600">120 / 200</span>
+                    <!-- Demo Content Area -->
+                    <div class="p-6 sm:p-8 lg:p-10">
+                        <div class="grid lg:grid-cols-3 gap-8">
+
+                            <!-- Sidebar: Product List -->
+                            <div class="lg:col-span-1 space-y-4">
+                                <h3 class="text-lg font-display font-bold text-gray-900 dark:text-white mb-4" data-i18n="demo.sidebar.title">Productos de Ejemplo</h3>
+
+                                <div class="space-y-3" id="demo-product-list">
+                                    <!-- Product 1 -->
+                                    <div class="demo-product p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-brand-300 dark:hover:border-brand-600 hover:bg-brand-50/50 dark:hover:bg-brand-950/20 transition-all" data-product-id="1" data-name="Laptop HP 15" data-stock="24" data-price="899" tabindex="0" role="button" aria-label="Seleccionar Laptop HP 15">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 bg-brand-100 dark:bg-brand-900/50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-6 h-6 text-brand-600 dark:text-brand-400" aria-hidden="true"><use href="#icon-box"/></svg>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="font-semibold text-gray-900 dark:text-white truncate">Laptop HP 15</p>
+                                                <p class="text-sm text-gray-500 dark:text-gray-400">Stock: 24 uds</p>
+                                            </div>
+                                            <span class="text-sm font-bold text-brand-600 dark:text-brand-400">$899</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Product 2 -->
+                                    <div class="demo-product p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-brand-300 dark:hover:border-brand-600 hover:bg-brand-50/50 dark:hover:bg-brand-950/20 transition-all" data-product-id="2" data-name="Mouse Logitech MX" data-stock="156" data-price="79" tabindex="0" role="button" aria-label="Seleccionar Mouse Logitech MX">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 bg-green-100 dark:bg-green-900/50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-6 h-6 text-green-600 dark:text-green-400" aria-hidden="true"><use href="#icon-box"/></svg>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="font-semibold text-gray-900 dark:text-white truncate">Mouse Logitech MX</p>
+                                                <p class="text-sm text-gray-500 dark:text-gray-400">Stock: 156 uds</p>
+                                            </div>
+                                            <span class="text-sm font-bold text-brand-600 dark:text-brand-400">$79</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Product 3 -->
+                                    <div class="demo-product p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-brand-300 dark:hover:border-brand-600 hover:bg-brand-50/50 dark:hover:bg-brand-950/20 transition-all" data-product-id="3" data-name="Monitor Samsung 27&quot;" data-stock="12" data-price="349" tabindex="0" role="button" aria-label="Seleccionar Monitor Samsung 27 pulgadas">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" aria-hidden="true"><use href="#icon-box"/></svg>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="font-semibold text-gray-900 dark:text-white truncate">Monitor Samsung 27"</p>
+                                                <p class="text-sm text-gray-500 dark:text-gray-400">Stock: 12 uds</p>
+                                            </div>
+                                            <span class="text-sm font-bold text-brand-600 dark:text-brand-400">$349</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Product 4 -->
+                                    <div class="demo-product p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-brand-300 dark:hover:border-brand-600 hover:bg-brand-50/50 dark:hover:bg-brand-950/20 transition-all" data-product-id="4" data-name="Teclado Mecánico" data-stock="89" data-price="129" tabindex="0" role="button" aria-label="Seleccionar Teclado Mecánico">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" aria-hidden="true"><use href="#icon-box"/></svg>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="font-semibold text-gray-900 dark:text-white truncate">Teclado Mecánico</p>
+                                                <p class="text-sm text-gray-500 dark:text-gray-400">Stock: 89 uds</p>
+                                            </div>
+                                            <span class="text-sm font-bold text-brand-600 dark:text-brand-400">$129</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Main: Product Detail / Actions -->
+                            <div class="lg:col-span-2 space-y-6">
+                                <div id="demo-detail" class="space-y-6">
+                                    <!-- Placeholder state -->
+                                    <div id="demo-placeholder" class="flex flex-col items-center justify-center py-16 text-center space-y-4">
+                                        <div class="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-3xl flex items-center justify-center">
+                                            <svg class="w-10 h-10 text-gray-300 dark:text-gray-600" aria-hidden="true"><use href="#icon-scan"/></svg>
+                                        </div>
+                                        <h3 class="text-xl font-display font-semibold text-gray-900 dark:text-white" data-i18n="demo.placeholder.title">Selecciona un producto</h3>
+                                        <p class="text-gray-500 dark:text-gray-400 max-w-sm" data-i18n="demo.placeholder.desc">Haz clic en cualquier producto de la lista para ver sus detalles, ajustar el stock y probar las acciones de InvenTrack.</p>
+                                    </div>
+
+                                    <!-- Product detail (hidden by default) -->
+                                    <div id="demo-product-detail" class="hidden space-y-6">
+                                        <!-- Product header -->
+                                        <div class="flex items-start justify-between gap-4">
+                                            <div>
+                                                <h3 id="demo-product-name" class="text-2xl font-display font-bold text-gray-900 dark:text-white"></h3>
+                                                <p id="demo-product-stock-label" class="text-sm text-gray-500 dark:text-gray-400 mt-1"></p>
+                                            </div>
+                                            <span id="demo-product-badge" class="px-3 py-1 rounded-full text-xs font-bold"></span>
+                                        </div>
+
+                                        <!-- Stock adjustment -->
+                                        <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 space-y-4">
+                                            <label class="text-sm font-semibold text-gray-700 dark:text-gray-300" data-i18n="demo.stock.label">Ajustar Stock</label>
+                                            <div class="flex items-center gap-4">
+                                                <button type="button" id="demo-stock-minus" class="w-12 h-12 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl flex items-center justify-center text-2xl font-bold text-gray-600 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 hover:border-red-300 transition-all focus:outline-none focus:ring-2 focus:ring-red-500" aria-label="Reducir stock">-</button>
+                                                <div class="flex-1 relative">
+                                                    <input type="number" id="demo-stock-input" class="w-full text-center text-3xl font-display font-bold bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded-xl py-3 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all outline-none" min="0" value="0" aria-label="Cantidad de stock">
+                                                </div>
+                                                <button type="button" id="demo-stock-plus" class="w-12 h-12 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl flex items-center justify-center text-2xl font-bold text-gray-600 dark:text-gray-300 hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-green-600 hover:border-green-300 transition-all focus:outline-none focus:ring-2 focus:ring-green-500" aria-label="Aumentar stock">+</button>
+                                            </div>
+                                            <div class="flex gap-3">
+                                                <button type="button" id="demo-btn-entry" class="flex-1 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl shadow-lg shadow-green-600/20 hover:shadow-green-600/30 transition-all focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800" data-i18n="demo.stock.entry">Registrar Entrada</button>
+                                                <button type="button" id="demo-btn-exit" class="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl shadow-lg shadow-red-600/20 hover:shadow-red-600/30 transition-all focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800" data-i18n="demo.stock.exit">Registrar Salida</button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Activity log -->
+                                        <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 space-y-4">
+                                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300" data-i18n="demo.activity.title">Actividad Reciente</h4>
+                                            <div id="demo-activity-log" class="space-y-3 max-h-48 overflow-y-auto">
+                                                <p class="text-sm text-gray-400 dark:text-gray-500 italic" data-i18n="demo.activity.empty">Aún no hay movimientos registrados.</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Quick actions -->
+                                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                            <button type="button" class="demo-action-btn p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-center hover:border-brand-300 dark:hover:border-brand-600 hover:bg-brand-50 dark:hover:bg-brand-950/20 transition-all focus:outline-none focus:ring-2 focus:ring-brand-500" data-action="export" aria-label="Exportar datos del producto">
+                                                <svg class="w-5 h-5 mx-auto mb-1 text-gray-500 dark:text-gray-400" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+                                                <span class="text-xs font-medium text-gray-600 dark:text-gray-300" data-i18n="demo.action.export">Exportar</span>
+                                            </button>
+                                            <button type="button" class="demo-action-btn p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-center hover:border-brand-300 dark:hover:border-brand-600 hover:bg-brand-50 dark:hover:bg-brand-950/20 transition-all focus:outline-none focus:ring-2 focus:ring-brand-500" data-action="history" aria-label="Ver historial del producto">
+                                                <svg class="w-5 h-5 mx-auto mb-1 text-gray-500 dark:text-gray-400" aria-hidden="true"><use href="#icon-bar-chart"/></svg>
+                                                <span class="text-xs font-medium text-gray-600 dark:text-gray-300" data-i18n="demo.action.history">Historial</span>
+                                            </button>
+                                            <button type="button" class="demo-action-btn p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-center hover:border-brand-300 dark:hover:border-brand-600 hover:bg-brand-50 dark:hover:bg-brand-950/20 transition-all focus:outline-none focus:ring-2 focus:ring-brand-500" data-action="alert" aria-label="Configurar alerta de stock">
+                                                <svg class="w-5 h-5 mx-auto mb-1 text-gray-500 dark:text-gray-400" aria-hidden="true"><use href="#icon-zap"/></svg>
+                                                <span class="text-xs font-medium text-gray-600 dark:text-gray-300" data-i18n="demo.action.alert">Alertas</span>
+                                            </button>
+                                            <button type="button" class="demo-action-btn p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-center hover:border-brand-300 dark:hover:border-brand-600 hover:bg-brand-50 dark:hover:bg-brand-950/20 transition-all focus:outline-none focus:ring-2 focus:ring-brand-500" data-action="share" aria-label="Compartir producto">
+                                                <svg class="w-5 h-5 mx-auto mb-1 text-gray-500 dark:text-gray-400" aria-hidden="true"><use href="#icon-users"/></svg>
+                                                <span class="text-xs font-medium text-gray-600 dark:text-gray-300" data-i18n="demo.action.share">Compartir</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
-                            <div id="progress-bar" class="bg-gradient-to-r from-brand-500 to-purple-500 h-full rounded-full transition-all duration-700 ease-out" style="width: 60%"></div>
+                    </div>
+                </div>
+
+                <!-- Demo CTA -->
+                <div class="text-center mt-12 space-y-4">
+                    <p class="text-gray-600 dark:text-gray-400" data-i18n="demo.cta.text">¿Te gustó lo que ves? Esta es solo una fracción de lo que InvenTrack puede hacer.</p>
+                    <a href="#" class="inline-flex items-center gap-2 px-8 py-4 text-lg font-bold text-white bg-brand-600 rounded-2xl hover:bg-brand-700 shadow-xl shadow-brand-600/30 hover:shadow-brand-600/50 transition-all focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950" target="_blank" rel="noopener noreferrer" data-i18n="demo.cta.button">
+                        Crear Mi Cuenta Gratis
+                        <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== GALLERY ===== -->
+        <section id="gallery" class="py-20 md:py-32 bg-white dark:bg-gray-950">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="font-heading text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4" data-i18n="gallery_title">Diseñado para ti</h2>
+                    <p class="text-gray-500 dark:text-gray-400 text-lg" data-i18n="gallery_desc">Una interfaz limpia, intuitiva y lista para usarse en cualquier dispositivo.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- 1. LOGIN -->
+                    <div class="reveal group relative rounded-2xl overflow-hidden shadow-lg cursor-pointer bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 tilt-card">
+                        <div class="h-72 w-full p-4 flex items-center justify-center overflow-hidden">
+                            <picture>
+                                <source srcset="images/login_inventrack.webp" type="image/webp">
+                                <img src="images/login_inventrack.png" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" alt="Pantalla de inicio de sesión de InvenTrack con campos de usuario y contraseña" loading="lazy" decoding="async">
+                            </picture>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-900/80 dark:bg-black/80 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h3 class="text-white text-xl font-bold mb-2">Pantalla de Login</h3>
+                            <p class="text-brand-100 text-sm">Acceso seguro para administradores y bodegueros desde cualquier dispositivo.</p>
                         </div>
                     </div>
 
-                    <div class="text-center">
-                        <button id="demo-btn" class="text-sm text-gray-500 hover:text-brand-600 font-semibold underline transition">
-                            Simular salida de stock (Interactuar)
+                    <!-- 2. DASHBOARD -->
+                    <div class="reveal group relative rounded-2xl overflow-hidden shadow-lg cursor-pointer bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 tilt-card" data-delay="100">
+                        <div class="h-72 w-full p-4 flex items-center justify-center overflow-hidden">
+                            <picture>
+                                <source srcset="images/dashboard_admin.webp" type="image/webp">
+                                <img src="images/dashboard_admin.png" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" alt="Panel de control principal de InvenTrack mostrando métricas de inventario en tiempo real" loading="lazy" decoding="async">
+                            </picture>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-900/80 dark:bg-black/80 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h3 class="text-white text-xl font-bold mb-2">Dashboard Principal</h3>
+                            <p class="text-brand-100 text-sm">Métricas de stock, entradas y salidas en tiempo real en una sola pantalla.</p>
+                        </div>
+                    </div>
+
+                    <!-- 3. INFORMES -->
+                    <div class="reveal group relative rounded-2xl overflow-hidden shadow-lg cursor-pointer bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 tilt-card" data-delay="200">
+                        <div class="h-72 w-full p-4 flex items-center justify-center overflow-hidden">
+                            <picture>
+                                <source srcset="images/chart_admin.webp" type="image/webp">
+                                <img src="images/chart_admin.png" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" alt="Gráficos de análisis de stock por categoría en InvenTrack con reportes detallados" loading="lazy" decoding="async">
+                            </picture>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-900/80 dark:bg-black/80 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h3 class="text-white text-xl font-bold mb-2">Informes y Gráficos</h3>
+                            <p class="text-brand-100 text-sm">Analiza el stock por categoría y genera reportes detallados para tomar decisiones.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== VERSUS ===== -->
+        <section id="versus" class="py-20 md:py-32 bg-gray-50 dark:bg-gray-900">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="font-heading text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4" data-i18n="versus_title">¿Por qué cambiar?</h2>
+                    <p class="text-gray-500 dark:text-gray-400 text-lg" data-i18n="versus_desc">El tiempo es dinero. Deja atrás los métodos obsoletos.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <!-- TRADICIONAL -->
+                    <div class="reveal bg-white dark:bg-gray-800 p-8 rounded-2xl border-2 border-gray-100 dark:border-gray-700 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-xs font-bold px-4 py-2 rounded-bl-xl" aria-hidden="true">TRADICIONAL</div>
+                        <h3 class="font-heading text-2xl font-bold text-gray-400 dark:text-gray-500 mb-6 flex items-center">
+                            <svg class="w-8 h-8 mr-3" aria-hidden="true"><use href="#icon-package"></use></svg>
+                            Excel y Manual
+                        </h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start text-gray-500 dark:text-gray-400"><svg class="w-5 h-5 mr-3 mt-0.5 text-red-400 flex-shrink-0" aria-hidden="true"><use href="#icon-close"></use></svg> Altísima probabilidad de error humano.</li>
+                            <li class="flex items-start text-gray-500 dark:text-gray-400"><svg class="w-5 h-5 mr-3 mt-0.5 text-red-400 flex-shrink-0" aria-hidden="true"><use href="#icon-close"></use></svg> Datos desactualizados al instante.</li>
+                            <li class="flex items-start text-gray-500 dark:text-gray-400"><svg class="w-5 h-5 mr-3 mt-0.5 text-red-400 flex-shrink-0" aria-hidden="true"><use href="#icon-close"></use></svg> Difícil de acceder desde móvil.</li>
+                            <li class="flex items-start text-gray-500 dark:text-gray-400"><svg class="w-5 h-5 mr-3 mt-0.5 text-red-400 flex-shrink-0" aria-hidden="true"><use href="#icon-close"></use></svg> Sin alertas automáticas de stock bajo.</li>
+                        </ul>
+                    </div>
+                    <!-- INVENTRACK -->
+                    <div class="reveal bg-brand-900 text-white p-8 rounded-2xl border-2 border-brand-700 shadow-2xl relative overflow-hidden md:scale-105 z-10" data-delay="200">
+                        <div class="absolute top-0 right-0 bg-brand-500 text-white text-xs font-bold px-4 py-2 rounded-bl-xl" aria-hidden="true">RECOMENDADO</div>
+                        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-700 rounded-full filter blur-xl opacity-50" aria-hidden="true"></div>
+                        <h3 class="font-heading text-2xl font-bold mb-6 flex items-center text-white">
+                            <svg class="w-8 h-8 mr-3 text-brand-400" aria-hidden="true"><use href="#icon-clock"></use></svg>
+                            InvenTrack
+                        </h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start text-gray-200"><svg class="w-5 h-5 mr-3 mt-0.5 text-green-400 flex-shrink-0" aria-hidden="true"><use href="#icon-check"></use></svg> Sincronización en tiempo real 100%.</li>
+                            <li class="flex items-start text-gray-200"><svg class="w-5 h-5 mr-3 mt-0.5 text-green-400 flex-shrink-0" aria-hidden="true"><use href="#icon-check"></use></svg> Escaneo con cámara (Códigos de barras/QR).</li>
+                            <li class="flex items-start text-gray-200"><svg class="w-5 h-5 mr-3 mt-0.5 text-green-400 flex-shrink-0" aria-hidden="true"><use href="#icon-check"></use></svg> Acceso desde cualquier dispositivo (PWA).</li>
+                            <li class="flex items-start text-gray-200"><svg class="w-5 h-5 mr-3 mt-0.5 text-green-400 flex-shrink-0" aria-hidden="true"><use href="#icon-check"></use></svg> Alertas inteligentes por correo y SMS.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== TESTIMONIOS ===== -->
+        <section class="py-20 md:py-32 bg-white dark:bg-gray-950 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="font-heading text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4" data-i18n="testimonials_title">Lo que dicen nuestros clientes</h2>
+                </div>
+                <!-- Carousel -->
+                <div class="relative">
+                    <div id="testimonial-viewport" class="overflow-hidden rounded-2xl">
+                        <div id="testimonial-track" class="flex transition-transform duration-500 ease-out">
+                            <!-- Slide 1 -->
+                            <div class="min-w-full px-4">
+                                <div class="grid md:grid-cols-3 gap-8">
+                                    <div class="bg-gray-50 dark:bg-gray-900 p-8 rounded-2xl border border-gray-100 dark:border-gray-800">
+                                        <div class="flex text-yellow-400 mb-4" aria-label="5 de 5 estrellas" role="img">
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                        </div>
+                                        <p class="text-gray-600 dark:text-gray-300 italic mb-6">"Desde que usamos InvenTrack, reducimos las mermas en un 30%. El escaneo con el celular nos ahorró horas de trabajo."</p>
+                                        <div class="flex items-center">
+                                            <div class="w-12 h-12 bg-brand-100 dark:bg-brand-900/50 rounded-full flex items-center justify-center font-bold text-brand-600 dark:text-brand-400 mr-4" aria-hidden="true">MR</div>
+                                            <div>
+                                                <p class="font-bold text-gray-900 dark:text-white">María Rodríguez</p>
+                                                <p class="text-gray-500 dark:text-gray-400 text-sm">Gerente, SuperMax</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-gray-900 p-8 rounded-2xl border border-gray-100 dark:border-gray-800">
+                                        <div class="flex text-yellow-400 mb-4" aria-label="5 de 5 estrellas" role="img">
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                        </div>
+                                        <p class="text-gray-600 dark:text-gray-300 italic mb-6">"La curva de aprendizaje fue cero. Mi equipo lo dominó en una hora. Los reportes automáticos me cambiaron la vida."</p>
+                                        <div class="flex items-center">
+                                            <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/50 rounded-full flex items-center justify-center font-bold text-purple-600 dark:text-purple-400 mr-4" aria-hidden="true">JC</div>
+                                            <div>
+                                                <p class="font-bold text-gray-900 dark:text-white">Juan Pérez</p>
+                                                <p class="text-gray-500 dark:text-gray-400 text-sm">CEO, TechCorp</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-gray-900 p-8 rounded-2xl border border-gray-100 dark:border-gray-800">
+                                        <div class="flex text-yellow-400 mb-4" aria-label="5 de 5 estrellas" role="img">
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                        </div>
+                                        <p class="text-gray-600 dark:text-gray-300 italic mb-6">"El soporte es excelente. Tuvimos una integración rápida y sin dolores de cabeza. Inversión 100% justificada."</p>
+                                        <div class="flex items-center">
+                                            <div class="w-12 h-12 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center font-bold text-green-600 dark:text-green-400 mr-4" aria-hidden="true">LG</div>
+                                            <div>
+                                                <p class="font-bold text-gray-900 dark:text-white">Laura Gómez</p>
+                                                <p class="text-gray-500 dark:text-gray-400 text-sm">Directora, LogiTrans</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Slide 2 -->
+                            <div class="min-w-full px-4">
+                                <div class="grid md:grid-cols-3 gap-8">
+                                    <div class="bg-gray-50 dark:bg-gray-900 p-8 rounded-2xl border border-gray-100 dark:border-gray-800">
+                                        <div class="flex text-yellow-400 mb-4" aria-label="5 de 5 estrellas" role="img">
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                        </div>
+                                        <p class="text-gray-600 dark:text-gray-300 italic mb-6">"Implementamos InvenTrack en 3 días. El ROI se vio desde el primer mes con la reducción de pérdidas."</p>
+                                        <div class="flex items-center">
+                                            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center font-bold text-blue-600 dark:text-blue-400 mr-4" aria-hidden="true">CA</div>
+                                            <div>
+                                                <p class="font-bold text-gray-900 dark:text-white">Carlos Acosta</p>
+                                                <p class="text-gray-500 dark:text-gray-400 text-sm">Director, Almacén Central</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-gray-900 p-8 rounded-2xl border border-gray-100 dark:border-gray-800">
+                                        <div class="flex text-yellow-400 mb-4" aria-label="5 de 5 estrellas" role="img">
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                        </div>
+                                        <p class="text-gray-600 dark:text-gray-300 italic mb-6">"Lo mejor es poder revisar el inventario desde el celular. Ya no necesito estar en la bodega para saber qué hay."</p>
+                                        <div class="flex items-center">
+                                            <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900/50 rounded-full flex items-center justify-center font-bold text-orange-600 dark:text-orange-400 mr-4" aria-hidden="true">AS</div>
+                                            <div>
+                                                <p class="font-bold text-gray-900 dark:text-white">Andrea Suárez</p>
+                                                <p class="text-gray-500 dark:text-gray-400 text-sm">Gerente, FreshMarket</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-gray-900 p-8 rounded-2xl border border-gray-100 dark:border-gray-800">
+                                        <div class="flex text-yellow-400 mb-4" aria-label="5 de 5 estrellas" role="img">
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-star"></use></svg>
+                                        </div>
+                                        <p class="text-gray-600 dark:text-gray-300 italic mb-6">"Las alertas automáticas de stock bajo me salvaron de quiebrarme dos veces. Herramienta indispensable."</p>
+                                        <div class="flex items-center">
+                                            <div class="w-12 h-12 bg-pink-100 dark:bg-pink-900/50 rounded-full flex items-center justify-center font-bold text-pink-600 dark:text-pink-400 mr-4" aria-hidden="true">RM</div>
+                                            <div>
+                                                <p class="font-bold text-gray-900 dark:text-white">Roberto Martínez</p>
+                                                <p class="text-gray-500 dark:text-gray-400 text-sm">Dueño, Ferretería Total</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Carousel Controls -->
+                    <div class="flex items-center justify-center mt-8 space-x-4">
+                        <button id="carousel-prev" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-brand-100 dark:hover:bg-brand-900 transition" aria-label="Testimonio anterior">
+                            <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                        </button>
+                        <div class="flex space-x-2" role="tablist" aria-label="Testimonios">
+                            <button class="carousel-dot w-3 h-3 rounded-full bg-brand-600 transition" role="tab" aria-selected="true" aria-current="true" aria-label="Página 1"></button>
+                            <button class="carousel-dot w-3 h-3 rounded-full bg-gray-300 dark:bg-gray-600 transition" role="tab" aria-selected="false" aria-label="Página 2"></button>
+                        </div>
+                        <button id="carousel-next" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-brand-100 dark:hover:bg-brand-900 transition" aria-label="Siguiente testimonio">
+                            <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ===== GALERÍA (CAPTURAS) ===== -->
-        <!-- ===== GALERÍA (CAPTURAS) ===== -->
-    <section id="gallery" class="py-20 md:py-32 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <h2 class="font-heading text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">Diseñado para ti</h2>
-                <p class="text-gray-500 text-lg">Una interfaz limpia, intuitiva y lista para usarse en cualquier dispositivo.</p>
-            </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <!-- 1. LOGIN -->
-                <div class="reveal group relative rounded-2xl overflow-hidden shadow-lg cursor-pointer bg-gray-50 border border-gray-100">
-                    <div class="h-72 w-full p-4 flex items-center justify-center overflow-hidden">
-                        <!-- Reemplaza este src por la captura de tu Login -->
-                        <img src="images/login_inventrack.png" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" alt="Login">
-                    </div>
-                    <div class="absolute inset-0 bg-brand-900/80 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <h3 class="text-white text-xl font-bold mb-2">Pantalla de Login</h3>
-                        <p class="text-brand-100 text-sm">Acceso seguro para administradores y bodegueros desde cualquier dispositivo.</p>
-                    </div>
-                </div>
-
-                <!-- 2. DASHBOARD -->
-                <div class="reveal group relative rounded-2xl overflow-hidden shadow-lg cursor-pointer bg-gray-50 border border-gray-100" style="transition-delay: 0.1s">
-                    <div class="h-72 w-full p-4 flex items-center justify-center overflow-hidden">
-                        <!-- Reemplaza este src por la captura de tu Dashboard -->
-                        <img src="images/dashboard_admin.png" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" alt="Dashboard">
-                    </div>
-                    <div class="absolute inset-0 bg-brand-900/80 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <h3 class="text-white text-xl font-bold mb-2">Dashboard Principal</h3>
-                        <p class="text-brand-100 text-sm">Métricas de stock, entradas y salidas en tiempo real en una sola pantalla.</p>
-                    </div>
-                </div>
-
-                <!-- 3. INFORMES -->
-                <div class="reveal group relative rounded-2xl overflow-hidden shadow-lg cursor-pointer bg-gray-50 border border-gray-100" style="transition-delay: 0.2s">
-                    <div class="h-72 w-full p-4 flex items-center justify-center overflow-hidden">
-                        <!-- Reemplaza este src por la captura de tus Informes -->
-                        <img src="images/chart_admin.png" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" alt="Informes">
-                    </div>
-                    <div class="absolute inset-0 bg-brand-900/80 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <h3 class="text-white text-xl font-bold mb-2">Informes y Gráficos</h3>
-                        <p class="text-brand-100 text-sm">Analiza el stock por categoría y genera reportes detallados para tomar decisiones.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== VERSUS (COMPARATIVA) ===== -->
-    <section id="versus" class="py-20 md:py-32 bg-gray-50">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <h2 class="font-heading text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">¿Por qué cambiar?</h2>
-                <p class="text-gray-500 text-lg">El tiempo es dinero. Deja atrás los métodos obsoletos.</p>
-            </div>
-            <div class="grid md:grid-cols-2 gap-8 items-start">
-                <div class="reveal bg-white p-8 rounded-2xl border-2 border-gray-100 shadow-sm relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-gray-200 text-gray-600 text-xs font-bold px-4 py-2 rounded-bl-xl">TRADICIONAL</div>
-                    <h3 class="font-heading text-2xl font-bold text-gray-400 mb-6 flex items-center">
-                        <svg class="w-8 h-8 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 014-4h2a4 4 0 014 4v2M9 7h6m0 10v-2m-6 2v-2m12-6a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        Excel y Manual
-                    </h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-start text-gray-500"><svg class="w-5 h-5 mr-3 mt-0.5 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Altísima probabilidad de error humano.</li>
-                        <li class="flex items-start text-gray-500"><svg class="w-5 h-5 mr-3 mt-0.5 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Datos desactualizados al instante.</li>
-                        <li class="flex items-start text-gray-500"><svg class="w-5 h-5 mr-3 mt-0.5 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Difícil de acceder desde móvil.</li>
-                        <li class="flex items-start text-gray-500"><svg class="w-5 h-5 mr-3 mt-0.5 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Sin alertas automáticas de stock bajo.</li>
-                    </ul>
-                </div>
-                <div class="reveal bg-brand-900 text-white p-8 rounded-2xl border-2 border-brand-700 shadow-2xl relative overflow-hidden md:scale-105 z-10" style="transition-delay: 0.2s">
-                    <div class="absolute top-0 right-0 bg-brand-500 text-white text-xs font-bold px-4 py-2 rounded-bl-xl">RECOMENDADO</div>
-                    <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-700 rounded-full filter blur-xl opacity-50"></div>
-                    <h3 class="font-heading text-2xl font-bold mb-6 flex items-center text-white">
-                        <svg class="w-8 h-8 mr-3 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        InvenTrack
-                    </h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-start text-gray-200"><svg class="w-5 h-5 mr-3 mt-0.5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Sincronización en tiempo real 100%.</li>
-                        <li class="flex items-start text-gray-200"><svg class="w-5 h-5 mr-3 mt-0.5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Escaneo con cámara (Códigos de barras/QR).</li>
-                        <li class="flex items-start text-gray-200"><svg class="w-5 h-5 mr-3 mt-0.5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Acceso desde cualquier dispositivo (PWA).</li>
-                        <li class="flex items-start text-gray-200"><svg class="w-5 h-5 mr-3 mt-0.5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Alertas inteligentes por correo y SMS.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== TESTIMONIOS ===== -->
-    <section class="py-20 md:py-32 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <h2 class="font-heading text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">Lo que dicen nuestros clientes</h2>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="reveal bg-gray-50 p-8 rounded-2xl border border-gray-100">
-                    <div class="flex text-yellow-400 mb-4">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    </div>
-                    <p class="text-gray-600 italic mb-6">"Desde que usamos InvenTrack, reducimos las mermas en un 30%. El escaneo con el celular nos ahorró horas de trabajo."</p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center font-bold text-brand-600 mr-4">MR</div>
-                        <div>
-                            <p class="font-bold text-gray-900">María Rodríguez</p>
-                            <p class="text-gray-500 text-sm">Gerente, SuperMax</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="reveal bg-gray-50 p-8 rounded-2xl border border-gray-100" style="transition-delay: 0.2s">
-                    <div class="flex text-yellow-400 mb-4">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    </div>
-                    <p class="text-gray-600 italic mb-6">"La curva de aprendizaje fue cero. Mi equipo lo dominó en una hora. Los reportes automáticos me cambiaron la vida."</p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center font-bold text-purple-600 mr-4">JC</div>
-                        <div>
-                            <p class="font-bold text-gray-900">Juan Pérez</p>
-                            <p class="text-gray-500 text-sm">CEO, TechCorp</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="reveal bg-gray-50 p-8 rounded-2xl border border-gray-100" style="transition-delay: 0.4s">
-                    <div class="flex text-yellow-400 mb-4">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    </div>
-                    <p class="text-gray-600 italic mb-6">"El soporte es excelente. Tuvimos una integración rápida y sin dolores de cabeza. Inversión 100% justificada."</p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center font-bold text-green-600 mr-4">LG</div>
-                        <div>
-                            <p class="font-bold text-gray-900">Laura Gómez</p>
-                            <p class="text-gray-500 text-sm">Directora, LogiTrans</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== FORMULARIO DE CONTACTO ===== -->
-    <section id="contact" class="py-20 md:py-32 bg-brand-900 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-full opacity-20">
-            <div class="absolute top-10 left-10 w-72 h-72 bg-brand-500 rounded-full filter blur-3xl"></div>
-            <div class="absolute bottom-10 right-10 w-80 h-80 bg-purple-600 rounded-full filter blur-3xl"></div>
-        </div>
-
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-12 reveal">
-                <h2 class="font-heading text-3xl md:text-5xl font-extrabold text-white mb-4">Hablemos de tu negocio</h2>
-                <p class="text-white text-lg opacity-90">Solicita una demostración personalizada y sin compromiso.</p>
+        <!-- ===== CONTACT ===== -->
+        <section id="contact" class="py-20 md:py-32 bg-brand-900 dark:bg-gray-950 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full opacity-20" aria-hidden="true">
+                <div class="absolute top-10 left-10 w-72 h-72 bg-brand-500 rounded-full filter blur-3xl"></div>
+                <div class="absolute bottom-10 right-10 w-80 h-80 bg-purple-600 rounded-full filter blur-3xl"></div>
             </div>
 
-            <form id="contact-form" class="bg-white p-8 md:p-10 rounded-2xl shadow-2xl reveal grid md:grid-cols-2 gap-6">
-                <div class="flex flex-col">
-                    <label class="mb-2 font-bold text-gray-900 text-lg">Nombre completo *</label>
-                    <input type="text" id="name" required class="px-4 py-3 rounded-lg bg-gray-50 border-2 border-gray-300 text-gray-900 text-lg focus:border-brand-600 focus:ring-4 focus:ring-brand-100 focus:outline-none transition" placeholder="Ej. Juan Pérez">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="font-heading text-3xl md:text-5xl font-extrabold text-white mb-4" data-i18n="contact_title">Hablemos de tu negocio</h2>
+                    <p class="text-white text-lg opacity-90" data-i18n="contact_desc">Solicita una demostración personalizada y sin compromiso.</p>
                 </div>
-                <div class="flex flex-col">
-                    <label class="mb-2 font-bold text-gray-900 text-lg">Correo electrónico *</label>
-                    <input type="email" id="email" required class="px-4 py-3 rounded-lg bg-gray-50 border-2 border-gray-300 text-gray-900 text-lg focus:border-brand-600 focus:ring-4 focus:ring-brand-100 focus:outline-none transition" placeholder="ejemplo@empresa.com">
-                </div>
-                <div class="flex flex-col">
-                    <label class="mb-2 font-bold text-gray-900 text-lg">Teléfono / WhatsApp</label>
-                    <input type="tel" id="phone" class="px-4 py-3 rounded-lg bg-gray-50 border-2 border-gray-300 text-gray-900 text-lg focus:border-brand-600 focus:ring-4 focus:ring-brand-100 focus:outline-none transition" placeholder="+57 300 000 0000">
-                </div>
-                <div class="flex flex-col">
-                    <label class="mb-2 font-bold text-gray-900 text-lg">Nombre de la empresa</label>
-                    <input type="text" id="company" class="px-4 py-3 rounded-lg bg-gray-50 border-2 border-gray-300 text-gray-900 text-lg focus:border-brand-600 focus:ring-4 focus:ring-brand-100 focus:outline-none transition" placeholder="Ej. Mi Bodega S.A.S">
-                </div>
-                <div class="flex flex-col md:col-span-2">
-                    <label class="mb-2 font-bold text-gray-900 text-lg">Mensaje</label>
-                    <textarea id="message" rows="4" class="px-4 py-3 rounded-lg bg-gray-50 border-2 border-gray-300 text-gray-900 text-lg focus:border-brand-600 focus:ring-4 focus:ring-brand-100 focus:outline-none transition resize-none" placeholder="Cuéntanos qué necesitas mejorar en tu bodega..."></textarea>
-                </div>
-                <div class="md:col-span-2 text-center">
-                    <button type="submit" class="w-full md:w-auto bg-brand-600 text-white px-12 py-4 rounded-xl font-bold text-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/30 hover:-translate-y-1 transform duration-300">
-                        Enviar Solicitud
-                    </button>
-                </div>
-            </form>
-            <div id="form-success" class="hidden mt-6 bg-green-100 text-green-700 p-4 rounded-lg text-center font-semibold reveal active">
-                ¡Gracias! Hemos recibido tu mensaje y te contactaremos muy pronto.
-            </div>
-        </div>
-    </section>
 
-    <!-- ===== FOOTER AVANZADO ===== -->
+                <form id="contact-form" class="bg-white dark:bg-gray-900 p-8 md:p-10 rounded-2xl shadow-2xl reveal grid md:grid-cols-2 gap-6" novalidate>
+                    <div class="flex flex-col">
+                        <label for="name" class="mb-2 font-bold text-gray-900 dark:text-white text-lg">Nombre completo *</label>
+                        <input type="text" id="name" name="name" required autocomplete="name" class="px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white text-lg focus:border-brand-600 focus:ring-4 focus:ring-brand-100 dark:focus:ring-brand-900/50 focus:outline-none transition" placeholder="Ej. Juan Pérez" aria-describedby="name-error">
+                        <span id="name-error" class="text-red-500 dark:text-red-400 text-sm mt-1 hidden" role="alert" aria-live="polite"></span>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="email" class="mb-2 font-bold text-gray-900 dark:text-white text-lg">Correo electrónico *</label>
+                        <input type="email" id="email" name="email" required autocomplete="email" class="px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white text-lg focus:border-brand-600 focus:ring-4 focus:ring-brand-100 dark:focus:ring-brand-900/50 focus:outline-none transition" placeholder="ejemplo@empresa.com" aria-describedby="email-error">
+                        <span id="email-error" class="text-red-500 dark:text-red-400 text-sm mt-1 hidden" role="alert" aria-live="polite"></span>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="phone" class="mb-2 font-bold text-gray-900 dark:text-white text-lg">Teléfono / WhatsApp</label>
+                        <input type="tel" id="phone" name="phone" autocomplete="tel" class="px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white text-lg focus:border-brand-600 focus:ring-4 focus:ring-brand-100 dark:focus:ring-brand-900/50 focus:outline-none transition" placeholder="+57 300 000 0000" aria-describedby="phone-error">
+                        <span id="phone-error" class="text-red-500 dark:text-red-400 text-sm mt-1 hidden" role="alert" aria-live="polite"></span>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="company" class="mb-2 font-bold text-gray-900 dark:text-white text-lg">Nombre de la empresa</label>
+                        <input type="text" id="company" name="company" autocomplete="organization" class="px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white text-lg focus:border-brand-600 focus:ring-4 focus:ring-brand-100 dark:focus:ring-brand-900/50 focus:outline-none transition" placeholder="Ej. Mi Bodega S.A.S">
+                    </div>
+                    <div class="flex flex-col md:col-span-2">
+                        <label for="message" class="mb-2 font-bold text-gray-900 dark:text-white text-lg">Mensaje</label>
+                        <textarea id="message" name="message" rows="4" class="px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white text-lg focus:border-brand-600 focus:ring-4 focus:ring-brand-100 dark:focus:ring-brand-900/50 focus:outline-none transition resize-none" placeholder="Cuéntanos qué necesitas mejorar en tu bodega..."></textarea>
+                    </div>
+                    <div class="md:col-span-2 text-center">
+                        <button type="submit" id="submit-btn" class="w-full md:w-auto bg-brand-600 text-white px-12 py-4 rounded-xl font-bold text-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/30 hover:-translate-y-1 transform duration-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
+                            Enviar Solicitud
+                        </button>
+                    </div>
+                </form>
+                <div id="form-success" class="hidden mt-6 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 p-4 rounded-lg text-center font-semibold">
+                    ¡Gracias! Hemos recibido tu mensaje y te contactaremos muy pronto.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
     <footer class="bg-gray-950 text-gray-400 pt-20 pb-8 border-t border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-4 gap-12 mb-12">
                 <div class="md:col-span-1">
-                    <a href="#" class="flex items-center space-x-2 mb-4">
+                    <a href="#" class="flex items-center space-x-2 mb-4" aria-label="InvenTrack - Ir al inicio">
                         <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                            <svg class="w-5 h-5 text-white" aria-hidden="true"><use href="#icon-package"></use></svg>
                         </div>
                         <span class="font-heading font-extrabold text-xl text-white">Inven<span class="text-brand-400">Track</span></span>
                     </a>
                     <p class="text-sm leading-relaxed">La plataforma moderna para gestionar inventarios, reducir pérdidas y escalar tu empresa.</p>
                     <div class="flex space-x-4 mt-6">
-                        <a href="#" class="w-9 h-9 bg-gray-800 hover:bg-brand-600 rounded-lg flex items-center justify-center transition">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"></path></svg>
+                        <a href="#!" class="w-9 h-9 bg-gray-800 hover:bg-brand-600 rounded-lg flex items-center justify-center transition" aria-label="Facebook" rel="noopener noreferrer">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"></path></svg>
                         </a>
-                        <a href="#" class="w-9 h-9 bg-gray-800 hover:bg-brand-600 rounded-lg flex items-center justify-center transition">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+                        <a href="#!" class="w-9 h-9 bg-gray-800 hover:bg-brand-600 rounded-lg flex items-center justify-center transition" aria-label="Instagram" rel="noopener noreferrer">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
                         </a>
-                        <a href="#" class="w-9 h-9 bg-gray-800 hover:bg-brand-600 rounded-lg flex items-center justify-center transition">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+                        <a href="#!" class="w-9 h-9 bg-gray-800 hover:bg-brand-600 rounded-lg flex items-center justify-center transition" aria-label="LinkedIn" rel="noopener noreferrer">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
                         </a>
                     </div>
                 </div>
 
                 <div>
-                    <h4 class="text-white font-bold mb-4">Producto</h4>
+                    <h4 class="text-white font-bold mb-4" data-i18n="footer_product">Producto</h4>
                     <ul class="space-y-3 text-sm">
                         <li><a href="#features" class="hover:text-brand-400 transition">Características</a></li>
                         <li><a href="#demo" class="hover:text-brand-400 transition">Demo en Vivo</a></li>
                         <li><a href="#versus" class="hover:text-brand-400 transition">Comparativa</a></li>
-                        <li><a href="#" class="footer-link hover:text-brand-400 transition" data-toast="Estamos preparando nuestros planes de precios. ¡Próximamente!">Precios</a></li>
+                        <li><a href="#!" class="footer-link hover:text-brand-400 transition" data-toast="Estamos preparando nuestros planes de precios. ¡Próximamente!">Precios</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4 class="text-white font-bold mb-4">Empresa</h4>
+                    <h4 class="text-white font-bold mb-4" data-i18n="footer_company">Empresa</h4>
                     <ul class="space-y-3 text-sm">
-                        <li><a href="#" class="footer-link hover:text-brand-400 transition" data-toast="Conoce más sobre nosotros pronto.">Sobre Nosotros</a></li>
-                        <li><a href="#" class="footer-link hover:text-brand-400 transition" data-toast="Nuestro blog está en construcción.">Blog</a></li>
+                        <li><a href="#!" class="footer-link hover:text-brand-400 transition" data-toast="Conoce más sobre nosotros pronto.">Sobre Nosotros</a></li>
+                        <li><a href="#!" class="footer-link hover:text-brand-400 transition" data-toast="Nuestro blog está en construcción.">Blog</a></li>
                         <li><a href="#contact" class="hover:text-brand-400 transition">Contacto</a></li>
-                        <li><a href="#" class="footer-link hover:text-brand-400 transition" data-toast="Únete a nuestro equipo. Pronto publicaremos vacantes.">Carreras</a></li>
+                        <li><a href="#!" class="footer-link hover:text-brand-400 transition" data-toast="Únete a nuestro equipo. Pronto publicaremos vacantes.">Carreras</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4 class="text-white font-bold mb-4">Legal</h4>
+                    <h4 class="text-white font-bold mb-4" data-i18n="footer_legal">Legal</h4>
                     <ul class="space-y-3 text-sm">
-                        <li><a href="#" class="footer-link hover:text-brand-400 transition" data-toast="Documento en preparación.">Términos de Servicio</a></li>
-                        <li><a href="#" class="footer-link hover:text-brand-400 transition" data-toast="Documento en preparación.">Política de Privacidad</a></li>
-                        <li><a href="#" class="footer-link hover:text-brand-400 transition" data-toast="Documento en preparación.">Política de Cookies</a></li>
-                        <li><a href="#" class="footer-link hover:text-brand-400 transition" data-toast="Documento en preparación.">GDPR</a></li>
+                        <li><a href="#!" class="footer-link hover:text-brand-400 transition" data-toast="Documento en preparación.">Términos de Servicio</a></li>
+                        <li><a href="#!" class="footer-link hover:text-brand-400 transition" data-toast="Documento en preparación.">Política de Privacidad</a></li>
+                        <li><a href="#!" class="footer-link hover:text-brand-400 transition" data-toast="Documento en preparación.">Política de Cookies</a></li>
+                        <li><a href="#!" class="footer-link hover:text-brand-400 transition" data-toast="Documento en preparación.">GDPR</a></li>
                     </ul>
                 </div>
             </div>
-            
+
             <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm">
                 <p>&copy; 2026 InvenTrack. Todos los derechos reservados.</p>
                 <p class="mt-4 md:mt-0">Hecho por Norbey Alejandro Obando Zapata.</p>
@@ -543,6 +1073,14 @@
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <!-- Sticky CTA (Mobile) -->
+    <div id="sticky-cta" class="lg:hidden fixed bottom-0 inset-x-0 bg-brand-600 p-4 z-50 shadow-2xl transform translate-y-full transition-transform duration-300">
+        <a href="https://alejandrozapata12.github.io/inventrack_system/" target="_blank" rel="noopener noreferrer" class="block text-center bg-white text-brand-600 font-bold py-3 rounded-xl hover:bg-gray-50 transition">
+            Probar InvenTrack Gratis
+        </a>
+    </div>
+
+    <!-- Main Script -->
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
