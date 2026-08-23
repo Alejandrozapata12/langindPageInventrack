@@ -3,7 +3,7 @@ export function initMenu() {
   const mobileMenu = document.getElementById('mobile-menu');
   const menuOpen = document.getElementById('menu-icon-open');
   const menuClose = document.getElementById('menu-icon-close');
-  const mobileLinks = document.querySelectorAll('.mobile-link');
+  const mobileLinks = document.querySelectorAll('.mobile-menu-link');
   const body = document.body;
 
   if (!menuBtn || !mobileMenu) return;
