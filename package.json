@@ -4,7 +4,11 @@
   "description": "Landing page for InvenTrack inventory management system",
   "private": true,
   "scripts": {
-    "dev": "npx serve .",
-    "build": "echo 'Add build steps here'"
+    "dev": "npm run build:css && npx serve .",
+    "build": "npm run build:css",
+    "build:css": "tailwindcss -i ./css/tailwind.css -o ./css/tailwind.generated.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
   }
 }
