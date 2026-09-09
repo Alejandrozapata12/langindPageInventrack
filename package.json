@@ -1,0 +1,14 @@
+{
+  "name": "inventrack-landing",
+  "version": "1.0.0",
+  "description": "Landing page for InvenTrack inventory management system",
+  "private": true,
+  "scripts": {
+    "dev": "npm run build:css && npx serve .",
+    "build": "npm run build:css",
+    "build:css": "tailwindcss -i ./css/tailwind.css -o ./css/tailwind.generated.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
