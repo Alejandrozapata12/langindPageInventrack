@@ -7,24 +7,28 @@
   "background_color": "#ffffff",
   "theme_color": "#4f46e5",
   "orientation": "any",
-  "categories": ["business", "productivity", "utilities"],
+  "categories": [
+    "business",
+    "productivity",
+    "utilities"
+  ],
   "icons": [
     {
-      "src": "images/Logo.png",
+      "src": "images/logo_inventrack.jpeg",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     },
     {
-      "src": "images/Logo.png",
+      "src": "images/logo_inventrack.jpeg",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     }
   ],
   "screenshots": [
     {
-      "src": "images/dashboard_admin.png",
+      "src": "images/dashboard-admin.png",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",

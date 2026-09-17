@@ -1,13 +1,21 @@
-const CACHE_NAME = 'inventrack-v1';
+const CACHE_NAME = 'inventrack-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/css/styles.css',
-  '/js/script.js',
-  '/images/Logo.png',
-  '/images/login_inventrack.png',
-  '/images/dashboard_admin.png',
-  '/images/chart_admin.png',
+  '/css/tailwind.generated.css',
+  '/js/main.js',
+  '/js/modules/animations.js',
+  '/js/modules/carousel.js',
+  '/js/modules/darkmode.js',
+  '/js/modules/form.js',
+  '/js/modules/menu.js',
+  '/js/modules/navbar.js',
+  '/js/modules/toast.js',
+  '/js/modules/utm.js',
+  '/images/Login_inventrack.jpeg',
+  '/images/dashboard-admin.png',
+  '/images/dashboard-empleado.png',
   '/manifest.json'
 ];
 
@@ -36,7 +44,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
-  if (event.request.url.includes('cdn.tailwindcss.com') || event.request.url.includes('fonts.googleapis.com') || event.request.url.includes('fonts.gstatic.com')) {
+  if (event.request.url.includes('fonts.googleapis.com') || event.request.url.includes('fonts.gstatic.com')) {
     event.respondWith(
       caches.open(CACHE_NAME).then((cache) => {
         return fetch(event.request).then((response) => {
@@ -50,24 +58,14 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        fetch(event.request).then((response) => {
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, response);
-          });
-        }).catch(() => {});
-        return cachedResponse;
+  event.respondWith(caches.match(event.request).then((cached) => {
+    const network = fetch(event.request).then((response) => {
+      if (response.ok) {
+        const copy = response.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
       }
-      return fetch(event.request).then((response) => {
-        if (!response || response.status !== 200) return response;
-        const responseClone = response.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseClone);
-        });
-        return response;
-      });
-    })
-  );
+      return response;
+    }).catch(() => cached);
+    return cached || network;
+  }));
 });

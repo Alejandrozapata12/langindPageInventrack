@@ -1,43 +1,33 @@
+const STORAGE_KEY = 'inventrack-utm';
+const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+const MAX_AGE = 30 * 24 * 60 * 60 * 1000;
+
 export function initUTM() {
-  const params = new URLSearchParams(window.location.search);
-  const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+    let stored;
+    try { stored = localStorage.getItem(STORAGE_KEY); } catch { return; }
 
-  const utmData = {};
-  let hasUTM = false;
-
-  utmKeys.forEach(key => {
-    const value = params.get(key);
-    if (value) {
-      utmData[key] = value;
-      hasUTM = true;
+    const params = new URLSearchParams(window.location.search);
+    const data = Object.fromEntries(UTM_KEYS.map((key) => [key, params.get(key)]).filter(([, value]) => value));
+    if (Object.keys(data).length) {
+        data.timestamp = Date.now();
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch { return; }
+        stored = JSON.stringify(data);
     }
-  });
+    if (!stored) return;
 
-  if (hasUTM) {
-    utmData.timestamp = Date.now();
-    localStorage.setItem('inventrack-utm', JSON.stringify(utmData));
-  }
-
-  const demoLinks = document.querySelectorAll('a[href*="inventrack_system"]');
-  const storedUTM = localStorage.getItem('inventrack-utm');
-
-  if (storedUTM) {
-    const data = JSON.parse(storedUTM);
-    const age = Date.now() - data.timestamp;
-    const maxAge = 30 * 24 * 60 * 60 * 1000;
-
-    if (age > maxAge) {
-      localStorage.removeItem('inventrack-utm');
-      return;
+    let attribution;
+    try { attribution = JSON.parse(stored); } catch {
+        localStorage.removeItem(STORAGE_KEY);
+        return;
+    }
+    if (!attribution.timestamp || Date.now() - attribution.timestamp > MAX_AGE) {
+        localStorage.removeItem(STORAGE_KEY);
+        return;
     }
 
-    const utmString = new URLSearchParams(data).toString();
-    demoLinks.forEach(link => {
-      const url = new URL(link.href);
-      Object.entries(data).forEach(([key, value]) => {
-        if (key !== 'timestamp') url.searchParams.set(key, value);
-      });
-      link.href = url.toString();
+    document.querySelectorAll('a[href*="inventrack_system"]').forEach((link) => {
+        const url = new URL(link.href);
+        UTM_KEYS.forEach((key) => { if (attribution[key]) url.searchParams.set(key, attribution[key]); });
+        link.href = url.toString();
     });
-  }
 }

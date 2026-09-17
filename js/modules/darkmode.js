@@ -1,24 +1,24 @@
 export function initDarkMode() {
-  const toggle = document.getElementById('dark-mode-toggle');
+  const toggle = document.getElementById('themeToggle');
   if (!toggle) return;
 
   const html = document.documentElement;
   const STORAGE_KEY = 'inventrack-theme';
 
   function getPreferredTheme() {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    let stored = null;
+    try { stored = localStorage.getItem(STORAGE_KEY); } catch { /* Storage unavailable. */ }
     if (stored) return stored;
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
 
   function applyTheme(theme) {
-    if (theme === 'dark') {
-      html.classList.add('dark');
-    } else {
-      html.classList.remove('dark');
-    }
-    localStorage.setItem(STORAGE_KEY, theme);
+    document.body.classList.toggle('light-mode', theme === 'light');
     toggle.setAttribute('aria-label', theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+    const icon = toggle.querySelector('i');
+    icon?.classList.toggle('fa-moon', theme === 'dark');
+    icon?.classList.toggle('fa-sun', theme === 'light');
+    try { localStorage.setItem(STORAGE_KEY, theme); } catch { /* Storage unavailable. */ }
   }
 
   applyTheme(getPreferredTheme());
