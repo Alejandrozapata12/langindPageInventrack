@@ -1,4 +1,4 @@
-const CACHE_NAME = 'inventrack-v2';
+const CACHE_NAME = 'inventrack-v3';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -13,9 +13,10 @@ const STATIC_ASSETS = [
   '/js/modules/navbar.js',
   '/js/modules/toast.js',
   '/js/modules/utm.js',
-  '/images/Login_inventrack.jpeg',
-  '/images/dashboard-admin.png',
-  '/images/dashboard-empleado.png',
+  '/images/login_inventrack.png',
+  '/images/chart_admin.png',
+  '/images/dashboard_admin.png',
+  '/images/Logo.png',
   '/manifest.json'
 ];
 

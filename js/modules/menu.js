@@ -11,10 +11,10 @@ export function initMenu() {
     body.classList.add('menu-open');
     mobileMenu.classList.add('active');
     overlay?.classList.add('active');
-    body.classList.add('menu-open');
     menuBtn.setAttribute('aria-expanded', 'true');
+    menuBtn.setAttribute('aria-label', 'Cerrar menú');
 
-    mobileLinks.forEach((link, i) => {
+    mobileLinks.forEach((link) => {
       link.removeAttribute('style');
     });
   }
@@ -25,10 +25,11 @@ export function initMenu() {
     overlay?.classList.remove('active');
     body.classList.remove('menu-open');
     menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.setAttribute('aria-label', 'Abrir menú');
   }
 
   menuBtn.addEventListener('click', () => {
-    if (body.classList.contains('menu-open')) {
+    if (mobileMenu.classList.contains('active')) {
       closeMenu();
     } else {
       openMenu();

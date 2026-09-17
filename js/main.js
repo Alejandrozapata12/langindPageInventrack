@@ -60,7 +60,8 @@ function initModals() {
   const overlays = document.querySelectorAll('.modal-overlay');
   let lastTrigger = null;
   document.querySelectorAll('[data-open-modal]').forEach((trigger) => {
-    trigger.addEventListener('click', () => {
+    trigger.addEventListener('click', (event) => {
+      event.preventDefault();
       const modal = document.getElementById(trigger.dataset.openModal);
       if (!modal) return;
       lastTrigger = trigger;
@@ -98,7 +99,8 @@ function initModals() {
 function initServiceWorker() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js').catch(() => { });
+      const serviceWorkerUrl = new URL('../sw.js', import.meta.url);
+      navigator.serviceWorker.register(serviceWorkerUrl.pathname).catch(() => { });
     });
   }
 }

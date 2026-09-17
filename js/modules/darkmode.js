@@ -2,8 +2,8 @@ export function initDarkMode() {
   const toggle = document.getElementById('themeToggle');
   if (!toggle) return;
 
-  const html = document.documentElement;
   const STORAGE_KEY = 'inventrack-theme';
+  let currentTheme;
 
   function getPreferredTheme() {
     let stored = null;
@@ -13,24 +13,25 @@ export function initDarkMode() {
   }
 
   function applyTheme(theme) {
-    document.body.classList.toggle('light-mode', theme === 'light');
-    toggle.setAttribute('aria-label', theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+    currentTheme = theme === 'light' ? 'light' : 'dark';
+    document.body.classList.toggle('light-mode', currentTheme === 'light');
+    toggle.setAttribute('aria-label', currentTheme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
     const icon = toggle.querySelector('i');
-    icon?.classList.toggle('fa-moon', theme === 'dark');
-    icon?.classList.toggle('fa-sun', theme === 'light');
-    try { localStorage.setItem(STORAGE_KEY, theme); } catch { /* Storage unavailable. */ }
+    icon?.classList.toggle('fa-moon', currentTheme === 'dark');
+    icon?.classList.toggle('fa-sun', currentTheme === 'light');
+    try { localStorage.setItem(STORAGE_KEY, currentTheme); } catch { /* Storage unavailable. */ }
   }
 
   applyTheme(getPreferredTheme());
 
   toggle.addEventListener('click', () => {
-    const current = html.classList.contains('dark') ? 'dark' : 'light';
-    applyTheme(current === 'dark' ? 'light' : 'dark');
+    applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
   });
 
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (!localStorage.getItem(STORAGE_KEY)) {
-      applyTheme(e.matches ? 'dark' : 'light');
-    }
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  mediaQuery.addEventListener?.('change', (e) => {
+    let hasStoredTheme = false;
+    try { hasStoredTheme = Boolean(localStorage.getItem(STORAGE_KEY)); } catch { return; }
+    if (!hasStoredTheme) applyTheme(e.matches ? 'dark' : 'light');
   });
 }
